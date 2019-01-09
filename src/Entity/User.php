@@ -65,6 +65,19 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @var boolean
+     * @ORM\Column(name="is_active", type="boolean", nullable=false)
+     */
+    private $isActive = false;
+
+    /**
+     * @var UserConfirmationKey
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\UserConfirmationKey", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $confirmationKey;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -160,5 +173,43 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param bool $isActive
+     * @return User
+     */
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
+        return $this;
+    }
+
+    /**
+     * @return UserConfirmationKey
+     */
+    public function getConfirmationKey(): UserConfirmationKey
+    {
+        return $this->confirmationKey;
+    }
+
+    /**
+     * @param UserConfirmationKey $confirmationKey
+     * @return User
+     */
+    public function setConfirmationKey(UserConfirmationKey $confirmationKey): User
+    {
+        $this->confirmationKey = $confirmationKey;
+        $confirmationKey->setUser($this);
+
+        return $this;
     }
 }

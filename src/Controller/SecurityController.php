@@ -14,11 +14,12 @@ class SecurityController extends CommonController
      * @param UserManager $manager
      * @return Response
      * @throws \App\Service\EntityManager\Exception\ManageEntityException
+     * @throws \Exception
      * @Route(name="security_register", path="/register", methods={"POST"})
      */
     public function register(Request $request, UserManager $manager)
     {
-        $user = $manager->create($request->request->all());
+        $user = $manager->register($request->request->all());
 
         return $this->getResponse([
             'user' => $user
