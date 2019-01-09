@@ -30,5 +30,5 @@ behat.yml
 ###< symfony/phpunit-bridge ###
 
 ###> .idea files ###
-.idea
+.idea/
 ###< .idea files ###
