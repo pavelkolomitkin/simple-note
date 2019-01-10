@@ -23,4 +23,4 @@ fos_rest:
       - { path: ^/api, priorities: [ json ], fallback_format: json, prefer_extension: true }
   exception:
     enabled: true
-    exception_controller: '@App\Controller\ExceptionController::showAction'
+    exception_controller: 'App\Controller\ExceptionController::showAction'

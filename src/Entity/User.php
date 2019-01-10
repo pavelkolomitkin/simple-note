@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Table(name="users")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  * @JMSSerializer\ExclusionPolicy("all")
  */
@@ -43,7 +44,7 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @ORM\Column(name="full_name", type="string", length=255, nullable=false)
      *
      * @Assert\NotBlank()
      * @Assert\Length(max="255")
@@ -51,7 +52,7 @@ class User implements UserInterface
      * @JMSSerializer\Groups({"default"})
      * @JMSSerializer\Expose
      */
-    private $name;
+    private $fullName;
 
     /**
      * @ORM\Column(type="json")
@@ -108,18 +109,18 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getName(): string
+    public function getFullName(): string
     {
-        return $this->name;
+        return (string) $this->fullName;
     }
 
     /**
-     * @param string $name
+     * @param string $fullName
      * @return User
      */
-    public function setName(string $name): self
+    public function setFullName(string $fullName): self
     {
-        $this->name = $name;
+        $this->fullName = $fullName;
         return $this;
     }
 
@@ -180,7 +181,7 @@ class User implements UserInterface
      */
     public function isActive(): bool
     {
-        return $this->isActive;
+        return (bool) $this->isActive;
     }
 
     /**

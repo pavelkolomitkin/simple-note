@@ -32,8 +32,8 @@ class UserRegisterType extends CommonType
     {
         $builder
             ->add('email')
-            ->add('name')
-            ->add('password', RepeatedType::class, [
+            ->add('fullName')
+            ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_name' => 'password',
                 'second_name' => 'passwordRepeat',
@@ -58,7 +58,7 @@ class UserRegisterType extends CommonType
             /** @var User $user */
             $user = $event->getForm()->getData();
 
-            $newPassword = $event->getForm()->get('password')->getData();
+            $newPassword = $event->getForm()->get('plainPassword')->getData();
 
             $newPasswordHash = $this->passwordEncoder->encodePassword($user,  $newPassword);
             $user->setPassword($newPasswordHash);

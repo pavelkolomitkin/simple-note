@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Entity\UserConfirmationKey;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 class Mailer
@@ -27,14 +28,16 @@ class Mailer
         $this->linkHost = $linkHost;
     }
 
-    public function sendConfirmRegistrationMessage(User $user)
+    public function sendConfirmRegistrationMessage(UserConfirmationKey $confirmationKey)
     {
+        $user = $confirmationKey->getUser();
+
         $message = (new \Swift_Message('Welcome to Simple Note'))
             ->setFrom($this->fromMail)
             ->setTo($user->getEmail())
             ->setBody(
                 $this->templating->render('Mail\register_confirmation.html.twig', [
-                    'confirmationLink' => 'http://' . $this->linkHost . '/register-confirm?key=' . $user->getConfirmationKey()->getKey()]
+                    'confirmationLink' => 'http://' . $this->linkHost . '/confirm-register/' . $confirmationKey->getKey()]
                 )
             );
 
