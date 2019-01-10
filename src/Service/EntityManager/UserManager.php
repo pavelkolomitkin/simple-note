@@ -7,6 +7,7 @@ use App\Entity\UserConfirmationKey;
 use App\Form\UserRegisterType;
 use App\Service\EntityManager\Exception\ManageEntityException;
 use App\Service\Mailer;
+use Doctrine\DBAL\LockMode;
 use Symfony\Component\Form\FormInterface;
 
 class UserManager extends CommonEntityManager
@@ -51,6 +52,34 @@ class UserManager extends CommonEntityManager
         $this->mailer->sendConfirmRegistrationMessage($user);
 
         return $user;
+    }
+
+    public function confirmRegister($confirmationKey)
+    {
+        /** @var UserConfirmationKey $key */
+        $key = $this
+            ->entityManager
+            ->getRepository('App\Entity\UserConfirmationKey')
+            ->createQueryBuilder('key')
+            ->where('key.key = :value')
+            ->setParameter('value', $confirmationKey)
+            ->andWhere('key.isActivated = false')
+            ->getQuery()
+            ->setLockMode(LockMode::PESSIMISTIC_WRITE)
+            ->getOneOrNullResult();
+
+        if (!$key)
+        {
+            throw new ManageEntityException(['key' => 'This key is not valid']);
+        }
+
+        $key->setIsActivated(true);
+
+        $user = $key->getUser();
+        $user->setIsActive(true);
+
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
     }
 
     protected function getCreationForm(): FormInterface

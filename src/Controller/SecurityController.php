@@ -15,7 +15,7 @@ class SecurityController extends CommonController
      * @return Response
      * @throws \App\Service\EntityManager\Exception\ManageEntityException
      * @throws \Exception
-     * @Route(name="security_register", path="/register", methods={"POST"})
+     * @Route(name="security_register", path="/security/register", methods={"POST"})
      */
     public function register(Request $request, UserManager $manager)
     {
@@ -24,5 +24,19 @@ class SecurityController extends CommonController
         return $this->getResponse([
             'user' => $user
         ], Response::HTTP_CREATED);
+    }
+
+    /**
+     * @param $confirmationKey
+     * @param UserManager $manager
+     * @Route(name="security_confirm_register", path="/security/confirm-register/{confirmationKey}", methods={"POST"})
+     * @return Response
+     * @throws \App\Service\EntityManager\Exception\ManageEntityException
+     */
+    public function confirm($confirmationKey, UserManager $manager)
+    {
+        $manager->confirmRegister($confirmationKey);
+
+        return $this->getResponse();
     }
 }

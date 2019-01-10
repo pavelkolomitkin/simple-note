@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\UserConfirmationKey;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\LockMode;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -18,33 +19,4 @@ class UserConfirmationKeyRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, UserConfirmationKey::class);
     }
-
-    // /**
-    //  * @return UserConfirmationKey[] Returns an array of UserConfirmationKey objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?UserConfirmationKey
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
