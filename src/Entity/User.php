@@ -9,12 +9,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Security\Core\User\UserInterface;
 use JMS\Serializer\Annotation as JMSSerializer;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="users")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  * @JMSSerializer\ExclusionPolicy("all")
+ *
+ * @UniqueEntity("email", message="User with that email is already exist!")
  */
 class User implements UserInterface
 {

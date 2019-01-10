@@ -4,6 +4,7 @@ use Behat\Behat\Context\Context;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Behat\Gherkin\Node\PyStringNode;
 
 /**
  * This context class contains the definitions of the steps used by the demo 
@@ -19,13 +20,19 @@ class FeatureContext implements Context
     private $kernel;
 
     /**
+     * @var \Doctrine\ORM\EntityManagerInterface
+     */
+    private $entityManager;
+
+    /**
      * @var Response|null
      */
     private $response;
 
-    public function __construct(KernelInterface $kernel)
+    public function __construct(KernelInterface $kernel, \Doctrine\ORM\EntityManagerInterface $entityManager)
     {
         $this->kernel = $kernel;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -43,6 +50,33 @@ class FeatureContext implements Context
     {
         if ($this->response === null) {
             throw new \RuntimeException('No response received');
+        }
+    }
+
+    public function theResponseShouldContainJson(PyStringNode $jsonString)
+    {
+        $expected = json_decode($jsonString->getRaw(), true);
+        $actual = json_decode($this->getContent(), true);
+
+        if ($expected === null) {
+            throw new \RuntimeException(
+                "Can not convert etalon to json:\n" . $jsonString->getRaw()
+            );
+        }
+
+        try
+        {
+            Assertions::assertGreaterThanOrEqual(count($expected), count($actual));
+            foreach ($expected as $key => $needle) {
+                Assertions::assertArrayHasKey($key, $actual);
+                Assertions::assertEquals($expected[$key], $actual[$key]);
+            }
+        }
+        catch (\Exception $exception)
+        {
+            print_r('Jsons are not equal!');
+            var_dump(['actual' => $this->lastResponse->getContent()]);
+            throw $exception;
         }
     }
 }
