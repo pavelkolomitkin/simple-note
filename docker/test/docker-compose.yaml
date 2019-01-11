@@ -3,10 +3,8 @@ version: '3'
 services:
   nginx:
     image: nginx:1.15.8
-    container_name: 'nginx-container-dev'
+    container_name: 'nginx-container-test'
     working_dir: /app
-    ports:
-      - '7777:80'
     volumes:
       - ../../:/app
       - ../common/config/nginx.conf:/etc/nginx/conf.d/default.conf
@@ -18,7 +16,7 @@ services:
       context: .
       dockerfile: php-fpm.docker
     working_dir: /app
-    container_name: 'php-fpm-container-dev'
+    container_name: 'php-fpm-container-test'
     ports:
       - '9000:9000'
     links:
@@ -26,20 +24,20 @@ services:
     volumes:
       - ../../:/app
     environment:
-      APP_ENV: "dev"
+      APP_ENV: "test"
 
   postgres_db:
     image: postgres:10.6
-    container_name: 'postgres-db-container-dev'
+    container_name: 'postgres-db-container-test'
     restart: always
     ports:
-      - '7778:5432'
+      - '7779:5432'
     volumes:
-      - postgres_data_volume_dev:/var/lib/postgresql/data
+      - postgres_data_volume_test:/var/lib/postgresql/data
     environment:
       POSTGRES_PASSWORD: 1234
       POSTGRES_USER: postgres
-      POSTGRES_DB: simple-note
+      POSTGRES_DB: simple-note-test
 
 volumes:
-  postgres_data_volume_dev:
+  postgres_data_volume_test:

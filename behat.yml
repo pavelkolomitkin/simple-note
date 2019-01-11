@@ -16,7 +16,7 @@ default:
                 class: App\Kernel
 
         Behat\MinkExtension:
-            base_url:  'http://127.0.0.1:8000/api'
+            base_url:  'http://nginx/api'
             sessions:
                 default:
                     goutte: ~

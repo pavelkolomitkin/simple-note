@@ -35,7 +35,7 @@ Feature:
 
     When I send a "POST" request to "/security/register" with body:
     """
-        {
+    {
         "email": "test@example.com",
         "fullName": "Ivan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan BatkovichIvan Batkovich",
         "plainPassword":
@@ -75,7 +75,7 @@ Feature:
     """
     {
         "user": {
-            "id": 5,
+            "id": 1,
             "email": "test@example.com",
             "full_name": "Ivan Batkovich"
         }

@@ -7,9 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-
-use Doctrine\DBAL\Driver\Connection;
-
 class SecurityController extends CommonController
 {
     /**
@@ -20,11 +17,8 @@ class SecurityController extends CommonController
      * @throws \Exception
      * @Route(name="security_register", path="/security/register", methods={"POST"})
      */
-    public function register(Request $request, UserManager $manager, Connection $connection)
+    public function register(Request $request, UserManager $manager)
     {
-//        var_dump($connection);
-//        exit;
-
         $user = $manager->register($request->request->all());
 
         return $this->getResponse([

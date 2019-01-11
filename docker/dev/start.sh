@@ -20,7 +20,7 @@ docker exec php-fpm-container-dev composer install
 echo -en '\n'
 echo -n "Run database migrations..."
 echo -en '\n'
-until docker exec php-fpm-container-dev php bin/console doctrine:migrations:migrate --no-interaction
+until docker exec php-fpm-container-dev php bin/console doctrine:migrations:migrate --env=dev --no-interaction
 do
     echo -en '\n'
     echo -n "Waiting postgres..."
