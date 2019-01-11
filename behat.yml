@@ -5,7 +5,7 @@ default:
                 - FeatureContext:
                     kernel: '@kernel'
                     entityManager: '@doctrine.orm.entity_manager'
-                - Behat\MinkExtension\Context\MinkContext
+                - Behatch\Context\JsonContext
                 - behatch:context:json
                 - behatch:context:rest
 

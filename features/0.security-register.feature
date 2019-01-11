@@ -17,7 +17,7 @@ Feature:
     }
     """
     Then the response status code should be 400
-    And the response should be equal to:
+    Then the JSON should be equal to:
     """
     {
     "errors": {
@@ -46,7 +46,7 @@ Feature:
     }
     """
     Then the response status code should be 400
-    And the response should be equal to
+    Then the JSON should be equal to:
     """
     {
     "errors": {
@@ -71,7 +71,7 @@ Feature:
     }
     """
     Then the response status code should be 201
-    And the response should be equal to
+    Then the JSON should be equal to:
     """
     {
         "user": {

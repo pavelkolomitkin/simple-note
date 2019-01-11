@@ -1,10 +1,9 @@
 <?php
 
-use Behat\Behat\Context\Context;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Behat\Gherkin\Node\PyStringNode;
+use \PHPUnit\Framework\Assert as Assertions;
+use Behat\MinkExtension\Context\MinkContext;
 
 /**
  * This context class contains the definitions of the steps used by the demo 
@@ -12,7 +11,7 @@ use Behat\Gherkin\Node\PyStringNode;
  * 
  * @see http://behat.org/en/latest/quick_start.html
  */
-class FeatureContext implements Context
+class FeatureContext extends MinkContext
 {
     /**
      * @var KernelInterface
@@ -25,22 +24,19 @@ class FeatureContext implements Context
     private $entityManager;
 
     /**
-     * @var Response|null
+     * @var \Symfony\Component\BrowserKit\Response|null
      */
     private $response;
+
+    /**
+     * @var string
+     */
+    private $authToken = null;
 
     public function __construct(KernelInterface $kernel, \Doctrine\ORM\EntityManagerInterface $entityManager)
     {
         $this->kernel = $kernel;
         $this->entityManager = $entityManager;
-    }
-
-    /**
-     * @When a demo scenario sends a request to :path
-     */
-    public function aDemoScenarioSendsARequestTo(string $path)
-    {
-        $this->response = $this->kernel->handle(Request::create($path, 'GET'));
     }
 
     /**
@@ -56,7 +52,7 @@ class FeatureContext implements Context
     public function theResponseShouldContainJson(PyStringNode $jsonString)
     {
         $expected = json_decode($jsonString->getRaw(), true);
-        $actual = json_decode($this->getContent(), true);
+        $actual = json_decode($this->response->getContent(), true);
 
         if ($expected === null) {
             throw new \RuntimeException(
@@ -67,6 +63,7 @@ class FeatureContext implements Context
         try
         {
             Assertions::assertGreaterThanOrEqual(count($expected), count($actual));
+
             foreach ($expected as $key => $needle) {
                 Assertions::assertArrayHasKey($key, $actual);
                 Assertions::assertEquals($expected[$key], $actual[$key]);
@@ -75,8 +72,41 @@ class FeatureContext implements Context
         catch (\Exception $exception)
         {
             print_r('Jsons are not equal!');
-            var_dump(['actual' => $this->lastResponse->getContent()]);
+            var_dump(['actual' => $this->response->getContent()]);
             throw $exception;
         }
+    }
+
+    /**
+     * @return \Behat\Mink\Driver\Goutte\Client
+     */
+    protected function getClient()
+    {
+        /** @var \Behat\Mink\Driver\Goutte\Client $result */
+        $result = $this->getSession('default')->getDriver()->getClient();
+        $result->setHeader('Content-Type', 'application/json');
+
+        if ($this->authToken !== null)
+        {
+            $result->setHeader('Authorization', 'Bearer ' . $this->authToken);
+        }
+        else
+        {
+            $result->removeHeader('Authorization');
+        }
+
+        return $result;
+    }
+
+    protected function sendRequest($method, $url, $params = [], $files = [], $server = [], $content = null)
+    {
+        $url = $this->locatePath($url);
+
+        $client = $this->getClient();
+
+        $client->request($method, $url, $params, $files, $server, $content);
+        $this->response = $client->getInternalResponse();
+
+        return $this->response;
     }
 }
