@@ -4,6 +4,9 @@ import {Action} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {
   USER_REGISTRATION_CONFIRM_START,
+  UserRegistrationConfirmError,
+  UserRegistrationConfirmStart,
+  UserRegistrationConfirmSuccess,
   UserRegistrationError,
   UserRegistrationStart,
   UserRegistrationSuccess
@@ -28,6 +31,24 @@ export default class RegisterEffects {
         }),
         catchError((errors: Object) => {
           return of(new UserRegistrationError(errors));
+        })
+      );
+    })
+  );
+
+  @Effect()
+  confirmRegisterStart: Observable<Action> = this.actions.pipe(
+    ofType(USER_REGISTRATION_CONFIRM_START),
+    mergeMap((action: UserRegistrationConfirmStart) => {
+
+      const { confirmationKey } = action;
+
+      return this.service.registerConfirm(confirmationKey).pipe(
+        map((user: User) => {
+          return new UserRegistrationConfirmSuccess(user);
+        }),
+        catchError((errors: Object) => {
+          return of(new UserRegistrationConfirmError(errors));
         })
       );
     })

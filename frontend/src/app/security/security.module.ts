@@ -9,6 +9,8 @@ import { ConfirmationPageComponent } from './confirmation-page/confirmation-page
 import {SecurityRoutingModule} from "./security-routing.module";
 import {StoreModule} from "@ngrx/store";
 import { reducer } from './data/reducer';
+import {EffectsModule} from "@ngrx/effects";
+import RegisterEffects from "./data/effects/register.effects";
 
 @NgModule({
   declarations: [
@@ -22,8 +24,12 @@ import { reducer } from './data/reducer';
     CommonModule,
     SharedModule,
     SecurityRoutingModule,
-    StoreModule.forFeature('security', {security: reducer})
+    StoreModule.forFeature('security', {security: reducer}),
+    EffectsModule.forFeature([RegisterEffects])
   ],
-  exports: [ StoreModule ]
+  exports: [
+    StoreModule,
+    EffectsModule
+  ]
 })
 export class SecurityModule { }
