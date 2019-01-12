@@ -1,14 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
-.loader-container
+.global-progress-container
 {
   position: absolute;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
+  z-index: -1;
+  opacity: 0;
 }
 
-.loader-container .progress
+.global-progress-container.visible
+{
+  z-index: 99999;
+  opacity: 0.5;
+}
+
+.global-progress-container .progress
 {
   position: absolute;
 
@@ -20,9 +27,4 @@
   transform: translateX(-50%) translateY(-50%);
 
   background: transparent;
-}
-
-main
-{
-  padding-top: 60px;
 }

@@ -24,7 +24,7 @@ import RegisterEffects from "./data/effects/register.effects";
     CommonModule,
     SharedModule,
     SecurityRoutingModule,
-    StoreModule.forFeature('security', {security: reducer}),
+    StoreModule.forFeature('security', reducer),
     EffectsModule.forFeature([RegisterEffects])
   ],
   exports: [

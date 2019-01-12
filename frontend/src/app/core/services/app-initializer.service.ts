@@ -17,6 +17,7 @@ export class AppInitializerService
   {
     return new Promise<any>((resolve, reject) => {
       resolve(true);
+      return;
     });
   }
 }

@@ -1,0 +1,3 @@
+<div class="error-container" *ngIf="(errorStore | async)[fieldName]">
+  <small class="form-text text-danger" *ngFor="let error of (errorStore | async)[fieldName]">{{ error }}</small>
+</div>

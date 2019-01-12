@@ -13,7 +13,7 @@ Feature:
         "user": {
             "id": 1,
             "email": "test@example.com",
-            "full_name": "Ivan Batkovich"
+            "fullName": "Ivan Batkovich"
         }
     }
     """

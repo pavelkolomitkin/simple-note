@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import {select, Store} from "@ngrx/store";
+import {State} from "./core/data/reducer";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'frontend';
+
+  isProgressVisible: Observable<Boolean>;
+
+  constructor(private store: Store<State>) {
+
+    this.isProgressVisible = this.store.pipe(select(state => (state.globalProgressLoaders > 0)));
+
+  }
 }

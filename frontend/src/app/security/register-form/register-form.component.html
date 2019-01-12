@@ -1,3 +1,54 @@
-<p>
-  register-form works!
-</p>
+<form (ngSubmit)="onSubmit(form)" #form="ngForm">
+  <div class="form-group">
+    <label for="emailInput">Email address</label>
+    <input
+      type="email"
+      class="form-control"
+      id="emailInput"
+      placeholder="Enter email"
+      ngModel
+      name="email"
+      email
+      required
+    >
+    <app-form-field-error-list [field]="'email'" [errors]="validationErrors"></app-form-field-error-list>
+  </div>
+  <div class="form-group">
+    <label for="fullNameInput">Your name</label>
+    <input
+      type="text"
+      class="form-control"
+      id="fullNameInput"
+      placeholder="Your name"
+      required
+      ngModel
+      name="fullName"
+    >
+    <app-form-field-error-list [field]="'fullName'" [errors]="validationErrors"></app-form-field-error-list>
+  </div>
+  <div class="form-group">
+    <label for="passwordInput">Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="passwordInput"
+      placeholder="Password"
+      ngModel
+      name="password"
+    >
+    <app-form-field-error-list [field]="'password'" [errors]="validationErrors.plainPassword ? validationErrors.plainPassword : {password: ''}"></app-form-field-error-list>
+  </div>
+  <div class="form-group">
+    <label for="passwordRepeatInput">Repeat Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="passwordRepeatInput"
+      placeholder="Repeat Password"
+      ngModel
+      name="passwordRepeat"
+    >
+    <app-form-field-error-list [field]="'passwordRepeat'" [errors]="validationErrors.plainPassword ? validationErrors.plainPassword : {}"></app-form-field-error-list>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Register</button>
+</form>

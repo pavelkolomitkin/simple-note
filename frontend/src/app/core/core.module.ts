@@ -11,7 +11,12 @@ import {BaseApiUrlInterceptor} from './services/interceptors/base-api-url.interc
 import {DefaultHttpHeadersInterceptor} from './services/interceptors/default-http-headers.interceptor';
 import {AuthTokenInjectorInterceptor} from './services/interceptors/auth-token-injector.interceptor';
 import {LocalStorageService} from './services/local-storage.service';
-import {appInitializeHandler, AppInitializerService} from "./services/app-initializer.service";
+import {appInitializeHandler, AppInitializerService} from './services/app-initializer.service';
+import { FormFieldErrorListComponent } from '../shared/form-field-error-list/form-field-error-list.component';
+import {StoreModule} from "@ngrx/store";
+import {EffectsModule} from "@ngrx/effects";
+import { reducer } from './data/reducer';
+import { GlobalProgressComponent } from './global-progress/global-progress.component';
 
 const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: BaseApiUrlInterceptor, multi: true },
@@ -22,18 +27,17 @@ const httpInterceptorProviders = [
 @NgModule({
   declarations: [
     NotFoundPageComponent,
-    HeaderComponent
+    HeaderComponent,
+    GlobalProgressComponent
   ],
   imports: [
     CommonModule,
     NgbModule,
     HttpClientModule,
-    StoreDevtoolsModule.instrument(
-      {
-        maxAge: 25,
-        logOnly: isDevMode()
-      }
-    )
+    StoreModule.forRoot({
+      core: reducer
+    }),
+    EffectsModule.forRoot([])
   ],
   providers: [
     httpInterceptorProviders,
@@ -49,6 +53,7 @@ const httpInterceptorProviders = [
   ],
   exports: [
     HeaderComponent,
+    GlobalProgressComponent,
     StoreDevtoolsModule,
   ]
 })

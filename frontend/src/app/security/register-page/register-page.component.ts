@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import {Store, select} from '@ngrx/store';
+import State from '../../app.state';
+import {Observable} from "rxjs";
+import {UserRegistrationStart} from "../data/actions";
+import RegisterData from "../data/model/register-data.model";
 
 @Component({
   selector: 'app-register-page',
@@ -7,9 +12,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterPageComponent implements OnInit {
 
-  constructor() { }
+  errors: Observable<{}> = new Observable();
+
+  constructor(public store:Store<State>) {
+    this.errors = this.store.pipe(select((state) => {
+      //debugger
+      return state.security.registerUserErrors;
+    }));
+  }
 
   ngOnInit() {
+  }
+
+  onFormSubmit(data:RegisterData)
+  {
+    this.store.dispatch(new UserRegistrationStart(data));
   }
 
 }

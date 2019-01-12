@@ -2,7 +2,7 @@ import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import RegisterData from "../data/model/register-data.model";
 import User from "../../core/model/user.model";
-import {map} from "rxjs/operators";
+import {map, catchError} from "rxjs/operators";
 import {Observable} from "rxjs";
 
 @Injectable()
