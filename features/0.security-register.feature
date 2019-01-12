@@ -4,6 +4,7 @@ Feature:
   Scenario: User try register with errors
     When I add "Content-Type" header equal to "application/json"
     And I add "Accept" header equal to "application/json"
+
     When I send a "POST" request to "/security/register" with body:
     """
     {
@@ -32,7 +33,8 @@ Feature:
         }
     }
     """
-
+    When I add "Content-Type" header equal to "application/json"
+    And I add "Accept" header equal to "application/json"
     When I send a "POST" request to "/security/register" with body:
     """
     {
@@ -58,6 +60,8 @@ Feature:
     """
 
   Scenario: User can register with correct input data
+    When I add "Content-Type" header equal to "application/json"
+    And I add "Accept" header equal to "application/json"
     When I send a "POST" request to "/security/register" with body:
     """
     {
