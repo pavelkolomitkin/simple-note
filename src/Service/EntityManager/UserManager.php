@@ -22,6 +22,11 @@ class UserManager extends CommonEntityManager
         $this->mailer = $mailer;
     }
 
+    /**
+     * @param array $data
+     * @return User
+     * @throws \Exception
+     */
     public function register(array $data)
     {
         $this->entityManager->beginTransaction();
@@ -54,6 +59,13 @@ class UserManager extends CommonEntityManager
         return $user;
     }
 
+    /**
+     * @param $confirmationKey
+     * @return User
+     * @throws ManageEntityException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     */
     public function confirmRegister($confirmationKey)
     {
         $this->entityManager->beginTransaction();
@@ -72,7 +84,9 @@ class UserManager extends CommonEntityManager
         if (!$key)
         {
             $this->entityManager->rollback();
-            throw new ManageEntityException(['key' => 'This key is not valid']);
+            throw new ManageEntityException([
+                'key' => ['This key is not valid']
+            ]);
         }
 
         $key->setIsActivated(true);
@@ -84,6 +98,8 @@ class UserManager extends CommonEntityManager
         $this->entityManager->flush();
 
         $this->entityManager->commit();
+
+        return $user;
     }
 
     protected function getCreationForm(): FormInterface

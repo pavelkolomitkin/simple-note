@@ -33,6 +33,11 @@ class FeatureContext extends MinkContext
      */
     private $authToken = null;
 
+    /**
+     * @var string
+     */
+    private $registerConfirmationKey;
+
     public function __construct(KernelInterface $kernel, \Doctrine\ORM\EntityManagerInterface $entityManager)
     {
         $this->kernel = $kernel;
@@ -78,6 +83,36 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * @Given I have an activation key with email :email
+     * @param $email
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function iHaveAnActivationRegisterKey($email)
+    {
+        $connection = $this->entityManager->getConnection();
+
+        $statement = $connection->prepare("SELECT user_confirmation_key.key as confirmation_key FROM user_confirmation_key
+            JOIN users ON (user_confirmation_key.user_id = users.id)
+            WHERE users.email = :email
+        ");
+
+        $statement->bindValue("email", $email);
+        $statement->execute();
+
+        $key = $statement->fetch(\Doctrine\DBAL\FetchMode::ASSOCIATIVE);
+
+        $this->registerConfirmationKey = $key['confirmation_key'];
+    }
+
+    /**
+     * @Then I try activate my registration by key
+     */
+    public function iTryActivateRegistration()
+    {
+        $this->sendRequest('POST', '/security/confirm-register/' . $this->registerConfirmationKey);
+    }
+
+    /**
      * @return \Behat\Mink\Driver\Goutte\Client
      */
     protected function getClient()
@@ -109,4 +144,6 @@ class FeatureContext extends MinkContext
 
         return $this->response;
     }
+
+
 }

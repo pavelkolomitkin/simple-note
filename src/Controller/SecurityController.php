@@ -13,7 +13,6 @@ class SecurityController extends CommonController
      * @param Request $request
      * @param UserManager $manager
      * @return Response
-     * @throws \App\Service\EntityManager\Exception\ManageEntityException
      * @throws \Exception
      * @Route(name="security_register", path="/security/register", methods={"POST"})
      */
@@ -29,14 +28,18 @@ class SecurityController extends CommonController
     /**
      * @param $confirmationKey
      * @param UserManager $manager
-     * @Route(name="security_confirm_register", path="/security/confirm-register/{confirmationKey}", methods={"POST"})
      * @return Response
      * @throws \App\Service\EntityManager\Exception\ManageEntityException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\TransactionRequiredException
+     * @Route(name="security_confirm_register", path="/security/confirm-register/{confirmationKey}", methods={"POST"})
      */
     public function confirm($confirmationKey, UserManager $manager)
     {
-        $manager->confirmRegister($confirmationKey);
+        $user = $manager->confirmRegister($confirmationKey);
 
-        return $this->getResponse();
+        return $this->getResponse([
+            'user' => $user
+        ]);
     }
 }
