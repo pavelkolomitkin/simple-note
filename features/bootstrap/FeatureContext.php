@@ -38,7 +38,10 @@ class FeatureContext extends MinkContext
      */
     private $registerConfirmationKey;
 
-    public function __construct(KernelInterface $kernel, \Doctrine\ORM\EntityManagerInterface $entityManager)
+    public function __construct(
+        KernelInterface $kernel,
+        \Doctrine\ORM\EntityManagerInterface $entityManager
+    )
     {
         $this->kernel = $kernel;
         $this->entityManager = $entityManager;
@@ -113,6 +116,15 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * @Then I hold the authorize token from response
+     */
+    public function iKeepAuthorizationTokenFromRequest()
+    {
+        $data = json_decode($this->getClient()->getResponse()->getContent(), true);
+        $this->authToken = $data['token'];
+    }
+
+    /**
      * @return \Behat\Mink\Driver\Goutte\Client
      */
     protected function getClient()
@@ -144,6 +156,4 @@ class FeatureContext extends MinkContext
 
         return $this->response;
     }
-
-
 }
