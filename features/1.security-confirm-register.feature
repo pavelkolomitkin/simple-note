@@ -28,9 +28,9 @@ Feature:
     """
     {
       "errors": {
-          "key": {
-              "0": "This key is not valid"
-            }
+          "key": [
+              "This key is not valid"
+            ]
           }
     }
     """

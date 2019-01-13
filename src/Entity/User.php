@@ -92,7 +92,7 @@ class User implements UserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public function setEmail(string $email = null): self
     {
         $this->email = $email;
 
@@ -121,7 +121,7 @@ class User implements UserInterface
      * @param string $fullName
      * @return User
      */
-    public function setFullName(string $fullName): self
+    public function setFullName(string $fullName = null): self
     {
         $this->fullName = $fullName;
         return $this;

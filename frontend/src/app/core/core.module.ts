@@ -54,7 +54,8 @@ const httpInterceptorProviders = [
   exports: [
     HeaderComponent,
     GlobalProgressComponent,
-    StoreDevtoolsModule,
+    StoreModule,
+    EffectsModule
   ]
 })
 export class CoreModule { }

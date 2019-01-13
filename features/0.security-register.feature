@@ -21,14 +21,14 @@ Feature:
     Then the JSON should be equal to:
     """
     {
-    "errors": {
-        "email": {
-            "0": "This value is not a valid email address."
-            },
+        "errors": {
+            "email": [
+                "This value is not a valid email address."
+            ],
             "plainPassword": {
-                "password": {
-                    "0": "The password fields must match."
-                }
+                "password": [
+                    "The password fields must match."
+                ]
             }
         }
     }
@@ -52,9 +52,9 @@ Feature:
     """
     {
     "errors": {
-        "fullName": {
-            "0": "This value is too long. It should have 255 characters or less."
-          }
+        "fullName": [
+            "This value is too long. It should have 255 characters or less."
+          ]
         }
     }
     """

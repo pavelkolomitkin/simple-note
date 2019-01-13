@@ -12,14 +12,11 @@ class ExceptionController
     {
         if ($exception instanceof ManageEntityException)
         {
-            $json = json_encode([
-                'errors' => $exception->getErrors()
-            ], JSON_FORCE_OBJECT);
-
-            return new JsonResponse($json,
-                $this->getHttpErrorCodeByManageException($exception),
-                [],
-                true
+            return new JsonResponse(
+                [
+                    'errors' => $exception->getErrors()
+                ],
+                $this->getHttpErrorCodeByManageException($exception)
             );
         }
     }
