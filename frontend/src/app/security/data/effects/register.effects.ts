@@ -3,8 +3,8 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Action, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {
-  USER_REGISTER_START,
-  USER_REGISTRATION_CONFIRM_START,
+  USER_REGISTER_START, USER_REGISTER_SUCCESS,
+  USER_REGISTRATION_CONFIRM_START, USER_REGISTRATION_CONFIRM_SUCCESS,
   UserRegistrationConfirmError,
   UserRegistrationConfirmStart,
   UserRegistrationConfirmSuccess,
@@ -17,6 +17,7 @@ import SecurityService from '../../services/security.service';
 import User from '../../../core/model/user.model';
 import {State} from "../../../core/data/reducer";
 import {GlobalProgressHide, GlobalProgressShow} from "../../../core/data/actions";
+import {Router} from "@angular/router";
 
 @Injectable()
 export default class RegisterEffects {
@@ -47,6 +48,14 @@ export default class RegisterEffects {
     // })
   );
 
+  @Effect({ dispatch: false })
+  registerSuccessful: Observable<Action> = this.actions.pipe(
+    ofType(USER_REGISTER_SUCCESS),
+    tap((action: UserRegistrationSuccess) => {
+      this.router.navigate(['/security', 'register-success']);
+    })
+  );
+
   @Effect()
   confirmRegisterStart: Observable<Action> = this.actions.pipe(
     ofType(USER_REGISTRATION_CONFIRM_START),
@@ -58,17 +67,29 @@ export default class RegisterEffects {
         map((user: User) => {
           return new UserRegistrationConfirmSuccess(user);
         }),
-        catchError((errors: Object) => {
-          return of(new UserRegistrationConfirmError(errors));
+        catchError((errors) => {
+          return of(new UserRegistrationConfirmError(errors.error.errors));
         })
       );
     })
   );
 
+  // @Effect({dispatch: false })
+  // confirmRegisterSuccess: Observable<Action> = this.actions.pipe(
+  //   ofType(USER_REGISTRATION_CONFIRM_SUCCESS),
+  //   tap((action: UserRegistrationConfirmSuccess) => {
+  //
+  //     console.log('User has been activated successfully!');
+  //     //this.router.navigate(['/profile'])
+  //
+  //   })
+  // );
+
   constructor(
     private actions: Actions,
     private service: SecurityService,
-    private store: Store<State>
+    private store: Store<State>,
+    private router: Router
   ) {}
 
 }

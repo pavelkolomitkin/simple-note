@@ -11,6 +11,7 @@ import {StoreModule} from "@ngrx/store";
 import { reducer } from './data/reducer';
 import {EffectsModule} from "@ngrx/effects";
 import RegisterEffects from "./data/effects/register.effects";
+import { RegisterSuccessfulPageComponent } from './register-successful-page/register-successful-page.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import RegisterEffects from "./data/effects/register.effects";
     LoginPageComponent,
     LoginFormComponent,
     RegisterFormComponent,
-    ConfirmationPageComponent
+    ConfirmationPageComponent,
+    RegisterSuccessfulPageComponent
   ],
   imports: [
     CommonModule,

@@ -1,3 +1,6 @@
-<p>
-  confirmation-page works!
+<p class="alert alert-success" *ngIf="activatedUser">
+  You have confirmed your profile! Now use your login and password to sign in!
+</p>
+<p class="alert alert-danger" *ngIf="activationErrors">
+  {{ activationErrors }}
 </p>

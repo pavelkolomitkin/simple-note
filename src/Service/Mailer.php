@@ -37,7 +37,7 @@ class Mailer
             ->setTo($user->getEmail())
             ->setBody(
                 $this->templating->render('Mail\register_confirmation.html.twig', [
-                    'confirmationLink' => 'http://' . $this->linkHost . '/confirm-register/' . $confirmationKey->getKey()]
+                    'confirmationLink' => 'http://' . $this->linkHost . '/security/register-confirm/' . $confirmationKey->getKey()]
                 )
             );
 
