@@ -25,10 +25,10 @@ export default class RegisterEffects {
   @Effect()
   registerStart: Observable<Action> = this.actions.pipe(
     ofType(USER_REGISTER_START),
-    // tap((action) => {
-    //   //debugger
-    //   this.store.dispatch(new GlobalProgressShow());
-    // }),
+    tap((action) => {
+      //debugger
+      this.store.dispatch(new GlobalProgressShow());
+    }),
     mergeMap((action: UserRegistrationStart) => {
 
       //debugger
@@ -43,9 +43,9 @@ export default class RegisterEffects {
         })
       );
     }),
-    // tap((result) => {
-    //   this.store.dispatch(new GlobalProgressHide());
-    // })
+    tap((result) => {
+      this.store.dispatch(new GlobalProgressHide());
+    })
   );
 
   @Effect({ dispatch: false })
@@ -59,6 +59,10 @@ export default class RegisterEffects {
   @Effect()
   confirmRegisterStart: Observable<Action> = this.actions.pipe(
     ofType(USER_REGISTRATION_CONFIRM_START),
+    tap((action) => {
+      //debugger
+      this.store.dispatch(new GlobalProgressShow());
+    }),
     mergeMap((action: UserRegistrationConfirmStart) => {
 
       const { confirmationKey } = action;
@@ -71,6 +75,9 @@ export default class RegisterEffects {
           return of(new UserRegistrationConfirmError(errors.error.errors));
         })
       );
+    }),
+    tap((result) => {
+      this.store.dispatch(new GlobalProgressHide());
     })
   );
 

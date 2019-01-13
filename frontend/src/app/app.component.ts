@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {select, Store} from "@ngrx/store";
-import {State} from "./core/data/reducer";
 import {Observable} from "rxjs";
+import {State} from "./app.state";
 
 @Component({
   selector: 'app-root',
@@ -10,11 +10,13 @@ import {Observable} from "rxjs";
 })
 export class AppComponent {
 
-  isProgressVisible: Observable<Boolean>;
+  isProgressVisible: boolean = false;
 
   constructor(private store: Store<State>) {
 
-    this.isProgressVisible = this.store.pipe(select(state => (state.globalProgressLoaders > 0)));
+    store.pipe(select(state => state.core.globalProgressLoaders)).subscribe((loaderNumber: number) => {
+      this.isProgressVisible = (loaderNumber > 0)
+    });
 
   }
 }
