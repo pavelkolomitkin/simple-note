@@ -42,4 +42,16 @@ class SecurityController extends CommonController
             'user' => $user
         ]);
     }
+
+    /**
+     * @Route(name="security_user_profile", path="/security/profile", methods={"GET"})
+     */
+    public function profile()
+    {
+        $user = $this->getUser();
+
+        return $this->getResponse([
+            'user' => $user
+        ]);
+    }
 }

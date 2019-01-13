@@ -1,15 +1,55 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {select, Store} from '@ngrx/store';
+import {State} from '../../app.state';
+import User from '../../core/model/user.model';
+import {Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+import LoginCredentials from '../data/model/login-credentials.model';
+import {UserLoginStart} from '../data/actions';
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.css']
 })
-export class LoginPageComponent implements OnInit {
+export class LoginPageComponent implements OnInit, OnDestroy {
 
-  constructor() { }
+  authUserSubscription: Subscription;
+
+  loginErrorSubscription: Subscription;
+
+  errors: Object;
+
+  constructor(private store: Store<State>, private router: Router)
+  {
+    this.authUserSubscription = store.pipe(select(state => state.security.authorizedUser)).subscribe(
+      (user: User) => {
+        if (user !== null)
+        {
+          this.router.navigate(['/note', 'list']);
+        }
+      }
+    );
+
+    this.loginErrorSubscription = store.pipe(select(state => state.security.loginErrors)).subscribe(
+      (errors) => {
+        this.errors = errors;
+      }
+    );
+  }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy(): void {
+    this.authUserSubscription.unsubscribe();
+    this.loginErrorSubscription.unsubscribe();
+  }
+
+  onFormSubmit(credentials: LoginCredentials)
+  {
+    //debugger
+    this.store.dispatch(new UserLoginStart(credentials));
   }
 
 }

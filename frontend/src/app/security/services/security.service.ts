@@ -4,6 +4,8 @@ import RegisterData from "../data/model/register-data.model";
 import User from "../../core/model/user.model";
 import {map, catchError} from "rxjs/operators";
 import {Observable} from "rxjs";
+import LoginCredentials from "../data/model/login-credentials.model";
+import {resultMemoize} from "@ngrx/store";
 
 @Injectable()
 export default class SecurityService
@@ -20,6 +22,23 @@ export default class SecurityService
   public registerConfirm(confirmationKey: string): Observable<User>
   {
     return this.http.post<{ user: User }>('/security/confirm-register/' + confirmationKey, {}).pipe(
+      map(result => result.user)
+    );
+  }
+
+  public login(credentials: LoginCredentials)
+  {
+    return this.http.post<{ token: string }>('/security/login_check', {
+      username: credentials.email,
+      password: credentials.password
+    }).pipe(
+      map(result => result.token)
+    );
+  }
+
+  public getAuthorizedUser()
+  {
+    return this.http.get<{user: User}>('/security/profile').pipe(
       map(result => result.user)
     );
   }

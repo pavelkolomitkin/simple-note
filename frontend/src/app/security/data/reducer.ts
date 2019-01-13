@@ -3,13 +3,17 @@ import RegisterData from './model/register-data.model';
 import User from '../../core/model/user.model';
 
 export interface State {
-  registerInputData: RegisterData,
-  registeredUser: User,
-  registerUserErrors: Object,
+  registerInputData: RegisterData;
+  registeredUser: User;
+  registerUserErrors: Object;
 
-  confirmationKey: string,
-  confirmedUser: User,
-  confirmationUserErrors: Object
+  confirmationKey: string;
+  confirmedUser: User;
+  confirmationUserErrors: Object;
+
+  authorizedToken: string;
+  authorizedUser: User;
+  loginErrors: Object;
 }
 
 const initialState: State = {
@@ -19,7 +23,11 @@ const initialState: State = {
 
   confirmationKey: null,
   confirmedUser: null,
-  confirmationUserErrors: {}
+  confirmationUserErrors: {},
+
+  authorizedToken: null,
+  authorizedUser: null,
+  loginErrors: {},
 };
 
 
@@ -72,6 +80,43 @@ export function reducer(state = initialState, action: actions.SecurityActions): 
         ...state,
         confirmedUser: null,
         confirmationUserErrors: action.errors
+      };
+
+    case actions.USER_LOGIN_SUCCESS:
+
+      return {
+        ...state,
+        authorizedToken: action.token,
+        loginErrors: {}
+      };
+
+    case actions.USER_LOGIN_ERROR:
+
+      return {
+        ...state,
+        authorizedToken: null,
+        loginErrors: action.errors
+      };
+
+    case actions.USER_LOGOUT:
+
+      return {
+        ...state,
+        authorizedToken: null
+      };
+
+    case actions.USER_INITIALIZE_SUCCESS:
+
+      return {
+        ...state,
+        authorizedUser: action.user
+      };
+
+    case actions.USER_INITIALIZE_ERROR:
+
+      return {
+        ...state,
+        authorizedUser: null
       };
 
     default:
