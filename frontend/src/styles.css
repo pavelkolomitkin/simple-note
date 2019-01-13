@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+.loader-container
+{
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.loader-container .progress
+{
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+  width: 5rem;
+  height: 5rem;
+
+  transform: translateX(-50%) translateY(-50%);
+
+  background: transparent;
+}
+
+main
+{
+  padding-top: 90px;
+}

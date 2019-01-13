@@ -1,0 +1,30 @@
+.global-progress-container
+{
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+  opacity: 0;
+}
+
+.global-progress-container.visible
+{
+  z-index: 99999;
+  opacity: 0.5;
+}
+
+.global-progress-container .progress
+{
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+  width: 5rem;
+  height: 5rem;
+
+  transform: translateX(-50%) translateY(-50%);
+
+  background: transparent;
+}

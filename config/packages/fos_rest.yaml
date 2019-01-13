@@ -1,0 +1,26 @@
+fos_rest:
+  body_listener:
+    array_normalizer: fos_rest.normalizer.camel_keys
+  param_fetcher_listener: force
+  serializer:
+    serialize_null: true
+  view:
+    view_response_listener: 'force'
+    formats:
+      json: true
+      xml: false
+      rss: false
+    mime_types:
+      json: ['application/json', 'application/x-json']
+      jpg: ['image/jpeg']
+      png: ['image/png']
+  routing_loader:
+    default_format:  json
+    include_format:  false
+  format_listener:
+    enabled: true
+    rules:
+      - { path: ^/api, priorities: [ json ], fallback_format: json, prefer_extension: true }
+  exception:
+    enabled: true
+    exception_controller: 'App\Controller\ExceptionController::showAction'
