@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './header/header.component';
-import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {HttpClientModule} from '@angular/common/http';
 import SecurityService from '../security/services/security.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -12,11 +11,13 @@ import {DefaultHttpHeadersInterceptor} from './services/interceptors/default-htt
 import {AuthTokenInjectorInterceptor} from './services/interceptors/auth-token-injector.interceptor';
 import {LocalStorageService} from './services/local-storage.service';
 import {appInitializeHandler, AppInitializerService} from './services/app-initializer.service';
-import { FormFieldErrorListComponent } from '../shared/form-field-error-list/form-field-error-list.component';
-import {StoreModule} from "@ngrx/store";
-import {EffectsModule} from "@ngrx/effects";
-import { reducer } from './data/reducer';
+import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
+import { reducer as coreReducer } from './data/reducer';
+import { reducer as securityReducer } from '../security/data/reducer';
 import { GlobalProgressComponent } from './global-progress/global-progress.component';
+import RegisterEffects from '../security/data/effects/register.effects';
+import AuthEffects from '../security/data/effects/auth.effects';
 
 const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: BaseApiUrlInterceptor, multi: true },
@@ -35,9 +36,12 @@ const httpInterceptorProviders = [
     NgbModule,
     HttpClientModule,
     StoreModule.forRoot({
-      core: reducer
+      core: coreReducer,
+      security: securityReducer
     }),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([
+      RegisterEffects, AuthEffects
+    ])
   ],
   providers: [
     httpInterceptorProviders,

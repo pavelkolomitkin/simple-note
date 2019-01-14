@@ -1,8 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {select, Store} from "@ngrx/store";
-import {State} from "../../app.state";
-import User from "../model/user.model";
-import {Subscription} from "rxjs";
+import {select, Store} from '@ngrx/store';
+import {State} from '../../app.state';
+import User from '../model/user.model';
+import {Subscription} from 'rxjs';
+import {UserLogout} from "../../security/data/actions";
 
 @Component({
   selector: 'app-header',
@@ -18,7 +19,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.userSubscription = store.pipe(select(state => state.security.authorizedUser)).subscribe(
       (user: User) => {
-        debugger
         this.user = user;
       }
     );
@@ -29,6 +29,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.userSubscription.unsubscribe();
+  }
+
+  onLogoutClickHandler()
+  {
+    this.store.dispatch(new UserLogout());
   }
 
 }

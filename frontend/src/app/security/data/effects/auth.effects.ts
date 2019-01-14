@@ -3,13 +3,14 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Action, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {
+  USER_INITIALIZE_START,
   USER_LOGIN_START,
-  USER_LOGIN_SUCCESS,
-  UserInitializeError,
+  USER_LOGIN_SUCCESS, USER_LOGOUT,
+  UserInitializeError, UserInitializeStart,
   UserInitializeSuccess,
   UserLoginError,
   UserLoginStart,
-  UserLoginSuccess
+  UserLoginSuccess, UserLogout
 } from '../actions';
 import {mergeMap, catchError, map, tap} from 'rxjs/operators';
 import SecurityService from '../../services/security.service';
@@ -22,7 +23,7 @@ import {error} from '@angular/compiler/src/util';
 
 
 @Injectable()
-export default class LoginEffects
+export default class AuthEffects
 {
   @Effect()
   loginStart: Observable<Action> = this.actions.pipe(
@@ -39,7 +40,6 @@ export default class LoginEffects
           return new UserLoginSuccess(token);
         }),
         catchError((errors) => {
-          //debugger;
           return of(new UserLoginError(errors.error));
         })
       );
@@ -71,10 +71,32 @@ export default class LoginEffects
     }),
     tap((result) => {
       this.store.dispatch(new GlobalProgressHide());
-    }),
-    // tap((result) => {
-    //   this.router.navigate(['/note', 'list']);
-    // })
+    })
+  );
+
+  @Effect()
+  initializeUserStart: Observable<Action> = this.actions.pipe(
+    ofType(USER_INITIALIZE_START),
+    mergeMap((action: UserInitializeStart) => {
+
+      return this.service.getAuthorizedUser().pipe(
+        map((user: User) => {
+          return new UserInitializeSuccess(user);
+        }),
+        catchError((errors: Object) => {
+          return of(new UserInitializeError(errors));
+        })
+      );
+    })
+  );
+
+  @Effect({dispatch: false})
+  logout: Observable<Action> = this.actions.pipe(
+    ofType(USER_LOGOUT),
+    tap(() => {
+      this.localStorageService.remove('token');
+      this.router.navigate(['/']);
+    })
   );
 
   constructor(

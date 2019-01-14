@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import User from '../../core/model/user.model';
 import RegisterData from './model/register-data.model';
-import LoginCredentials from "./model/login-credentials.model";
+import LoginCredentials from './model/login-credentials.model';
 
 export const USER_REGISTER_START = 'USER_REGISTER_START';
 export const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS';

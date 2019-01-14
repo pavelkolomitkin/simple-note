@@ -102,7 +102,8 @@ export function reducer(state = initialState, action: actions.SecurityActions): 
 
       return {
         ...state,
-        authorizedToken: null
+        authorizedToken: null,
+        authorizedUser: null
       };
 
     case actions.USER_INITIALIZE_SUCCESS:

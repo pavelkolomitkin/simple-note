@@ -7,12 +7,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { ConfirmationPageComponent } from './confirmation-page/confirmation-page.component';
 import {SecurityRoutingModule} from './security-routing.module';
-import {StoreModule} from '@ngrx/store';
-import { reducer } from './data/reducer';
-import {EffectsModule} from '@ngrx/effects';
-import RegisterEffects from './data/effects/register.effects';
 import { RegisterSuccessfulPageComponent } from './register-successful-page/register-successful-page.component';
-import LoginEffects from './data/effects/login.effects';
 
 @NgModule({
   declarations: [
@@ -27,12 +22,6 @@ import LoginEffects from './data/effects/login.effects';
     CommonModule,
     SharedModule,
     SecurityRoutingModule,
-    StoreModule.forFeature('security', reducer),
-    EffectsModule.forFeature([RegisterEffects, LoginEffects])
-  ],
-  exports: [
-    StoreModule,
-    EffectsModule
   ]
 })
 export class SecurityModule { }
