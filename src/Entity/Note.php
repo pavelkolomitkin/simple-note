@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMSSerializer;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\NoteRepository")
@@ -35,6 +34,10 @@ class Note
      * @var string
      *
      * @ORM\Column(name="content", type="text")
+     *
+     * @Assert\NotBlank()
+     * @Assert\Length(max="1000")
+     *
      * @JMSSerializer\Groups({"default"})
      */
     private $content;
@@ -42,10 +45,26 @@ class Note
     /**
      * @var NotePad
      *
+     * @Assert\NotNull()
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\NotePad", inversedBy="notes")
      * @ORM\JoinColumn(name="notepad_id", nullable=false)
+     *
+     * @JMSSerializer\Groups({"default"})
      */
     private $notePad;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\NoteAttachment", mappedBy="note", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $attachments;
+
+    public function __construct()
+    {
+        $this->attachments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -82,9 +101,53 @@ class Note
      * @param NotePad $notePad
      * @return Note
      */
-    public function setNotePad(NotePad $notePad): Note
+    public function setNotePad(NotePad $notePad = null): Note
     {
         $this->notePad = $notePad;
+        return $this;
+    }
+
+    /**
+     * Get attachments
+     *
+     * @return ArrayCollection
+     */
+    public function getAttachments()
+    {
+        return $this->attachments;
+    }
+
+    /**
+     * Add attachment
+     *
+     * @param NoteAttachment $attachment
+     * @return $this
+     */
+    public function addAttachment(NoteAttachment $attachment)
+    {
+        if (!$this->attachments->contains($attachment))
+        {
+            $this->attachments[] = $attachment;
+            $attachment->setNote($this);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * Remove attachment
+     *
+     * @param NoteAttachment $attachment
+     * @return $this
+     */
+    public function removeAttachment(NoteAttachment $attachment)
+    {
+        if ($this->attachments->contains($attachment))
+        {
+            $this->attachments->removeElement($attachment);
+        }
+
         return $this;
     }
 }

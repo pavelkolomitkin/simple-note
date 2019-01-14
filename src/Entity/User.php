@@ -90,9 +90,16 @@ class User implements UserInterface
      */
     private $notePads;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="App\Entity\NoteAttachment", mappedBy="owner", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $uploadAttachments;
+
     public function __construct()
     {
         $this->notePads = new ArrayCollection();
+        $this->uploadAttachments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -265,6 +272,49 @@ class User implements UserInterface
         if ($this->notePads->contains($notePad))
         {
             $this->notePads->removeElement($notePad);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get uploadAttachment
+     *
+     * @return ArrayCollection
+     */
+    public function getUploadAttachments()
+    {
+        return $this->uploadAttachments;
+    }
+
+    /**
+     * Add uploadAttachment
+     *
+     * @param NoteAttachment $attachment
+     * @return User
+     */
+    public function addUploadAttachment(NoteAttachment $attachment): self
+    {
+        if (!$this->uploadAttachments->contains($attachment))
+        {
+            $this->uploadAttachments[] = $attachment;
+            $attachment->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove uploadAttachment
+     *
+     * @param NoteAttachment $attachment
+     * @return User
+     */
+    public function removeUploadAttachment(NoteAttachment $attachment): self
+    {
+        if ($this->uploadAttachments->contains($attachment))
+        {
+            $this->uploadAttachments->removeElement($attachment);
         }
 
         return $this;
