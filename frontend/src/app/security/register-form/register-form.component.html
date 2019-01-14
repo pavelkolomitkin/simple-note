@@ -54,5 +54,6 @@
     >
     <app-form-field-error-list [field]="'passwordRepeat'" [errors]="validationErrors.plainPassword ? validationErrors.plainPassword : {}"></app-form-field-error-list>
   </div>
-  <button type="submit" class="btn btn-primary" >Register</button>
+  <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Register</button>&nbsp;
+  <a routerLink="/security/login">Or Login</a>
 </form>

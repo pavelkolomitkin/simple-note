@@ -34,10 +34,10 @@ export class ConfirmationPageComponent implements OnInit, OnDestroy {
       );
 
     this.confirmationErrorSubscription = store.pipe(select(state => state.security.confirmationUserErrors)).subscribe(
-      ({ key }) => {
-        if (isArray(key))
+      (errors: Object) => {
+        if (isArray(errors['key']))
         {
-          this.activationErrors = key[0];
+          this.activationErrors = errors['key'][0];
         }
 
       }
