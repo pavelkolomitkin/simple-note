@@ -18,6 +18,8 @@ import { reducer as securityReducer } from '../security/data/reducer';
 import { GlobalProgressComponent } from './global-progress/global-progress.component';
 import RegisterEffects from '../security/data/effects/register.effects';
 import AuthEffects from '../security/data/effects/auth.effects';
+import {AuthUserGuard} from "../security/services/guards/AuthUserGuard";
+import {RouterModule} from "@angular/router";
 
 const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: BaseApiUrlInterceptor, multi: true },
@@ -33,6 +35,7 @@ const httpInterceptorProviders = [
   ],
   imports: [
     CommonModule,
+    RouterModule,
     NgbModule,
     HttpClientModule,
     StoreModule.forRoot({
@@ -44,6 +47,7 @@ const httpInterceptorProviders = [
     ])
   ],
   providers: [
+    AuthUserGuard,
     httpInterceptorProviders,
     LocalStorageService,
     SecurityService,

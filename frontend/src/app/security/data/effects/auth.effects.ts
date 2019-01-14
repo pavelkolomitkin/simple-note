@@ -95,7 +95,7 @@ export default class AuthEffects
     ofType(USER_LOGOUT),
     tap(() => {
       this.localStorageService.remove('token');
-      this.router.navigate(['/']);
+      this.router.navigate(['/security', 'login']);
     })
   );
 

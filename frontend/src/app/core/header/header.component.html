@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand" href="#">Simple Note</a>
+  <a class="navbar-brand" href="#" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Simple Note</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -15,10 +15,9 @@
     </ul>
     <ul class="navbar-nav" *ngIf="user !== null">
       <li class="nav-item">
-        <a class="nav-link" href="#">{{ user.fullName }}</a>
+        <span class="nav-link">{{ user.fullName }}</span>
       </li>
       <li class="nav-item">
-        <!--<a class="nav-link" href="#">Logout</a>-->
         <span class="btn btn-primary" (click)="onLogoutClickHandler($event)">Logout</span>
       </li>
     </ul>
