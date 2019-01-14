@@ -125,6 +125,14 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * @When I try to get user profile
+     */
+    public function iTryToGetUserProfile()
+    {
+        $this->sendRequest('GET', '/security/profile');
+    }
+
+    /**
      * @return \Behat\Mink\Driver\Goutte\Client
      */
     protected function getClient()

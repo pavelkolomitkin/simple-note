@@ -37,3 +37,18 @@ Feature:
     Then the response status code should be 200
     And the JSON node "token" should exist
     And I hold the authorize token from response
+
+    When I add "Content-Type" header equal to "application/json"
+    And I add "Accept" header equal to "application/json"
+    When I try to get user profile
+    Then the response status code should be 200
+    Then the JSON should be equal to:
+    """
+    {
+        "user": {
+            "id": 1,
+            "email": "test@example.com",
+            "fullName": "Ivan Batkovich"
+        }
+    }
+    """
