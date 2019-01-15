@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Validator\Constraints\NoteNoteAttachmentOwnerConstraint;
+use App\Validator\Constraints\NoteNotePadOwnerConstraint;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -46,6 +48,7 @@ class Note
      * @var NotePad
      *
      * @Assert\NotNull()
+     * @NoteNotePadOwnerConstraint()
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\NotePad", inversedBy="notes")
      * @ORM\JoinColumn(name="notepad_id", nullable=false)
@@ -56,6 +59,9 @@ class Note
 
     /**
      * @var ArrayCollection
+     * @Assert\All(
+     *     @NoteNoteAttachmentOwnerConstraint()
+     * )
      *
      * @ORM\OneToMany(targetEntity="App\Entity\NoteAttachment", mappedBy="note", cascade={"persist", "remove"}, orphanRemoval=true)
      */

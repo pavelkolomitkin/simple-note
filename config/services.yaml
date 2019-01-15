@@ -36,6 +36,22 @@ services:
             - '%noreply_mail%'
             - '%email_link_host%'
 
+    App\Validator\Constraints\NoteNotePadOwnerValidator:
+        calls:
+            - method: setTokenStorage
+              arguments:
+                  - '@security.token_storage'
+        tags:
+            - { name: validator.constraint_validator }
+
+    App\Validator\Constraints\NoteNoteAttachmentOwnerValidator:
+        calls:
+            - method: setTokenStorage
+              arguments:
+                  - '@security.token_storage'
+        tags:
+            - { name: validator.constraint_validator }
+
     App\Event\NotePadEventSubscriber:
         arguments:
             - '@security.token_storage'
