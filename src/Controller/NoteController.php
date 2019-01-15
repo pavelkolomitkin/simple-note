@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Note;
+use App\Repository\NoteRepository;
 use App\Service\EntityManager\NoteManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,6 +32,29 @@ class NoteController extends CommonController
                 'note' => $note
             ]
         );
+    }
+
+    /**
+     * @Route(name="note_index", path="/note/list", methods={"GET"})
+     * @param Request $request
+     * @param NoteRepository $repository
+     * @return Response
+     */
+    public function index(Request $request, NoteRepository $repository)
+    {
+        $query = $repository->getSearchQuery([
+            'owner' => $this->getUser()
+        ]);
+
+        $pagination = $this->get('knp_paginator')->paginate(
+            $query,
+            $request->query->getInt('page', 1)
+        );
+
+        return $this->getResponse([
+            'notes' => $pagination->getItems(),
+            'total' => $pagination->getTotalItemCount()
+        ]);
     }
 
     /**

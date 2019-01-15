@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Note;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,32 +21,30 @@ class NoteRepository extends ServiceEntityRepository
         parent::__construct($registry, Note::class);
     }
 
-    // /**
-    //  * @return Note[] Returns an array of Note objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param array $criteria
+     * @return \Doctrine\ORM\Query
+     */
+    public function getSearchQuery(array $criteria = []): Query
     {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('n.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $builder = $this->createQueryBuilder('note');
 
-    /*
-    public function findOneBySomeField($value): ?Note
-    {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $this->handleSearchOwnerParameter($builder, $criteria);
+
+        $builder->orderBy('note.createdAt', 'DESC');
+
+        return $builder->getQuery();
     }
-    */
+
+    private function handleSearchOwnerParameter(QueryBuilder $builder, array $criteria, $entityAlias = 'note')
+    {
+        if (isset($criteria['owner']))
+        {
+            $builder
+                ->join( $entityAlias . '.notePad', 'notePad', 'WITH', 'notePad.user = :user')
+                ->setParameter('user', $criteria['owner']);
+        }
+
+        return $builder;
+    }
 }
