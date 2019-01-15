@@ -27,22 +27,37 @@ class NoteRepository extends ServiceEntityRepository
      */
     public function getSearchQuery(array $criteria = []): Query
     {
-        $builder = $this->createQueryBuilder('note');
+        $builder = $this
+            ->createQueryBuilder('note')
+            ->join('note.notePad', 'notePad', 'WITH');
 
         $this->handleSearchOwnerParameter($builder, $criteria);
+        $this->handleSearchNotePadParameter($builder, $criteria);
 
         $builder->orderBy('note.createdAt', 'DESC');
 
         return $builder->getQuery();
     }
 
-    private function handleSearchOwnerParameter(QueryBuilder $builder, array $criteria, $entityAlias = 'note')
+    private function handleSearchOwnerParameter(QueryBuilder $builder, array $criteria)
     {
         if (isset($criteria['owner']))
         {
             $builder
-                ->join( $entityAlias . '.notePad', 'notePad', 'WITH', 'notePad.user = :user')
+                ->andWhere('notePad.user = :user')
                 ->setParameter('user', $criteria['owner']);
+        }
+
+        return $builder;
+    }
+
+    private function handleSearchNotePadParameter(QueryBuilder $builder, array $criteria, $entityAlias = 'note')
+    {
+        if (isset($criteria['notePad']))
+        {
+            $builder
+                ->andWhere($entityAlias . '.notePad = :notePad')
+                ->setParameter('notePad', $criteria['notePad']);
         }
 
         return $builder;

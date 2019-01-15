@@ -42,9 +42,11 @@ class NoteController extends CommonController
      */
     public function index(Request $request, NoteRepository $repository)
     {
-        $query = $repository->getSearchQuery([
+        $searchCriteria = array_merge($request->query->all(), [
             'owner' => $this->getUser()
         ]);
+
+        $query = $repository->getSearchQuery($searchCriteria);
 
         $pagination = $this->get('knp_paginator')->paginate(
             $query,
