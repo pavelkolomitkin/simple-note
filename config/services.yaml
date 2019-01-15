@@ -36,6 +36,10 @@ services:
             - '%noreply_mail%'
             - '%email_link_host%'
 
+    App\Event\NotePadEventSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
     App\Service\EntityManager\UserManager:
         calls:
             - method: setMailer

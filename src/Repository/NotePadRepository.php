@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\NotePad;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -19,32 +21,45 @@ class NotePadRepository extends ServiceEntityRepository
         parent::__construct($registry, NotePad::class);
     }
 
-    // /**
-    //  * @return NotePad[] Returns an array of NotePad objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param array $criteria
+     * @return \Doctrine\ORM\Query
+     */
+    public function getSearchQuery(array $criteria = []): Query
     {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('n.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $builder = $this->createQueryBuilder('notePad');
 
-    /*
-    public function findOneBySomeField($value): ?NotePad
-    {
-        return $this->createQueryBuilder('n')
-            ->andWhere('n.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $this->handleSearchTitleParameter($builder, $criteria);
+        $this->handleSearchOwnerParameter($builder, $criteria);
+
+        $builder->orderBy('notePad.createdAt', 'DESC');
+
+        return $builder->getQuery();
     }
-    */
+
+    private function handleSearchOwnerParameter(QueryBuilder $builder, array $criteria, $entityAlias = 'notePad')
+    {
+        if (isset($criteria['owner']))
+        {
+            $builder
+                ->andWhere($entityAlias . '.user = :owner')
+                ->setParameter('owner', $criteria['owner']);
+        }
+
+        return $builder;
+    }
+
+    private function handleSearchTitleParameter(QueryBuilder $builder, array $criteria, $entityAlias = 'notePad')
+    {
+        if (isset($criteria['title']) && (trim($criteria['title']) !== ''))
+        {
+            $title = trim($criteria['title']);
+
+            $builder
+                ->andWhere($entityAlias . '.title LIKE :title')
+                ->setParameter('title', $title . '%');
+        }
+
+        return $builder;
+    }
 }

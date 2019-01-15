@@ -43,6 +43,7 @@ class NotePad
 
     /**
      * @var User
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="notePads")
      * @ORM\JoinColumn(name="user_id", nullable=false)
      */
