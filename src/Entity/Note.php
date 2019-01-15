@@ -118,6 +118,19 @@ class Note
     }
 
     /**
+     * Set attachments
+     *
+     * @param $attachments
+     * @return Note
+     */
+    public function setAttachments($attachments): self
+    {
+        $this->attachments = $attachments;
+
+        return $this;
+    }
+
+    /**
      * Add attachment
      *
      * @param NoteAttachment $attachment

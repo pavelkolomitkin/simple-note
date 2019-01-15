@@ -2,18 +2,19 @@
 
 namespace App\Service\EntityManager;
 
-use App\Form\NotePadType;
+
+use App\Form\NoteType;
 use Symfony\Component\Form\FormInterface;
 
-class NotePadManager extends CommonEntityManager
+class NoteManager extends CommonEntityManager
 {
     protected function getCreationForm(): FormInterface
     {
-        return $this->formFactory->create(NotePadType::class);
+        return $this->formFactory->create(NoteType::class);
     }
 
     protected function getUpdatingForm(): FormInterface
     {
-        return $this->formFactory->create(NotePadType::class);
+        return $this->formFactory->create(NoteType::class);
     }
 }

@@ -37,6 +37,8 @@ services:
             - '%email_link_host%'
 
     App\Event\NotePadEventSubscriber:
+        arguments:
+            - '@security.token_storage'
         tags:
             - { name: doctrine.event_subscriber, connection: default }
 

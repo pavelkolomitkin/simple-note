@@ -12,13 +12,13 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 class NotePadEventSubscriber implements EventSubscriber
 {
     /**
-     * @var User
+     * @var TokenStorageInterface
      */
-    private $user;
+    private $tokeStorage;
 
     public function __construct(TokenStorageInterface $tokenStorage)
     {
-        $this->user = $tokenStorage->getToken()->getUser();
+        $this->tokeStorage = $tokenStorage;
     }
 
     /**
@@ -38,6 +38,14 @@ class NotePadEventSubscriber implements EventSubscriber
         /** @var NotePad $notePad */
         $notePad = $args->getObject();
 
-        $notePad->setUser($this->user);
+        $notePad->setUser($this->getUser());
+    }
+
+    /**
+     * @return User
+     */
+    private function getUser()
+    {
+        return $this->tokeStorage->getToken()->getUser();
     }
 }
