@@ -40,6 +40,8 @@ export function reducer(state: State = initialState, action: NotePadActions) {
 
       return {
         ...state,
+        createdNotePad: null,
+        createNotePadErrors: {},
         initCreation: true
       };
 

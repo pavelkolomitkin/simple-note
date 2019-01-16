@@ -33,8 +33,8 @@ export default class NotePadEffects {
         map((notePad: NotePad) => {
           return new NotePadCreateSuccess(notePad);
         }),
-        catchError((errors: Object) => {
-          return of(new NotePadCreateError(errors));
+        catchError((errors) => {
+          return of(new NotePadCreateError(errors.error.errors));
         })
       );
 

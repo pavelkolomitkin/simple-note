@@ -66,7 +66,13 @@ class NotePadController extends CommonController
      */
     public function create(Request $request, NotePadManager $manager)
     {
-        $notePad = $manager->create($request->request->all());
+        $notePad = $manager->create(
+            array_merge(
+                $request->request->all(),
+                [
+                    'user' => $this->getUser()->getId()
+                ]
+            ));
 
         return $this->getResponse(
             [

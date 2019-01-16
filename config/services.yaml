@@ -52,12 +52,6 @@ services:
         tags:
             - { name: validator.constraint_validator }
 
-    App\Event\NotePadEventSubscriber:
-        arguments:
-            - '@security.token_storage'
-        tags:
-            - { name: doctrine.event_subscriber, connection: default }
-
     App\Service\EntityManager\UserManager:
         calls:
             - method: setMailer

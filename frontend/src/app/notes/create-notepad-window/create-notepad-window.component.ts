@@ -16,7 +16,7 @@ export class CreateNotepadWindowComponent implements OnInit, OnDestroy {
   @ViewChild('modalWindow') modalWindowTemplate: TemplateRef<any>;
   modalWindow: NgbModalRef = null;
 
-  errors: Object;
+  errors: Object = {};
 
   notePadCreateSuccessSubscription: Subscription;
   notePadCreateErrorSubscription: Subscription;
@@ -28,7 +28,10 @@ export class CreateNotepadWindowComponent implements OnInit, OnDestroy {
 
     this.notePadCreateSuccessSubscription = this.store.pipe(select(state => state.notePad.createdNotePad)).subscribe(
       (notePad: NotePad) => {
-        this.store.dispatch(new NotePadCreationDispose());
+        if (notePad !== null)
+        {
+          this.store.dispatch(new NotePadCreationDispose());
+        }
       }
     );
 
