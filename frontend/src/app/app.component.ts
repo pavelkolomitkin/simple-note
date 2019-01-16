@@ -17,6 +17,5 @@ export class AppComponent {
     store.pipe(select(state => state.core.globalProgressLoaders)).subscribe((loaderNumber: number) => {
       this.isProgressVisible = (loaderNumber > 0)
     });
-
   }
 }

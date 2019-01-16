@@ -4,7 +4,7 @@ namespace App\Validator\Constraints;
 
 
 use App\Entity\NotePad;
-use MainBundle\Service\UserAwareServiceTrait;
+use App\Service\UserAwareServiceTrait;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 

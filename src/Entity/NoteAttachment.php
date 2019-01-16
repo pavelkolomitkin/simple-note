@@ -32,6 +32,7 @@ class NoteAttachment
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @JMSSerializer\Groups({"default"})
+     * @JMSSerializer\Expose
      */
     private $id;
 
@@ -64,6 +65,8 @@ class NoteAttachment
      * @ORM\Embedded(class="Vich\UploaderBundle\Entity\File")
      *
      * @var EmbeddedFile
+     * @JMSSerializer\Groups({"default"})
+     * @JMSSerializer\Expose
      */
     private $image;
 

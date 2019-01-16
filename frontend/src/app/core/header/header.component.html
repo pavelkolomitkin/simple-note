@@ -7,10 +7,16 @@
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto" *ngIf="user !== null">
       <li class="nav-item">
-        <a class="nav-link" href="#">Add Note</a>
+        <a class="nav-link" routerLink="/note/add" routerLinkActive="active" ><i class="fas fa-plus"></i> Add Note</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">My Notes</a>
+        <a class="nav-link" routerLink="/note/list" routerLinkActive="active">My Notes</a>
+      </li>
+      <li class="nav-item">
+        <span class="nav-link btn" (click)="onAddNotePadClickHandler($event)"><i class="fas fa-plus"></i> Add NotePad</span>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/note/note-pad/list" routerLinkActive="active">My NotePads</a>
       </li>
     </ul>
     <ul class="navbar-nav" *ngIf="user !== null">

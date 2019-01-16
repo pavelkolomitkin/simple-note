@@ -1,6 +1,6 @@
 <?php
 
-namespace MainBundle\Service;
+namespace App\Service;
 
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;

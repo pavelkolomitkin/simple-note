@@ -15,9 +15,9 @@ import {
 import {mergeMap, catchError, map, tap} from 'rxjs/operators';
 import SecurityService from '../../services/security.service';
 import User from '../../../core/model/user.model';
-import {State} from "../../../core/data/reducer";
 import {GlobalProgressHide, GlobalProgressShow} from "../../../core/data/actions";
 import {Router} from "@angular/router";
+import {State} from "../../../app.state";
 
 @Injectable()
 export default class RegisterEffects {
@@ -26,7 +26,6 @@ export default class RegisterEffects {
   registerStart: Observable<Action> = this.actions.pipe(
     ofType(USER_REGISTER_START),
     tap((action) => {
-      //debugger
       this.store.dispatch(new GlobalProgressShow());
     }),
     mergeMap((action: UserRegistrationStart) => {
@@ -80,17 +79,6 @@ export default class RegisterEffects {
       this.store.dispatch(new GlobalProgressHide());
     })
   );
-
-  // @Effect({dispatch: false })
-  // confirmRegisterSuccess: Observable<Action> = this.actions.pipe(
-  //   ofType(USER_REGISTRATION_CONFIRM_SUCCESS),
-  //   tap((action: UserRegistrationConfirmSuccess) => {
-  //
-  //     console.log('User has been activated successfully!');
-  //     //this.router.navigate(['/profile'])
-  //
-  //   })
-  // );
 
   constructor(
     private actions: Actions,

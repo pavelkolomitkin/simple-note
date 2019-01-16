@@ -1,5 +1,8 @@
 <app-global-progress [isVisible]="isProgressVisible"></app-global-progress>
-<app-header></app-header>
-<main role="main" class="container">
-  <router-outlet></router-outlet>
-</main>
+<div class="container">
+  <app-header></app-header>
+  <main role="main">
+    <router-outlet></router-outlet>
+  </main>
+  <app-create-notepad-window></app-create-notepad-window>
+</div>

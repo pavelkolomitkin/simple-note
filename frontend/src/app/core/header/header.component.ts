@@ -4,6 +4,7 @@ import {State} from '../../app.state';
 import User from '../model/user.model';
 import {Subscription} from 'rxjs';
 import {UserLogout} from "../../security/data/actions";
+import {NotePadCreationInit} from "../../notes/data/note-pad-actions";
 
 @Component({
   selector: 'app-header',
@@ -34,6 +35,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   onLogoutClickHandler()
   {
     this.store.dispatch(new UserLogout());
+  }
+
+  onAddNotePadClickHandler()
+  {
+    this.store.dispatch(new NotePadCreationInit());
   }
 
 }

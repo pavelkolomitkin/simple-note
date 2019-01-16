@@ -16,7 +16,7 @@ class NoteController extends CommonController
      * @param Note $note
      *
      * @Route(name="note_get", path="/note/{id}", methods={"GET"})
-     * @ParamConverter(note, class="App\Entity\Note")
+     * @ParamConverter("note", class="App\Entity\Note")
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */

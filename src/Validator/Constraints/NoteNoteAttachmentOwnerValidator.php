@@ -3,7 +3,7 @@
 namespace App\Validator\Constraints;
 
 use App\Entity\NoteAttachment;
-use MainBundle\Service\UserAwareServiceTrait;
+use App\Service\UserAwareServiceTrait;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 

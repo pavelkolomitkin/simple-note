@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -29,6 +30,7 @@ class NotePad
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @JMSSerializer\Groups({"default"})
+     * @JMSSerializer\Expose
      */
     private $id;
 
@@ -38,6 +40,8 @@ class NotePad
      * @Assert\Length(max="255")
      *
      * @JMSSerializer\Groups({"default"})
+     * @JMSSerializer\Expose
+     *
      */
     private $title;
 
@@ -48,6 +52,12 @@ class NotePad
      * @ORM\JoinColumn(name="user_id", nullable=false)
      */
     private $user;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="App\Entity\Note", mappedBy="notePad", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $notes;
 
     public function getId(): ?int
     {
@@ -82,5 +92,13 @@ class NotePad
     {
         $this->user = $user;
         return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getNotes()
+    {
+        return $this->notes;
     }
 }

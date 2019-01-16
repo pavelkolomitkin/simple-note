@@ -29,6 +29,7 @@ class Note
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @JMSSerializer\Groups({"default"})
+     * @JMSSerializer\Expose
      */
     private $id;
 
@@ -41,6 +42,7 @@ class Note
      * @Assert\Length(max="1000")
      *
      * @JMSSerializer\Groups({"default"})
+     * @JMSSerializer\Expose
      */
     private $content;
 
@@ -54,6 +56,7 @@ class Note
      * @ORM\JoinColumn(name="notepad_id", nullable=false)
      *
      * @JMSSerializer\Groups({"default"})
+     * @JMSSerializer\Expose
      */
     private $notePad;
 
@@ -64,6 +67,10 @@ class Note
      * )
      *
      * @ORM\OneToMany(targetEntity="App\Entity\NoteAttachment", mappedBy="note", cascade={"persist", "remove"}, orphanRemoval=true)
+     *
+     * @JMSSerializer\Groups({"default"})
+     * @JMSSerializer\Expose
+     *
      */
     private $attachments;
 
