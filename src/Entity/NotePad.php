@@ -23,7 +23,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class NotePad
 {
-    use TimestampableEntity;
+    use SerializeTimestampableTrait;
     use SoftDeleteableEntity;
     /**
      * @ORM\Id()
