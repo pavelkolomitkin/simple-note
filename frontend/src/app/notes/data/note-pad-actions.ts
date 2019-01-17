@@ -8,6 +8,10 @@ export const NOTEPAD_CREATE_START = 'NOTEPAD_CREATE_START';
 export const NOTEPAD_CREATE_SUCCESS = 'NOTEPAD_CREATE_SUCCESS';
 export const NOTEPAD_CREATE_ERROR = 'NOTEPAD_CREATE_ERROR';
 
+export const NOTEPAD_LIST_LOAD_START = 'NOTEPAD_LIST_LOAD_START';
+export const NOTEPAD_LIST_LOAD_SUCCESS = 'NOTEPAD_LIST_LOAD_SUCCESS';
+export const NOTEPAD_LIST_LOAD_ERROR = 'NOTEPAD_LIST_LOAD_ERROR';
+
 export class NotePadCreateStart implements Action
 {
   readonly type = NOTEPAD_CREATE_START;
@@ -46,6 +50,25 @@ export class NotePadCreationDispose implements Action
 }
 
 
+export class NotePadListLoadStart implements Action
+{
+  readonly type = NOTEPAD_LIST_LOAD_START;
+
+  constructor(public page: number = 1, public params: Object = {}) {}
+}
+
+export class NotePadListLoadSuccess implements Action {
+  readonly type = NOTEPAD_LIST_LOAD_SUCCESS;
+
+  constructor(public list: Array<NotePad>, totalNumber: number) {}
+}
+
+export class NotePadListLoadError implements Action
+{
+  readonly type = NOTEPAD_LIST_LOAD_ERROR;
+
+  constructor(public errors: Object) {}
+}
 
 
 export type NotePadActions = NotePadCreateStart
@@ -54,4 +77,8 @@ export type NotePadActions = NotePadCreateStart
                 | NotePadResetCreated
                 | NotePadCreationInit
                 | NotePadCreationDispose
+
+                | NotePadListLoadStart
+                | NotePadListLoadSuccess
+                | NotePadListLoadError
 ;

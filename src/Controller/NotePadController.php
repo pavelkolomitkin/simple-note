@@ -6,6 +6,8 @@ use App\Entity\NotePad;
 use App\Repository\NotePadRepository;
 use App\Service\EntityManager\Exception\ManageEntityException;
 use App\Service\EntityManager\NotePadManager;
+use Knp\Component\Pager\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class NotePadController extends CommonController
 {
     /**
-     * @Route(name="notepad_details", path="/notepad/{id}", methods={"GET"})
+     * @Route(name="notepad_details", path="/notepad/{id}", methods={"GET"}, requirements={"id"="\d+"})
      * @ParamConverter("notePad", class="App\Entity\NotePad")
      * @param NotePad $notePad
      * @return Response
@@ -36,16 +38,17 @@ class NotePadController extends CommonController
      * @Route(name="notepad_index", path="/notepad/list", methods={"GET"})
      * @param Request $request
      * @param NotePadRepository $repository
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function index(Request $request, NotePadRepository $repository)
+    public function index(Request $request, NotePadRepository $repository, PaginatorInterface $paginator)
     {
         $searchCriteria = $request->query->all();
         $searchCriteria['owner'] = $this->getUser();
 
         $query = $repository->getSearchQuery($searchCriteria);
 
-        $pagination = $this->get('knp_paginator')->paginate(
+        $pagination = $paginator->paginate(
                 $query,
                 $request->query->getInt('page', 1)
             );

@@ -4,6 +4,7 @@ import {FormsModule} from "@angular/forms";
 import {FormFieldErrorListComponent} from "../core/form-field-error-list/form-field-error-list.component";
 import {CreateNotepadWindowComponent} from "../notes/create-notepad-window/create-notepad-window.component";
 import {NotepadFormComponent} from "../notes/notepad-form/notepad-form.component";
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -13,13 +14,15 @@ import {NotepadFormComponent} from "../notes/notepad-form/notepad-form.component
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    InfiniteScrollModule
   ],
   exports: [
     FormsModule,
     FormFieldErrorListComponent,
     CreateNotepadWindowComponent,
-    NotepadFormComponent
+    NotepadFormComponent,
+    InfiniteScrollModule
   ]
 })
 export class SharedModule { }

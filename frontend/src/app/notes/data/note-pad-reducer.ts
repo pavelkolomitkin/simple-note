@@ -7,13 +7,19 @@ export interface State {
   createNotePadErrors: Object;
 
   initCreation: Boolean;
+
+  list: Array<NotePad>;
+  listErrors: Object;
 }
 
 const initialState: State = {
   createdNotePad: null,
   createNotePadErrors: {},
 
-  initCreation: false
+  initCreation: false,
+
+  list: [],
+  listErrors: {}
 };
 
 export function reducer(state: State = initialState, action: NotePadActions) {
@@ -58,6 +64,22 @@ export function reducer(state: State = initialState, action: NotePadActions) {
         ...state,
         createdNotePad: null,
         createNotePadErrors: {},
+      };
+
+    case actions.NOTEPAD_LIST_LOAD_SUCCESS:
+
+      return {
+        ...state,
+        list: action.list,
+        listErrors: {}
+      };
+
+    case actions.NOTEPAD_LIST_LOAD_ERROR:
+
+      return {
+        ...state,
+        list: [],
+        listErrors: action.errors
       };
 
     default:

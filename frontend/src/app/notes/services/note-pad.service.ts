@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {NotePad} from "../data/model/note-pad.model";
 import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
@@ -39,5 +39,21 @@ export class NotePadService
     return this.http.delete('/notepad/' + notePad.id).pipe(
       map(result => true)
     );
+  }
+
+  public getList(parameters: Object, page: number = 1)
+  {
+    const params = new HttpParams().set('page', page.toString());
+
+    Object.entries(parameters).forEach(
+      ([name, value]) => {
+        params.set(name, value);
+      }
+    );
+
+
+    return this.http.get<{notePads: Array<NotePad>, total: number}>('/notepad/list', {
+      params
+    });
   }
 }

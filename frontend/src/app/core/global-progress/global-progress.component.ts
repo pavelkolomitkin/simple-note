@@ -7,7 +7,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class GlobalProgressComponent implements OnInit {
 
-  @Input() isVisible: Boolean = false;
+  @Input() isVisible: Boolean;
 
   constructor() { }
 

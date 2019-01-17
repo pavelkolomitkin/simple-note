@@ -6,13 +6,15 @@ import {NotesRoutingModule} from './notes-routing.module';
 import { CreateNotePageComponent } from './create-note-page/create-note-page.component';
 import { EditNotePageComponent } from './edit-note-page/edit-note-page.component';
 import { NotepadListPageComponent } from './notepad-list-page/notepad-list-page.component';
+import { NotepadListItemComponent } from './notepad-list-item/notepad-list-item.component';
 
 @NgModule({
   declarations: [
     NoteListPageComponent,
     CreateNotePageComponent,
     EditNotePageComponent,
-    NotepadListPageComponent
+    NotepadListPageComponent,
+    NotepadListItemComponent
   ],
   imports: [
     CommonModule,
