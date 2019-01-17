@@ -14,7 +14,7 @@ import { NotepadListItemComponent } from './notepad-list-item/notepad-list-item.
     CreateNotePageComponent,
     EditNotePageComponent,
     NotepadListPageComponent,
-    NotepadListItemComponent
+    NotepadListItemComponent,
   ],
   imports: [
     CommonModule,

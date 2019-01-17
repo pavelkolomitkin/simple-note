@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="App\Repository\NotePadRepository")
  * @ORM\Table(name="note_pad",
  *  uniqueConstraints={
-        @ORM\UniqueConstraint(name="user_notepad_unique_index", columns={"title", "user_id"})
+        @ORM\UniqueConstraint(name="user_notepad_unique_index", columns={"title", "user_id", "deleted_at"})
  *     })
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")
  * @UniqueEntity(fields={"title", "user"}, errorPath="title", message="You have already notepad with this title!")

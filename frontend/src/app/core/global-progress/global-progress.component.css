@@ -17,7 +17,7 @@
 
 .global-progress-container .progress
 {
-  position: absolute;
+  position: fixed;
 
   top: 50%;
   left: 50%;

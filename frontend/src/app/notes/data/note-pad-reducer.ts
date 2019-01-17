@@ -98,6 +98,14 @@ export function reducer(state: State = initialState, action: NotePadActions) {
         listErrors: action.errors
       };
 
+    case actions.NOTEPAD_LIST_RESET:
+
+      return {
+        ...state,
+        list: [],
+        listErrors: {}
+      };
+
     case actions.NOTEPAD_EDITING_INIT:
 
       return {

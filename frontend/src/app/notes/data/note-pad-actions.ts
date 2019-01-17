@@ -23,6 +23,7 @@ export const NOTEPAD_DELETE_ERROR = 'NOTEPAD_DELETE_ERROR';
 export const NOTEPAD_LIST_LOAD_START = 'NOTEPAD_LIST_LOAD_START';
 export const NOTEPAD_LIST_LOAD_SUCCESS = 'NOTEPAD_LIST_LOAD_SUCCESS';
 export const NOTEPAD_LIST_LOAD_ERROR = 'NOTEPAD_LIST_LOAD_ERROR';
+export const NOTEPAD_LIST_RESET = 'NOTEPAD_LIST_RESET';
 
 export class NotePadCreateStart implements Action
 {
@@ -81,6 +82,11 @@ export class NotePadListLoadError implements Action
   readonly type = NOTEPAD_LIST_LOAD_ERROR;
 
   constructor(public errors: Object) {}
+}
+
+export class NotePadListReset implements Action
+{
+  readonly type = NOTEPAD_LIST_RESET;
 }
 
 export class NotePadEditingInit implements Action
@@ -162,6 +168,7 @@ export type NotePadActions = NotePadCreateStart
                 | NotePadListLoadStart
                 | NotePadListLoadSuccess
                 | NotePadListLoadError
+                | NotePadListReset
 
                 | NotePadEditingInit
                 | NotePadEditingDispose

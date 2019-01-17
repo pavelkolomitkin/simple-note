@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NotePad} from "../data/model/note-pad.model";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../app.state";
-import {NotePadEditingInit, NotePadListLoadStart} from "../data/note-pad-actions";
+import {NotePadDeleteInit, NotePadEditingInit, NotePadListLoadStart, NotePadListReset} from "../data/note-pad-actions";
 import {map} from "rxjs/operators";
 import {Subscription} from "rxjs";
 
@@ -13,8 +13,8 @@ import {Subscription} from "rxjs";
 })
 export class NotepadListPageComponent implements OnInit, OnDestroy {
 
-  notePadList: Array<NotePad> = [];
-  currentPageNumber: number = 1;
+  notePadList: Array<NotePad>;
+  currentPageNumber: number;
 
   listLoadSuccessSubscription: Subscription;
 
@@ -22,13 +22,35 @@ export class NotepadListPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.notePadList = [];
+    this.currentPageNumber = 1;
+
+    this.store.dispatch(new NotePadListReset());
+    this.store.dispatch(new NotePadListLoadStart());
+
+    this.store.pipe(select(state => state.notePad.createdNotePad)).subscribe(this.onListChange);
+    this.store.pipe(select(state => state.notePad.deletedNotePad)).subscribe(this.onListChange);
+    this.store.pipe(select(state => state.notePad.updatedNotePad)).subscribe(this.onListChange);
+
     this.listLoadSuccessSubscription = this.store.pipe(select(state => state.notePad.list)).subscribe(
-     (list: Array<NotePad>) => {
+      (list: Array<NotePad>) => {
+        if (this.currentPageNumber === 1)
+        {
+          this.notePadList = [];
+        }
         this.notePadList = this.notePadList.concat(list);
       }
     );
+  }
 
-    this.store.dispatch(new NotePadListLoadStart());
+  onListChange = (notePad: NotePad) =>
+  {
+    //debugger;
+    if (notePad !== null)
+    {
+      this.currentPageNumber = 1;
+      this.store.dispatch(new NotePadListLoadStart());
+    }
   }
 
 
@@ -55,6 +77,6 @@ export class NotepadListPageComponent implements OnInit, OnDestroy {
 
   onDeleteHandler(notePad: NotePad)
   {
-
+    this.store.dispatch(new NotePadDeleteInit(notePad));
   }
 }

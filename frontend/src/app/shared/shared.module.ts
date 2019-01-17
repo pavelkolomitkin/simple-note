@@ -7,13 +7,15 @@ import {NotepadFormComponent} from "../notes/notepad-form/notepad-form.component
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MomentModule } from "ngx-moment";
 import {EditNotepadWindowComponent} from "../notes/edit-notepad-window/edit-notepad-window.component";
+import {RemoveNotepadComponent} from "../notes/remove-notepad/remove-notepad.component";
 
 @NgModule({
   declarations: [
     FormFieldErrorListComponent,
     CreateNotepadWindowComponent,
     EditNotepadWindowComponent,
-    NotepadFormComponent
+    NotepadFormComponent,
+    RemoveNotepadComponent
   ],
   imports: [
     CommonModule,
@@ -27,6 +29,7 @@ import {EditNotepadWindowComponent} from "../notes/edit-notepad-window/edit-note
     CreateNotepadWindowComponent,
     EditNotepadWindowComponent,
     NotepadFormComponent,
+    RemoveNotepadComponent,
     InfiniteScrollModule,
     MomentModule
   ]

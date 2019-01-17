@@ -59,7 +59,7 @@ export class EditNotepadWindowComponent implements OnInit, OnDestroy {
               this.modalWindow = null;
               this.store.dispatch(new NotePadEditingDispose());
             }
-          )
+          );
 
         }
         else

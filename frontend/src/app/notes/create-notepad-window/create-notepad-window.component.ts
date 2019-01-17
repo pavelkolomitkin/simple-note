@@ -33,6 +33,7 @@ export class CreateNotepadWindowComponent implements OnInit, OnDestroy {
 
     this.notePadCreateSuccessSubscription = this.store.pipe(select(state => state.notePad.createdNotePad)).subscribe(
       (notePad: NotePad) => {
+
         if (notePad !== null)
         {
           this.store.dispatch(new NotePadCreationDispose());
@@ -50,6 +51,8 @@ export class CreateNotepadWindowComponent implements OnInit, OnDestroy {
       (isWindowShown) => {
         if (isWindowShown)
         {
+          this.notePad = {} as NotePad;
+
           this.modalWindow = this.modalService.open(this.modalWindowTemplate);
           this.modalWindow.result.then(
             () => {
