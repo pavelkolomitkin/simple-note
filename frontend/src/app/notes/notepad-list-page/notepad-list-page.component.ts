@@ -42,5 +42,19 @@ export class NotepadListPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new NotePadListLoadStart(this.currentPageNumber));
   }
 
+  onSelectHandler(notePad: NotePad)
+  {
+    console.log('NotePad selected ->');
+    console.log(notePad);
+  }
 
+  onEditHandler(notePad: NotePad)
+  {
+
+  }
+
+  onDeleteHandler(notePad: NotePad)
+  {
+
+  }
 }

@@ -2,5 +2,10 @@
      [infiniteScrollDistance]="2"
      [infiniteScrollThrottle]="50"
      (scrolled)="onScroll()">
-  <app-notepad-list-item *ngFor="let item of notePadList" [notePad]="item"></app-notepad-list-item>
+  <app-notepad-list-item
+    *ngFor="let item of notePadList"
+    [notePad]="item"
+    (onSelect)="onSelectHandler($event)"
+    (onEdit)="onEditHandler($event)"
+    (onDelete)="onDeleteHandler($event)"></app-notepad-list-item>
 </div>

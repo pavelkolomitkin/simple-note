@@ -1,4 +1,5 @@
 export interface NotePad {
   id?: number,
-  title: string
+  title: string,
+  createdAt: number
 }

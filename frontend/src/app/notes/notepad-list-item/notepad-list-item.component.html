@@ -1,8 +1,11 @@
-<a href="#" class="list-group-item list-group-item-action">
+<div class="list-group-item list-group-item-action" (click)="onItemClickHandler($event)">
   <div class="d-flex w-100 justify-content-between">
-    <h5 class="mb-1">List group item heading</h5>
-    <small class="text-muted">3 days ago</small>
+    <h5 class="mb-1"><i class="far fa-folder-open"></i> {{ notePad.title }}</h5>
+    <small class="text-muted">{{ notePad.createdAt | amFromUnix }}</small>
   </div>
-  <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-  <small class="text-muted">Donec id elit non mi porta.</small>
-</a>
+  <p class="mb-1 text-right">
+    <span class="btn btn-primary" (click)="onEditClickHandler($event)"><i class="fas fa-pencil-alt"></i> Edit</span>&nbsp;
+    <span class="btn btn-danger" (click)="onRemoveClickHandler($event)"><i class="fas fa-trash-alt"></i> Remove</span>
+  </p>
+  <!--<small class="text-muted">Donec id elit non mi porta.</small>-->
+</div>

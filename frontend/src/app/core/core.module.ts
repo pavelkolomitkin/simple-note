@@ -23,6 +23,7 @@ import {AuthUserGuard} from "../security/services/guards/AuthUserGuard";
 import {RouterModule} from "@angular/router";
 import NotePadEffects from "../notes/data/effects/note-pad.effects";
 import {NotePadService} from "../notes/services/note-pad.service";
+import { MomentModule } from 'ngx-moment';
 
 const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: BaseApiUrlInterceptor, multi: true },
@@ -40,6 +41,7 @@ const httpInterceptorProviders = [
     CommonModule,
     RouterModule,
     NgbModule,
+    MomentModule,
     HttpClientModule,
     StoreModule.forRoot({
       core: coreReducer,
@@ -65,6 +67,7 @@ const httpInterceptorProviders = [
     }
   ],
   exports: [
+    MomentModule,
     HeaderComponent,
     GlobalProgressComponent,
     StoreModule,
