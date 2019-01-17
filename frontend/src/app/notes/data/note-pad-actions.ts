@@ -14,6 +14,12 @@ export const NOTEPAD_UPDATE_START = 'NOTEPAD_UPDATE_START';
 export const NOTEPAD_UPDATE_SUCCESS = 'NOTEPAD_UPDATE_SUCCESS';
 export const NOTEPAD_UPDATE_ERROR = 'NOTEPAD_UPDATE_ERROR';
 
+export const NOTEPAD_DELETE_INIT = 'NOTEPAD_DELETE_INIT';
+export const NOTEPAD_DELETE_CANCEL = 'NOTEPAD_DELETE_CANCEL';
+export const NOTEPAD_DELETE_START = 'NOTEPAD_DELETE_START';
+export const NOTEPAD_DELETE_SUCCESS = 'NOTEPAD_DELETE_SUCCESS';
+export const NOTEPAD_DELETE_ERROR = 'NOTEPAD_DELETE_ERROR';
+
 export const NOTEPAD_LIST_LOAD_START = 'NOTEPAD_LIST_LOAD_START';
 export const NOTEPAD_LIST_LOAD_SUCCESS = 'NOTEPAD_LIST_LOAD_SUCCESS';
 export const NOTEPAD_LIST_LOAD_ERROR = 'NOTEPAD_LIST_LOAD_ERROR';
@@ -111,6 +117,40 @@ export class NotePadUpdateError implements Action
   constructor(public errors: Object) {}
 }
 
+export class NotePadDeleteInit implements Action
+{
+  readonly type = NOTEPAD_DELETE_INIT;
+
+  constructor(public notePad: NotePad) {}
+}
+
+export class NotePadDeleteCancel implements Action
+{
+  readonly type = NOTEPAD_DELETE_CANCEL;
+}
+
+export class NotePadDeleteStart implements Action
+{
+  readonly type = NOTEPAD_DELETE_START;
+
+  constructor(public notePad: NotePad) {}
+}
+
+export class NotePadDeleteSuccess implements Action
+{
+  readonly type = NOTEPAD_DELETE_SUCCESS;
+
+  constructor(public notePad: NotePad) {}
+}
+
+
+export class NotePadDeleteError implements Action
+{
+  readonly type = NOTEPAD_DELETE_ERROR;
+
+  constructor(public notePad: NotePad, public errors: Object) {}
+}
+
 
 export type NotePadActions = NotePadCreateStart
                 | NotePadCreateSuccess
@@ -128,4 +168,10 @@ export type NotePadActions = NotePadCreateStart
                 | NotePadUpdateStart
                 | NotePadUpdateSuccess
                 | NotePadUpdateError
+
+                | NotePadDeleteInit
+                | NotePadDeleteCancel
+                | NotePadDeleteStart
+                | NotePadDeleteSuccess
+                | NotePadDeleteError
 ;

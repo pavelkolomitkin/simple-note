@@ -12,6 +12,10 @@ export interface State {
   editingNotePad: NotePad;
   initEdition: Boolean;
 
+  deletingNotePad: NotePad;
+  deletedNotePad: NotePad;
+  deleteNotePadErrors: Object;
+
   list: Array<NotePad>;
   listErrors: Object;
 }
@@ -25,6 +29,10 @@ const initialState: State = {
   updateNotePadErrors: {},
   editingNotePad: null,
   initEdition: false,
+
+  deletingNotePad: null,
+  deletedNotePad: null,
+  deleteNotePadErrors: {},
 
   list: [],
   listErrors: {}
@@ -122,6 +130,36 @@ export function reducer(state: State = initialState, action: NotePadActions) {
         ...state,
         updatedNotePad: null,
         updateNotePadErrors: action.errors
+      };
+
+    case actions.NOTEPAD_DELETE_INIT:
+
+      return {
+        ...state,
+        deletingNotePad: action.notePad
+      };
+
+    case actions.NOTEPAD_DELETE_CANCEL:
+
+      return {
+        ...state,
+        deletingNotePad: null
+      };
+
+    case actions.NOTEPAD_DELETE_SUCCESS:
+
+      return {
+        ...state,
+        deletedNotePad: action.notePad,
+        deleteNotePadErrors: {},
+      };
+
+    case actions.NOTEPAD_DELETE_ERROR:
+
+      return {
+        ...state,
+        deletedNotePad: action.notePad,
+        deleteNotePadErrors: action.errors,
       };
 
     default:

@@ -7,12 +7,12 @@ import {State} from "../../../app.state";
 import {GlobalProgressHide, GlobalProgressShow} from "../../../core/data/actions";
 import {Router} from "@angular/router";
 import {
-  NOTEPAD_CREATE_START,
+  NOTEPAD_CREATE_START, NOTEPAD_DELETE_START,
   NOTEPAD_LIST_LOAD_START,
   NOTEPAD_UPDATE_START,
   NotePadCreateError,
   NotePadCreateStart,
-  NotePadCreateSuccess,
+  NotePadCreateSuccess, NotePadDeleteError, NotePadDeleteSuccess,
   NotePadListLoadError,
   NotePadListLoadStart,
   NotePadListLoadSuccess,
@@ -66,6 +66,29 @@ export default class NotePadEffects {
         }),
         catchError((errors) => {
           return of(new NotePadUpdateError(errors.error.errors));
+        })
+      );
+    }),
+    tap((result) => {
+      this.store.dispatch(new GlobalProgressHide());
+    })
+  );
+
+  @Effect()
+  deletingStart: Observable<Action> = this.actions.pipe(
+    ofType(NOTEPAD_DELETE_START),
+    tap((action) => {
+      this.store.dispatch(new GlobalProgressShow());
+    }),
+    mergeMap((action: NotePadDeleteSuccess) => {
+      const { notePad } = action;
+
+      return this.service.remove(notePad).pipe(
+        map(() => {
+          return new NotePadDeleteSuccess(notePad);
+        }),
+        catchError((errors) => {
+          return of(new NotePadDeleteError(notePad, errors.error.errors));
         })
       );
     }),
