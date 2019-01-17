@@ -5,8 +5,12 @@ import {NotePad} from "./model/note-pad.model";
 export interface State {
   createdNotePad: NotePad;
   createNotePadErrors: Object;
-
   initCreation: Boolean;
+
+  updatedNotePad: NotePad;
+  updateNotePadErrors: Object;
+  editingNotePad: NotePad;
+  initEdition: Boolean;
 
   list: Array<NotePad>;
   listErrors: Object;
@@ -15,8 +19,12 @@ export interface State {
 const initialState: State = {
   createdNotePad: null,
   createNotePadErrors: {},
-
   initCreation: false,
+
+  updatedNotePad: null,
+  updateNotePadErrors: {},
+  editingNotePad: null,
+  initEdition: false,
 
   list: [],
   listErrors: {}
@@ -80,6 +88,40 @@ export function reducer(state: State = initialState, action: NotePadActions) {
         ...state,
         list: [],
         listErrors: action.errors
+      };
+
+    case actions.NOTEPAD_EDITING_INIT:
+
+      return {
+        ...state,
+        editingNotePad: action.notePad,
+        updatedNotePad: null,
+        updateNotePadErrors: {},
+        initEdition: true
+      };
+
+    case actions.NOTEPAD_EDITING_DISPOSE:
+
+      return {
+        ...state,
+        editingNotePad: null,
+        initEdition: false
+      };
+
+    case actions.NOTEPAD_UPDATE_SUCCESS:
+
+      return {
+        ...state,
+        updatedNotePad: action.notePad,
+        updateNotePadErrors: {}
+      };
+
+    case actions.NOTEPAD_UPDATE_ERROR:
+
+      return {
+        ...state,
+        updatedNotePad: null,
+        updateNotePadErrors: action.errors
       };
 
     default:

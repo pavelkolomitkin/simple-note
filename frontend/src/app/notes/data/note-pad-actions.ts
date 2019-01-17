@@ -8,6 +8,12 @@ export const NOTEPAD_CREATE_START = 'NOTEPAD_CREATE_START';
 export const NOTEPAD_CREATE_SUCCESS = 'NOTEPAD_CREATE_SUCCESS';
 export const NOTEPAD_CREATE_ERROR = 'NOTEPAD_CREATE_ERROR';
 
+export const NOTEPAD_EDITING_INIT = 'NOTEPAD_EDITING_INIT';
+export const NOTEPAD_EDITING_DISPOSE = 'NOTEPAD_EDITING_DISPOSE';
+export const NOTEPAD_UPDATE_START = 'NOTEPAD_UPDATE_START';
+export const NOTEPAD_UPDATE_SUCCESS = 'NOTEPAD_UPDATE_SUCCESS';
+export const NOTEPAD_UPDATE_ERROR = 'NOTEPAD_UPDATE_ERROR';
+
 export const NOTEPAD_LIST_LOAD_START = 'NOTEPAD_LIST_LOAD_START';
 export const NOTEPAD_LIST_LOAD_SUCCESS = 'NOTEPAD_LIST_LOAD_SUCCESS';
 export const NOTEPAD_LIST_LOAD_ERROR = 'NOTEPAD_LIST_LOAD_ERROR';
@@ -57,7 +63,8 @@ export class NotePadListLoadStart implements Action
   constructor(public page: number = 1, public params: Object = {}) {}
 }
 
-export class NotePadListLoadSuccess implements Action {
+export class NotePadListLoadSuccess implements Action
+{
   readonly type = NOTEPAD_LIST_LOAD_SUCCESS;
 
   constructor(public list: Array<NotePad>, totalNumber: number) {}
@@ -66,6 +73,40 @@ export class NotePadListLoadSuccess implements Action {
 export class NotePadListLoadError implements Action
 {
   readonly type = NOTEPAD_LIST_LOAD_ERROR;
+
+  constructor(public errors: Object) {}
+}
+
+export class NotePadEditingInit implements Action
+{
+  readonly type = NOTEPAD_EDITING_INIT;
+
+  constructor(public notePad: NotePad) {}
+}
+
+export class NotePadEditingDispose implements Action
+{
+  readonly type = NOTEPAD_EDITING_DISPOSE;
+}
+
+export class NotePadUpdateStart implements Action
+{
+  readonly type = NOTEPAD_UPDATE_START;
+
+  constructor(public notePad: NotePad) {}
+}
+
+export class NotePadUpdateSuccess implements Action
+{
+  readonly type = NOTEPAD_UPDATE_SUCCESS;
+
+  constructor(public notePad: NotePad) {}
+}
+
+
+export class NotePadUpdateError implements Action
+{
+  readonly type = NOTEPAD_UPDATE_ERROR;
 
   constructor(public errors: Object) {}
 }
@@ -81,4 +122,10 @@ export type NotePadActions = NotePadCreateStart
                 | NotePadListLoadStart
                 | NotePadListLoadSuccess
                 | NotePadListLoadError
+
+                | NotePadEditingInit
+                | NotePadEditingDispose
+                | NotePadUpdateStart
+                | NotePadUpdateSuccess
+                | NotePadUpdateError
 ;

@@ -5,11 +5,11 @@
       class="form-control"
       id="notePadTitle"
       placeholder="Note Pad Title"
-      ngModel
+      [(ngModel)]="notePad.title"
       name="title"
       required
     >
     <app-form-field-error-list [field]="'title'" [errors]="errors"></app-form-field-error-list>
   </div>
-  <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+  <button type="submit" class="btn btn-primary" >Submit</button>
 </form>

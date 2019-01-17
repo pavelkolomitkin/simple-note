@@ -14,12 +14,7 @@ class NotePadType extends CommonType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'multiple' => false,
-                'by_reference' => false
-            ]);
+            ->add('title');
     }
 
     public function configureOptions(OptionsResolver $resolver)

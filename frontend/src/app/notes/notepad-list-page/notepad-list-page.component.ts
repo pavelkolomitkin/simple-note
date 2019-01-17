@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NotePad} from "../data/model/note-pad.model";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../app.state";
-import {NotePadListLoadStart} from "../data/note-pad-actions";
+import {NotePadEditingInit, NotePadListLoadStart} from "../data/note-pad-actions";
 import {map} from "rxjs/operators";
 import {Subscription} from "rxjs";
 
@@ -50,7 +50,7 @@ export class NotepadListPageComponent implements OnInit, OnDestroy {
 
   onEditHandler(notePad: NotePad)
   {
-
+    this.store.dispatch(new NotePadEditingInit(notePad));
   }
 
   onDeleteHandler(notePad: NotePad)

@@ -11,6 +11,8 @@ export class NotepadFormComponent implements OnInit {
 
   @Input() errors: Object = {};
 
+  @Input() notePad: NotePad;
+
   @Output('onSubmit') onSubmitEvent: EventEmitter<NotePad> = new EventEmitter();
 
   constructor() { }
@@ -21,11 +23,7 @@ export class NotepadFormComponent implements OnInit {
 
   onSubmit(form: NgForm)
   {
-    const notePad: NotePad = {
-      title: form.value.title
-    };
-
-    this.onSubmitEvent.emit(notePad);
+    this.onSubmitEvent.emit(this.notePad);
   }
 
 

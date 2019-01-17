@@ -57,3 +57,9 @@ services:
             - method: setMailer
               arguments:
                   - '@app.service.mailer'
+
+    App\Service\EntityManager\NotePadManager:
+        calls:
+            - method: setTokenStorage
+              arguments:
+                  - '@security.token_storage'

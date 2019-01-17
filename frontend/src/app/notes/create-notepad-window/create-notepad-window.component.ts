@@ -16,10 +16,15 @@ export class CreateNotepadWindowComponent implements OnInit, OnDestroy {
   @ViewChild('modalWindow') modalWindowTemplate: TemplateRef<any>;
   modalWindow: NgbModalRef = null;
 
+  notePad: NotePad = {
+    title: ''
+  };
+
   errors: Object = {};
 
   notePadCreateSuccessSubscription: Subscription;
   notePadCreateErrorSubscription: Subscription;
+  notePadInitCreationSubscription: Subscription;
 
   constructor(
     private store: Store<State>,
@@ -41,7 +46,7 @@ export class CreateNotepadWindowComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.store.pipe(select(state => state.notePad.initCreation)).subscribe(
+    this.notePadInitCreationSubscription = this.store.pipe(select(state => state.notePad.initCreation)).subscribe(
       (isWindowShown) => {
         if (isWindowShown)
         {
@@ -75,6 +80,7 @@ export class CreateNotepadWindowComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.notePadCreateSuccessSubscription.unsubscribe();
     this.notePadCreateErrorSubscription.unsubscribe();
+    this.notePadInitCreationSubscription.unsubscribe();
   }
 
   onFormSubmitHandler(notePad: NotePad)

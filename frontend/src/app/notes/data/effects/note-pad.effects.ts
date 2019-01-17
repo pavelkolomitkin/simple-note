@@ -9,9 +9,15 @@ import {Router} from "@angular/router";
 import {
   NOTEPAD_CREATE_START,
   NOTEPAD_LIST_LOAD_START,
+  NOTEPAD_UPDATE_START,
   NotePadCreateError,
   NotePadCreateStart,
-  NotePadCreateSuccess, NotePadListLoadError, NotePadListLoadStart, NotePadListLoadSuccess, NotePadResetCreated
+  NotePadCreateSuccess,
+  NotePadListLoadError,
+  NotePadListLoadStart,
+  NotePadListLoadSuccess,
+  NotePadResetCreated, NotePadUpdateError,
+  NotePadUpdateStart, NotePadUpdateSuccess
 } from "../note-pad-actions";
 import {NotePadService} from "../../services/note-pad.service";
 import {NotePad} from "../model/note-pad.model";
@@ -45,12 +51,35 @@ export default class NotePadEffects {
   );
 
   @Effect()
+  updatingStart: Observable<Action> = this.actions.pipe(
+    ofType(NOTEPAD_UPDATE_START),
+    tap((action) => {
+      this.store.dispatch(new GlobalProgressShow());
+    }),
+    mergeMap((action: NotePadUpdateStart) => {
+
+      const { notePad } = action;
+
+      return this.service.update(notePad).pipe(
+        map((notePad: NotePad) => {
+          return new NotePadUpdateSuccess(notePad);
+        }),
+        catchError((errors) => {
+          return of(new NotePadUpdateError(errors.error.errors));
+        })
+      );
+    }),
+    tap((result) => {
+      this.store.dispatch(new GlobalProgressHide());
+    })
+  );
+
+  @Effect()
   listLoadStart: Observable<Action> = this.actions.pipe(
     ofType(NOTEPAD_LIST_LOAD_START),
     tap((action: NotePadListLoadStart) => {
       if (action.page === 1)
       {
-        console.log('------------------------------');
         this.store.dispatch(new GlobalProgressShow());
       }
     }),
