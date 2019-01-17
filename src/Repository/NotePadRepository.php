@@ -27,12 +27,18 @@ class NotePadRepository extends ServiceEntityRepository
      */
     public function getSearchQuery(array $criteria = []): Query
     {
-        $builder = $this->createQueryBuilder('notePad');
+        $builder = $this->createQueryBuilder('np');
 
-        $this->handleSearchTitleParameter($builder, $criteria);
-        $this->handleSearchOwnerParameter($builder, $criteria);
+        $this->handleSearchTitleParameter($builder, $criteria, 'np');
+        $this->handleSearchOwnerParameter($builder, $criteria, 'np');
 
-        $builder->orderBy('notePad.createdAt', 'DESC');
+        $builder
+            ->leftJoin('np.notes', 'note', 'WITH')
+            ->groupBy('np.id')
+            ->select('np as notePad')
+            ->addSelect('COUNT(note) as noteNumber');
+
+        $builder->orderBy('np.createdAt', 'DESC');
 
         return $builder->getQuery();
     }

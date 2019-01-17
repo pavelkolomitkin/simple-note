@@ -52,8 +52,18 @@ export class NotePadService
     );
 
 
-    return this.http.get<{notePads: Array<NotePad>, total: number}>('/notepad/list', {
+    return this.http.get<{notePads:Array<{notePad: NotePad, noteNumber: number}>, total: number}>('/notepad/list', {
       params
-    });
+    }).pipe(
+      map(({notePads, total}) => {
+        return {
+          notePads: notePads.map(({notePad, noteNumber}) => {
+            notePad.noteNumber = noteNumber;
+            return notePad;
+          }),
+            total: total
+        }
+      })
+    );
   }
 }
