@@ -8,7 +8,9 @@ import {Note} from "../data/model/note.model";
 })
 export class CreateNotePageComponent implements OnInit {
 
-  note: Note = {} as Note;
+  note: Note = {
+    attachments: []
+  } as Note;
 
   constructor() { }
 

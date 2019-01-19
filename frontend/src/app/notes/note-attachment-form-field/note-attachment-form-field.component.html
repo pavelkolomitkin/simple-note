@@ -6,7 +6,7 @@
        (change)="onFilesSelectHandler($event.target.files)">
 
 <div class="complete-attachment-list">
-  <app-completed-attachment *ngFor="let completed of completedAttachments" [attachment]="completed"></app-completed-attachment>
+  <app-completed-attachment *ngFor="let completed of note.attachments" [attachment]="completed"></app-completed-attachment>
 </div>
 
 <div class="uploading-attachment-list">
