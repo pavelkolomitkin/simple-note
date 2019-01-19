@@ -15,7 +15,6 @@ export class NoteAttachmentService {
       const formData: FormData = new FormData();
       formData.append('imageFile', attachment.file);
 
-      // 'enctype': 'multipart/form-data; boundary=----WebKitFormBoundaryuL67FWkv1CA'
       const request = new HttpRequest(
         'POST', '/note-attachment/create',
         formData,
@@ -37,15 +36,17 @@ export class NoteAttachmentService {
           }
           else if (event instanceof HttpResponse)
           {
-            debugger;
+            //debugger;
             // success
+            attachment.uploaded = event.body['attachment'];
+            observer.next(attachment);
             console.log('------------------------------------- UPLOADING SUCCESS ---------------------------');
             console.log(event);
             console.log('-----------------------------------// UPLOADING SUCCESS ---------------------------');
           }
         },
         (errors) => {
-          debugger;
+          //debugger;
           console.log('------------------------------------- UPLOADING ERRORS ---------------------------');
           console.log(errors);
           console.log('-----------------------------------// UPLOADING ERRORS ---------------------------');
@@ -53,7 +54,7 @@ export class NoteAttachmentService {
           observer.error(attachment);
         },
         () => {
-          debugger;
+          //debugger;
           console.log('--------------------------- Uploading is complete --------------------------------');
         }
       );

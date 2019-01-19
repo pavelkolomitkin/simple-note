@@ -1,0 +1,11 @@
+<div class="uploading-attachment-item">
+  <div class="preview-container">
+    <img [src]="imageUrl" />
+  </div>
+  <div class="uploading-progress-container">
+    <div class="progress" [ngStyle]="{width: attachment.percentageProgress + '%'}"></div>
+  </div>
+  <div class="uploading-attachment-errors" *ngIf="attachment.errors !== null">
+    <div class="uploading-attachment-error">{{ attachment.errors }}</div>
+  </div>
+</div>

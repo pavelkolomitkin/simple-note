@@ -1,10 +1,15 @@
+import {NoteAttachment} from "./note-attachment.model";
 
 export class UploadNoteAttachment {
+
+  public uploaded: NoteAttachment = null;
 
   public uploadedBytes: number;
   public totalSizeBytes: number;
 
-  public errors: Object;
+  public errors: Object = null;
+
+  public percentageProgress: number = 0;
 
   constructor(public id: string, public file: File) {}
 
@@ -13,11 +18,8 @@ export class UploadNoteAttachment {
     this.uploadedBytes = uploadedBytes;
     this.totalSizeBytes = totalSizeBytes;
 
-    return this;
-  }
+    this.percentageProgress = Math.round(100 * this.uploadedBytes / this.totalSizeBytes);
 
-  public get percentageProgress(): number
-  {
-    return Math.round(100 * this.uploadedBytes / this.totalSizeBytes);
+    return this;
   }
 }

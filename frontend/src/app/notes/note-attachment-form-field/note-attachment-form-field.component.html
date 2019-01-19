@@ -4,3 +4,11 @@
        accept="image/jpeg,image/png,image/gif"
        [multiple]="true"
        (change)="onFilesSelectHandler($event.target.files)">
+
+<div class="complete-attachment-list">
+  <app-completed-attachment *ngFor="let completed of completedAttachments" [attachment]="completed"></app-completed-attachment>
+</div>
+
+<div class="uploading-attachment-list">
+  <app-uploading-attachment *ngFor="let uploadingItem of uploadingAttachments | async" [attachment]="uploadingItem"></app-uploading-attachment>
+</div>

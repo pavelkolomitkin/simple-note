@@ -1,4 +1,5 @@
 
 export interface NoteAttachment {
-  id?: number
+  id?: number;
+  createdAt: number
 }

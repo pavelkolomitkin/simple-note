@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
-import { NoteAttachment } from './model/note-attachment.model';
-import {UploadNoteAttachment} from "./model/upload-note-attachment.model";
+import {UploadNoteAttachment} from './model/upload-note-attachment.model';
 
 export const NOTE_ATTACHMENT_UPLOAD_RESET = 'NOTE_ATTACHMENT_UPLOAD_RESET';
 export const NOTE_ATTACHMENT_UPLOAD_SELECT = 'NOTE_ATTACHMENT_UPLOAD_SELECT';
@@ -31,7 +30,7 @@ export class NoteAttachmentUploadComplete implements Action
 {
   readonly type = NOTE_ATTACHMENT_UPLOAD_COMPLETE;
 
-  constructor(public attachment: NoteAttachment) {}
+  constructor(public attachment: UploadNoteAttachment) {}
 }
 
 export class NoteAttachmentUploadError implements Action

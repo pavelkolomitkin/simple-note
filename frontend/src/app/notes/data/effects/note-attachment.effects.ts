@@ -25,15 +25,15 @@ export class NoteAttachmentEffects
     mergeMap((action: NoteAttachmentUploadSelect) => {
 
       return this.service.upload(action.attachment).pipe(
-        map((attachment) => {
+        map((attachment: UploadNoteAttachment) => {
           //debugger
-          if (attachment instanceof UploadNoteAttachment)
+          if (attachment.uploaded !== null)
           {
-            return new NoteAttachmentUploadProgress(attachment);
+            return new NoteAttachmentUploadComplete(attachment);
           }
           else
           {
-            return new NoteAttachmentUploadComplete(attachment);
+            return new NoteAttachmentUploadProgress(attachment);
           }
         }),
         catchError((attachment) => {

@@ -3,7 +3,7 @@ import {UploadNoteAttachment} from './model/upload-note-attachment.model';
 
 
 export interface State {
-  uploadingFileSet: {[s: string]: UploadNoteAttachment};
+  uploadingFileSet: Array<UploadNoteAttachment>;
   lastSelectedUploadingAttachment: UploadNoteAttachment;
   lastCompletedUploadAttachment: UploadNoteAttachment;
   lastProgressedUploadAttachment: UploadNoteAttachment;
@@ -11,7 +11,7 @@ export interface State {
 }
 
 const initialState: State = {
-  uploadingFileSet: {},
+  uploadingFileSet: [],
   lastSelectedUploadingAttachment: null,
   lastCompletedUploadAttachment: null,
   lastProgressedUploadAttachment: null,
@@ -26,7 +26,7 @@ export function reducer(state: State = initialState, action: actions.NoteAttachm
 
       return {
         ...state,
-        uploadingFileSet: {},
+        uploadingFileSet: [],
         lastSelectedUploadingAttachment: null,
         lastCompletedUploadAttachment: null,
         lastProgressedUploadAttachment: null
@@ -34,11 +34,11 @@ export function reducer(state: State = initialState, action: actions.NoteAttachm
 
     case actions.NOTE_ATTACHMENT_UPLOAD_SELECT:
 
-      state.uploadingFileSet[action.attachment.id] = action.attachment;
+      state.uploadingFileSet.push(action.attachment);
 
       return {
         ...state,
-        uploadingFileSet: { ...state.uploadingFileSet },
+        uploadingFileSet: [...state.uploadingFileSet ],
         lastSelectedUploadingAttachment: action.attachment
       };
 
@@ -51,8 +51,19 @@ export function reducer(state: State = initialState, action: actions.NoteAttachm
 
     case actions.NOTE_ATTACHMENT_UPLOAD_COMPLETE:
 
+      const completedItemIndex = state.uploadingFileSet.findIndex((item: UploadNoteAttachment) => {
+        return (item.id === action.attachment.id);
+      });
+
+      let restUploadingSet = state.uploadingFileSet;
+      if (completedItemIndex !== -1)
+      {
+        restUploadingSet.splice(completedItemIndex, 1);
+      }
+
       return {
         ...state,
+        uploadingFileSet: [...restUploadingSet],
         lastCompletedUploadAttachment: action.attachment
       };
 
@@ -60,8 +71,7 @@ export function reducer(state: State = initialState, action: actions.NoteAttachm
 
       return {
         ...state,
-
-        
+        lastErrorUploadingAttachment: action.attachment
       };
 
     default:

@@ -1,0 +1,12 @@
+.uploading-attachment-item {}
+.uploading-attachment-item .preview-container {
+  width: 150px;
+}
+.uploading-attachment-item .preview-container img {
+  width: 100%;
+}
+.uploading-attachment-item .uploading-progress-container {}
+.uploading-attachment-item .uploading-progress-container .progress {
+  background: #0000F0;
+  height: 1px;
+}
