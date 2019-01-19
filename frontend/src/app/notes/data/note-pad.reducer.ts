@@ -1,5 +1,5 @@
-import * as actions from './note-pad-actions';
-import {NotePadActions} from "./note-pad-actions";
+import * as actions from './note-pad.actions';
+import {NotePadActions} from "./note-pad.actions";
 import {NotePad} from "./model/note-pad.model";
 
 export interface State {

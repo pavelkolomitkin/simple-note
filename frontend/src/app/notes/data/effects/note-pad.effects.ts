@@ -18,7 +18,7 @@ import {
   NotePadListLoadSuccess,
   NotePadResetCreated, NotePadUpdateError,
   NotePadUpdateStart, NotePadUpdateSuccess
-} from "../note-pad-actions";
+} from "../note-pad.actions";
 import {NotePadService} from "../../services/note-pad.service";
 import {NotePad} from "../model/note-pad.model";
 

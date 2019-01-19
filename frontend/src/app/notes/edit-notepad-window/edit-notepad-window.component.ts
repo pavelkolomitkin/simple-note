@@ -4,7 +4,7 @@ import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../app.state";
 import {Subscription} from "rxjs";
-import {NotePadEditingDispose, NotePadUpdateStart} from "../data/note-pad-actions";
+import {NotePadEditingDispose, NotePadUpdateStart} from "../data/note-pad.actions";
 
 @Component({
   selector: 'app-edit-notepad-window',

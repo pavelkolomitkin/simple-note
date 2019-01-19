@@ -4,7 +4,7 @@ import {State} from '../../app.state';
 import User from '../model/user.model';
 import {Subscription} from 'rxjs';
 import {UserLogout} from "../../security/data/actions";
-import {NotePadCreationInit} from "../../notes/data/note-pad-actions";
+import {NotePadCreationInit} from "../../notes/data/note-pad.actions";
 
 @Component({
   selector: 'app-header',

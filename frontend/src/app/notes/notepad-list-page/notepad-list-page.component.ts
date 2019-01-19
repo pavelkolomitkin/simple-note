@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NotePad} from "../data/model/note-pad.model";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../app.state";
-import {NotePadDeleteInit, NotePadEditingInit, NotePadListLoadStart, NotePadListReset} from "../data/note-pad-actions";
+import {NotePadDeleteInit, NotePadEditingInit, NotePadListLoadStart, NotePadListReset} from "../data/note-pad.actions";
 import {map} from "rxjs/operators";
 import {Subscription} from "rxjs";
 

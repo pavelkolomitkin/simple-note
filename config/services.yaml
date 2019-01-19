@@ -63,3 +63,9 @@ services:
             - method: setTokenStorage
               arguments:
                   - '@security.token_storage'
+
+    App\Service\EntityManager\NoteAttachmentManager:
+        calls:
+            - method: setTokenStorage
+              arguments:
+                  - '@security.token_storage'

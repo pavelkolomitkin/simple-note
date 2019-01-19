@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Note} from "../data/model/note.model";
 
 @Component({
   selector: 'app-create-note-page',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateNotePageComponent implements OnInit {
 
+  note: Note = {} as Note;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onFormSubmit()
+  {
+
   }
 
 }

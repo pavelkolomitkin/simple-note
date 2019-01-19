@@ -3,7 +3,7 @@ import {select, Store} from "@ngrx/store";
 import {State} from "../../app.state";
 import {NotePad} from "../data/model/note-pad.model";
 import {Subscription} from "rxjs";
-import {NotePadCreateStart, NotePadCreationDispose} from "../data/note-pad-actions";
+import {NotePadCreateStart, NotePadCreationDispose} from "../data/note-pad.actions";
 import {NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

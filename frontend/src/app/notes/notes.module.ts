@@ -7,6 +7,12 @@ import { CreateNotePageComponent } from './create-note-page/create-note-page.com
 import { EditNotePageComponent } from './edit-note-page/edit-note-page.component';
 import { NotepadListPageComponent } from './notepad-list-page/notepad-list-page.component';
 import { NotepadListItemComponent } from './notepad-list-item/notepad-list-item.component';
+import { NoteFormComponent } from './note-form/note-form.component';
+import {StoreModule} from "@ngrx/store";
+import { reducer as noteAttachmentReducer } from "./data/note-attachment.reducer";
+import {EffectsModule} from "@ngrx/effects";
+import {NoteAttachmentEffects} from "./data/effects/note-attachment.effects";
+import { NoteAttachmentFormFieldComponent } from './note-attachment-form-field/note-attachment-form-field.component';
 
 @NgModule({
   declarations: [
@@ -15,11 +21,16 @@ import { NotepadListItemComponent } from './notepad-list-item/notepad-list-item.
     EditNotePageComponent,
     NotepadListPageComponent,
     NotepadListItemComponent,
+    NoteFormComponent,
+    NoteAttachmentFormFieldComponent,
   ],
   imports: [
     CommonModule,
     SharedModule,
-    NotesRoutingModule
-  ]
+    NotesRoutingModule,
+    StoreModule.forFeature('note_attachment', noteAttachmentReducer),
+    EffectsModule.forFeature([ NoteAttachmentEffects ])
+  ],
+  exports: [ StoreModule, EffectsModule ]
 })
 export class NotesModule { }

@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMSSerializer;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -24,7 +23,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class NoteAttachment
 {
-    use TimestampableEntity;
+    use SerializeTimestampableTrait;
     use SoftDeleteableEntity;
 
     /**
