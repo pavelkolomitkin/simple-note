@@ -25,6 +25,7 @@ import NotePadEffects from '../notes/data/effects/note-pad.effects';
 import {NotePadService} from '../notes/services/note-pad.service';
 import { MomentModule } from 'ngx-moment';
 import {NoteAttachmentService} from '../notes/services/note-attachment.service';
+import {NoteService} from "../notes/services/note.service";
 
 
 const httpInterceptorProviders = [
@@ -59,6 +60,7 @@ const httpInterceptorProviders = [
     httpInterceptorProviders,
     LocalStorageService,
     SecurityService,
+    NoteService,
     NotePadService,
     NoteAttachmentService,
     AppInitializerService,

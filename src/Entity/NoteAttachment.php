@@ -53,7 +53,7 @@ class NoteAttachment
     private $owner;
 
     /**
-     * @Assert\Image(maxSize="5M")
+     * @Assert\Image(maxSize="5M", mimeTypes={"image/*"})
      * @Vich\UploadableField(mapping="note_attachment", fileNameProperty="image.name", size="image.size", mimeType="image.mimeType", originalName="image.originalName", dimensions="image.dimensions")
      *
      * @var File

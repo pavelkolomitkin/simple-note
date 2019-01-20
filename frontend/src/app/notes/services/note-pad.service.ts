@@ -66,4 +66,17 @@ export class NotePadService
       })
     );
   }
+
+  public getAll()
+  {
+    return this.http.get<{notePads:Array<{notePad: NotePad, noteNumber: number}>}>('/notepad/all').pipe(
+      map(({notePads}) => {
+        return notePads.map(
+          ({notePad, noteNumber}) => {
+            notePad.noteNumber = noteNumber;
+            return notePad;
+          });
+      })
+    );
+  }
 }

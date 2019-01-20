@@ -10,11 +10,13 @@ import { NotepadListItemComponent } from './notepad-list-item/notepad-list-item.
 import { NoteFormComponent } from './note-form/note-form.component';
 import {StoreModule} from "@ngrx/store";
 import { reducer as noteAttachmentReducer } from "./data/note-attachment.reducer";
+import { reducer as noteReducer } from './data/note.reducer';
 import {EffectsModule} from "@ngrx/effects";
 import {NoteAttachmentEffects} from "./data/effects/note-attachment.effects";
 import { NoteAttachmentFormFieldComponent } from './note-attachment-form-field/note-attachment-form-field.component';
 import { UploadingAttachmentComponent } from './note-attachment-form-field/uploading-attachment/uploading-attachment.component';
 import { CompletedAttachmentComponent } from './note-attachment-form-field/completed-attachment/completed-attachment.component';
+import {NoteEffects} from "./data/effects/note.effects";
 
 @NgModule({
   declarations: [
@@ -33,7 +35,8 @@ import { CompletedAttachmentComponent } from './note-attachment-form-field/compl
     SharedModule,
     NotesRoutingModule,
     StoreModule.forFeature('noteAttachment', noteAttachmentReducer),
-    EffectsModule.forFeature([ NoteAttachmentEffects ])
+    StoreModule.forFeature('note', noteReducer),
+    EffectsModule.forFeature([ NoteAttachmentEffects, NoteEffects ])
   ],
   exports: [ StoreModule, EffectsModule ]
 })

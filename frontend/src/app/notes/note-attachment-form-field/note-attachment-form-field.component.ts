@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {select, Store} from "@ngrx/store";
 import {State} from "../../app.state";
 import {UploadNoteAttachment} from "../data/model/upload-note-attachment.model";
@@ -6,6 +6,8 @@ import {NoteAttachmentUploadSelect} from "../data/note-attachment.actions";
 import {Observable, Subscription} from "rxjs";
 import {Note} from "../data/model/note.model";
 import {filter} from "rxjs/operators";
+import {NoteAttachment} from "../data/model/note-attachment.model";
+import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-note-attachment-form-field',
@@ -14,6 +16,9 @@ import {filter} from "rxjs/operators";
 })
 export class NoteAttachmentFormFieldComponent implements OnInit, OnDestroy {
 
+  @ViewChild('removeAlertModal') removeAttachmentModalWindowTemplate: TemplateRef<any>;
+  removeAttachmentModalWindow: NgbModalRef = null;
+
   @Input() note: Note;
 
   completeSubscription: Subscription;
@@ -21,7 +26,8 @@ export class NoteAttachmentFormFieldComponent implements OnInit, OnDestroy {
   uploadingAttachments: Observable<Array<UploadNoteAttachment>>;
 
   constructor(
-    private store: Store<State>
+    private store: Store<State>,
+    private modal: NgbModal
   )
   {
     this.uploadingAttachments = this.store.pipe(select(state => state.noteAttachment.uploadingFileSet));
@@ -53,6 +59,23 @@ export class NoteAttachmentFormFieldComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.completeSubscription.unsubscribe();
+  }
+
+  onRemoveHandler(attachment: NoteAttachment)
+  {
+    this.removeAttachmentModalWindow = this.modal.open(this.removeAttachmentModalWindowTemplate);
+    this.removeAttachmentModalWindow.result
+      .then((result) => {
+        const removingItemIndex = this.note.attachments.findIndex(item => attachment.id === item.id);
+        if (removingItemIndex !== -1)
+        {
+          this.note.attachments.splice(removingItemIndex, 1);
+        }
+
+        this.removeAttachmentModalWindow = null;
+      }, () => {
+        this.removeAttachmentModalWindow = null;
+      });
   }
 
 }

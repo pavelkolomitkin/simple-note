@@ -1,4 +1,5 @@
 <div class="note-attachment-item">
   <div>{{ attachment.id }} <span class="text-muted">Created {{ attachment.createdAt | amFromUnix }}</span></div>
   <img appSecureImage [secureUrl]="attachment.sources['previewMiddle']">
+  <span class="btn btn-danger" (click)="onRemoveClickHandler($event)"><i class="fas fa-trash-alt"></i></span>
 </div>

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NoteAttachment} from "../../data/model/note-attachment.model";
 
 @Component({
@@ -10,9 +10,16 @@ export class CompletedAttachmentComponent implements OnInit {
 
   @Input() attachment: NoteAttachment;
 
+  @Output('onRemove') removeEvent: EventEmitter<NoteAttachment> = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onRemoveClickHandler()
+  {
+    this.removeEvent.emit(this.attachment);
   }
 
 }

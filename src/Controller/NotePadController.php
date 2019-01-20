@@ -43,8 +43,12 @@ class NotePadController extends CommonController
      */
     public function index(Request $request, NotePadRepository $repository, PaginatorInterface $paginator)
     {
-        $searchCriteria = $request->query->all();
-        $searchCriteria['owner'] = $this->getUser();
+        $searchCriteria = array_merge(
+            $request->query->all(),
+            [
+                'owner' => $this->getUser()
+            ]
+        );
 
         $query = $repository->getSearchQuery($searchCriteria);
 
@@ -58,6 +62,30 @@ class NotePadController extends CommonController
             'total' => $pagination->getTotalItemCount()
         ]);
     }
+
+    /**
+     * @Route(name="notepad_all", path="/notepad/all", methods={"GET"})
+     *
+     * @param Request $request
+     * @param NotePadRepository $repository
+     * @return Response
+     */
+    public function all(Request $request, NotePadRepository $repository)
+    {
+        $searchCriteria = array_merge(
+            $request->query->all(),
+            [
+                'owner' => $this->getUser()
+            ]
+        );
+
+        $notePads = $repository->getSearchQuery($searchCriteria)->getResult();
+
+        return $this->getResponse([
+            'notePads' => $notePads
+        ]);
+    }
+
 
     /**
      * @Route(name="notepad_create", path="/notepad", methods={"POST"})

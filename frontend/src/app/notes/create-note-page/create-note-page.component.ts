@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Note} from "../data/model/note.model";
+import {NotePad} from "../data/model/note-pad.model";
 
 @Component({
   selector: 'app-create-note-page',
@@ -9,6 +10,7 @@ import {Note} from "../data/model/note.model";
 export class CreateNotePageComponent implements OnInit {
 
   note: Note = {
+    notePad: {} as NotePad,
     attachments: []
   } as Note;
 

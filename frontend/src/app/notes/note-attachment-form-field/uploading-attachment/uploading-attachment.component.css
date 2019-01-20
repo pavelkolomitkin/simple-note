@@ -5,8 +5,15 @@
 .uploading-attachment-item .preview-container img {
   width: 100%;
 }
-.uploading-attachment-item .uploading-progress-container {}
-.uploading-attachment-item .uploading-progress-container .progress {
+.uploading-attachment-item .uploading-progress-container {
+  position: relative;
+}
+.uploading-attachment-item .uploading-progress-container .progress-number {
+  position: absolute;
+  right: 0;
+  z-index: 9999;
+}
+.uploading-attachment-item .uploading-progress-container .progress-line {
   background: #0000F0;
   height: 1px;
 }
