@@ -5,6 +5,8 @@ namespace App\Event\Subscriber;
 use App\Entity\NoteAttachment;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 
@@ -22,10 +24,16 @@ class NoteAttachmentSerializeSubscriber implements EventSubscriberInterface
      */
     private $pictureManager;
 
-    public function __construct(UploaderHelper $uploaderHelper, CacheManager $pictureManager)
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private $router;
+
+    public function __construct(UploaderHelper $uploaderHelper, CacheManager $pictureManager, UrlGeneratorInterface $router)
     {
         $this->uploaderHelper = $uploaderHelper;
         $this->pictureManager = $pictureManager;
+        $this->router = $router;
     }
 
     /**
@@ -66,11 +74,16 @@ class NoteAttachmentSerializeSubscriber implements EventSubscriberInterface
 
         if (!empty($originalAsset))
         {
-            $sources['original'] = $originalAsset;
-            $sources['previewSmall'] = $this->pictureManager->getBrowserPath($originalAsset, 'note_attachment_preview_small');
-            $sources['previewMiddle'] = $this->pictureManager->getBrowserPath($originalAsset, 'note_attachment_preview_middle');
-            $sources['previewDetails'] = $this->pictureManager->getBrowserPath($originalAsset, 'note_attachment_preview_details');
-            $sources['previewNormal'] = $this->pictureManager->getBrowserPath($originalAsset, 'note_attachment_normal');
+            //$this->router->generateUrl();
+            $sources['original'] = $this->router->generate(
+                'note_attachment_download',
+                ['id' => $attachment->getId()],
+                RouterInterface::ABSOLUTE_URL
+            );
+//            $sources['previewSmall'] = $this->pictureManager->getBrowserPath($originalAsset, 'note_attachment_preview_small');
+//            $sources['previewMiddle'] = $this->pictureManager->getBrowserPath($originalAsset, 'note_attachment_preview_middle');
+//            $sources['previewDetails'] = $this->pictureManager->getBrowserPath($originalAsset, 'note_attachment_preview_details');
+//            $sources['previewNormal'] = $this->pictureManager->getBrowserPath($originalAsset, 'note_attachment_normal');
         }
 
         $event->getVisitor()->addData('sources', $sources);

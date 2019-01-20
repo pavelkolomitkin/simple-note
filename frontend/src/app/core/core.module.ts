@@ -15,16 +15,17 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import { reducer as coreReducer } from './data/reducer';
 import { reducer as securityReducer } from '../security/data/reducer';
-import { reducer as notePadReducer } from "../notes/data/note-pad.reducer";
+import { reducer as notePadReducer } from '../notes/data/note-pad.reducer';
 import { GlobalProgressComponent } from './global-progress/global-progress.component';
 import RegisterEffects from '../security/data/effects/register.effects';
 import AuthEffects from '../security/data/effects/auth.effects';
-import {AuthUserGuard} from "../security/services/guards/AuthUserGuard";
-import {RouterModule} from "@angular/router";
-import NotePadEffects from "../notes/data/effects/note-pad.effects";
-import {NotePadService} from "../notes/services/note-pad.service";
+import {AuthUserGuard} from '../security/services/guards/AuthUserGuard';
+import {RouterModule} from '@angular/router';
+import NotePadEffects from '../notes/data/effects/note-pad.effects';
+import {NotePadService} from '../notes/services/note-pad.service';
 import { MomentModule } from 'ngx-moment';
-import {NoteAttachmentService} from "../notes/services/note-attachment.service";
+import {NoteAttachmentService} from '../notes/services/note-attachment.service';
+
 
 const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: BaseApiUrlInterceptor, multi: true },

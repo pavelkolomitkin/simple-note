@@ -71,6 +71,9 @@ services:
                   - '@security.token_storage'
 
     App\Event\Subscriber\NoteAttachmentSerializeSubscriber:
-        arguments: ['@vich_uploader.templating.helper.uploader_helper', '@liip_imagine.cache.manager']
+        arguments:
+            - '@vich_uploader.templating.helper.uploader_helper'
+            - '@liip_imagine.cache.manager'
+            - '@router.default'
         public: true
         tags: [jms_serializer.event_subscriber]

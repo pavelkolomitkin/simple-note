@@ -97,7 +97,7 @@ export class UserInitializeSuccess implements Action
 {
   readonly type = USER_INITIALIZE_SUCCESS;
 
-  constructor(public user: User) {}
+  constructor(public user: User, public token: string) {}
 }
 
 export class UserInitializeError implements Action

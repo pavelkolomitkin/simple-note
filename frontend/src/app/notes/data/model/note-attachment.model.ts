@@ -1,5 +1,6 @@
 
 export interface NoteAttachment {
   id?: number;
-  createdAt: number
+  createdAt: number,
+  sources: {}
 }

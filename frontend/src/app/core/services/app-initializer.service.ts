@@ -1,12 +1,10 @@
 import {Injectable} from '@angular/core';
 import SecurityService from "../../security/services/security.service";
 import {LocalStorageService} from "./local-storage.service";
-import {catchError, map} from 'rxjs/operators';
 import User from "../model/user.model";
-import {of} from 'rxjs';
 import {Store} from "@ngrx/store";
 import {State} from "../../app.state";
-import {UserInitializeError, UserInitializeStart, UserInitializeSuccess} from "../../security/data/actions";
+import {UserInitializeError, UserInitializeSuccess} from "../../security/data/actions";
 
 
 export function appInitializeHandler(initializer: AppInitializerService)
@@ -39,7 +37,7 @@ export class AppInitializerService
 
       this.securityService.getAuthorizedUser().subscribe(
         (user: User) => {
-          this.store.dispatch(new UserInitializeSuccess(user));
+          this.store.dispatch(new UserInitializeSuccess(user, token));
           resolve();
         },
         (error: Object) => {
