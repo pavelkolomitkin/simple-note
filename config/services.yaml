@@ -69,3 +69,8 @@ services:
             - method: setTokenStorage
               arguments:
                   - '@security.token_storage'
+
+    App\Event\Subscriber\NoteAttachmentSerializeSubscriber:
+        arguments: ['@vich_uploader.templating.helper.uploader_helper', '@liip_imagine.cache.manager']
+        public: true
+        tags: [jms_serializer.event_subscriber]

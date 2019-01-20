@@ -22,6 +22,7 @@ fos_rest:
     enabled: true
     rules:
       - { path: ^/api, priorities: [ json ], fallback_format: json, prefer_extension: true }
+      - { path: '^/media/cache', priorities: [ 'html', '*/*'], fallback_format: ~, prefer_extension: true }
   exception:
     enabled: true
     exception_controller: 'App\Controller\ExceptionController::showAction'

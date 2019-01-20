@@ -3,3 +3,7 @@
 #    controller: App\Controller\DefaultController::index
 api_login_check:
     path: /api/security/login_check
+
+
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.yaml"

@@ -1,0 +1,37 @@
+liip_imagine:
+
+  # configure resolvers
+  resolvers:
+
+    # setup the default resolver
+    default:
+
+      # use the default web path
+      web_path: ~
+
+  # your filter sets are defined here
+  filter_sets:
+
+    # use the default cache configuration
+    cache: ~
+
+    # for note item list
+    note_attachment_preview_small:
+      quality: 75
+      filters:
+        thumbnail: { size: [50, 50], mode: outbound }
+
+    note_attachment_preview_middle:
+      quality: 75
+      filters:
+        thumbnail: { size: [100, 100], mode: outbound }
+
+    note_attachment_preview_details:
+      quality: 75
+      filters:
+        thumbnail: { size: [200, 200], mode: outbound }
+
+    note_attachment_normal:
+      quality: 75
+      filters:
+        scale: {dim: [640, 480]}
