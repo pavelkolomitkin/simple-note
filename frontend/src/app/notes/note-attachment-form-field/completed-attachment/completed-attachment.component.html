@@ -1,4 +1,4 @@
 <div class="note-attachment-item">
   <div>{{ attachment.id }} <span class="text-muted">Created {{ attachment.createdAt | amFromUnix }}</span></div>
-  <img appSecureImage [secureUrl]="attachment.sources['original']">
+  <img appSecureImage [secureUrl]="attachment.sources['previewMiddle']">
 </div>

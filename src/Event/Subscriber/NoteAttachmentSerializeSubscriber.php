@@ -13,6 +13,30 @@ use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 class NoteAttachmentSerializeSubscriber implements EventSubscriberInterface
 {
 
+    private static $sourceFilterMap = [
+        [
+            'source' => 'original',
+            'filter' => 'original',
+        ],
+        [
+            'source' => 'previewSmall',
+            'filter' => 'note_attachment_preview_small',
+        ],
+        [
+            'source' => 'previewMiddle',
+            'filter' => 'note_attachment_preview_middle',
+        ],
+        [
+            'source' => 'previewDetails',
+            'filter' => 'note_attachment_preview_details',
+        ],
+        [
+            'source' => 'previewNormal',
+            'filter' => 'note_attachment_normal',
+        ],
+
+    ];
+
     /**
      * @var UploaderHelper
      */
@@ -74,16 +98,13 @@ class NoteAttachmentSerializeSubscriber implements EventSubscriberInterface
 
         if (!empty($originalAsset))
         {
-            //$this->router->generateUrl();
-            $sources['original'] = $this->router->generate(
-                'note_attachment_download',
-                ['id' => $attachment->getId()],
-                RouterInterface::ABSOLUTE_URL
-            );
-//            $sources['previewSmall'] = $this->pictureManager->getBrowserPath($originalAsset, 'note_attachment_preview_small');
-//            $sources['previewMiddle'] = $this->pictureManager->getBrowserPath($originalAsset, 'note_attachment_preview_middle');
-//            $sources['previewDetails'] = $this->pictureManager->getBrowserPath($originalAsset, 'note_attachment_preview_details');
-//            $sources['previewNormal'] = $this->pictureManager->getBrowserPath($originalAsset, 'note_attachment_normal');
+            foreach (self::$sourceFilterMap as $item)
+            {
+                $sources[$item['source']] = $this->router->generate('note_attachment_download', [
+                    'id' => $attachment->getId(),
+                    'filter' => $item['filter']
+                ], RouterInterface::ABSOLUTE_URL);
+            }
         }
 
         $event->getVisitor()->addData('sources', $sources);

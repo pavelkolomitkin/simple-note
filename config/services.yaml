@@ -7,6 +7,7 @@ parameters:
     locale: 'en'
     noreply_mail: '%env(NO_REPLY_MAIL)%'
     email_link_host: '%env(MAIL_LINK_HOST)%'
+    upload_directory: '%env(UPLOAD_DIRECTORY)%'
 
 services:
     # default configuration for services in *this* file
@@ -77,3 +78,14 @@ services:
             - '@router.default'
         public: true
         tags: [jms_serializer.event_subscriber]
+
+    App\Service\ImageFilePathResolver:
+        arguments:
+            - '@filesystem'
+            - '%upload_directory%'
+        tags:
+            - { name: "liip_imagine.cache.resolver", resolver: 'uploaded_image_resolver' }
+
+    App\Service\ImageFilter:
+        arguments:
+            - '@liip_imagine.service.filter'

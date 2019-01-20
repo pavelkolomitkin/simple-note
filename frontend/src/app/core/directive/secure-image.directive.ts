@@ -19,8 +19,6 @@ export class SecureImageDirective implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.tokenSubscription = this.store.pipe(select(state => state.security.authorizedToken)).subscribe(
       (token: string) => {
-        debugger
-        // TODO remove http://localhost:7777/
         this.element.nativeElement.src = this.url + '?token=' + token;
       }
     );
