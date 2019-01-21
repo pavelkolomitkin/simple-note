@@ -7,7 +7,7 @@ import {NoteService} from '../../services/note.service';
 import {Observable, of} from 'rxjs';
 import {
   NOTE_CREATE_START,
-  NOTE_DELETE_START, NOTE_DETAILS_LOAD_START,
+  NOTE_DELETE_START, NOTE_DETAILS_LOAD_ERROR, NOTE_DETAILS_LOAD_START,
   NOTE_UPDATE_START,
   NoteCreateError,
   NoteCreateStart,
@@ -118,12 +118,20 @@ export class NoteEffects {
           return new NoteDetailsLoadSuccess(note);
         }),
         catchError((errors) => {
-          return of(new NoteDetailsLoadError(errors.error.errors));
+          return of(new NoteDetailsLoadError(errors));
         })
       );
     }),
     tap((result) => {
       this.store.dispatch(new GlobalProgressHide());
+    })
+  );
+
+  @Effect({dispatch: false})
+  noteDetailsLoadError: Observable<Action> = this.actions.pipe(
+    ofType(NOTE_DETAILS_LOAD_ERROR),
+    tap((action) => {
+      this.router.navigateByUrl('/404');
     })
   );
 

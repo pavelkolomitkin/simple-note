@@ -18,6 +18,7 @@ import { UploadingAttachmentComponent } from './note-attachment-form-field/uploa
 import { CompletedAttachmentComponent } from './note-attachment-form-field/completed-attachment/completed-attachment.component';
 import {NoteEffects} from "./data/effects/note.effects";
 import { NoteDetailsPageComponent } from './note-details-page/note-details-page.component';
+import { AttachmentItemComponent } from './note-details-page/attachment-item/attachment-item.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { NoteDetailsPageComponent } from './note-details-page/note-details-page.
     UploadingAttachmentComponent,
     CompletedAttachmentComponent,
     NoteDetailsPageComponent,
+    AttachmentItemComponent
   ],
   imports: [
     CommonModule,

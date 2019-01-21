@@ -7,7 +7,8 @@ const routes: Routes = [
   { path: 'security', loadChildren: './security/security.module#SecurityModule' },
   { path: 'note', loadChildren: './notes/notes.module#NotesModule', canActivate: [AuthUserGuard], canActivateChild: [AuthUserGuard] },
   { path: '', redirectTo: '/note/list', pathMatch: 'full' },
-  { path: '**', component: NotFoundPageComponent }
+  { path: '404', component: NotFoundPageComponent },
+  { path: '**', redirectTo: '404', pathMatch: 'full'}
 ];
 
 @NgModule({

@@ -100,11 +100,11 @@ class NoteController extends CommonController
     }
 
     /**
-     * @Route(name="note_delete", path="/path/{id}", methods={"DELETE"})
+     * @Route(name="note_delete", path="/note/{id}", methods={"DELETE"})
      * @ParamConverter("note", class="App\Entity\Note")
      * @param Note $note
      * @param NoteManager $manager
-     * @return NoteController|Response
+     * @return Response
      * @throws \App\Service\EntityManager\Exception\ManageEntityException
      */
     public function delete(Note $note, NoteManager $manager)
@@ -116,6 +116,6 @@ class NoteController extends CommonController
 
         $manager->remove($note);
 
-        return $this-$this->getResponse();
+        return $this->getResponse();
     }
 }

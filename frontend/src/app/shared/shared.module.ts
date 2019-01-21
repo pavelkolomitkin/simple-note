@@ -9,6 +9,8 @@ import { MomentModule } from 'ngx-moment';
 import {EditNotepadWindowComponent} from '../notes/edit-notepad-window/edit-notepad-window.component';
 import {RemoveNotepadComponent} from '../notes/remove-notepad/remove-notepad.component';
 import {SecureImageDirective} from "../core/directive/secure-image.directive";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {RemoveNoteWindowComponent} from "../notes/remove-note-window/remove-note-window.component";
 
 @NgModule({
   declarations: [
@@ -17,13 +19,15 @@ import {SecureImageDirective} from "../core/directive/secure-image.directive";
     EditNotepadWindowComponent,
     NotepadFormComponent,
     RemoveNotepadComponent,
-    SecureImageDirective
+    SecureImageDirective,
+    RemoveNoteWindowComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     InfiniteScrollModule,
-    MomentModule
+    NgbModule,
+    MomentModule,
   ],
   exports: [
     FormsModule,
@@ -34,7 +38,9 @@ import {SecureImageDirective} from "../core/directive/secure-image.directive";
     RemoveNotepadComponent,
     InfiniteScrollModule,
     MomentModule,
-    SecureImageDirective
+    NgbModule,
+    SecureImageDirective,
+    RemoveNoteWindowComponent
   ]
 })
 export class SharedModule { }

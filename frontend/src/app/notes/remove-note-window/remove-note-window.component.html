@@ -1,0 +1,16 @@
+<ng-template #modalWindow let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Remove Note</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Are you really want to remove Note <span class="text-muted">"{{ (note.content.length > 100) ? (note.content | slice:0:100) : note.content }}"</span>?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="onCancelClickHandler($event)">Cancel</button>
+    <button type="button" class="btn btn-danger" (click)="onRemoveClickHandler($event)">Remove</button>
+  </div>
+</ng-template>
+

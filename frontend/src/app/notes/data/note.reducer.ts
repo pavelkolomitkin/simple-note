@@ -15,6 +15,11 @@ export interface State
 
   noteDetails: Note;
   noteDetailsLoadErrors: Object;
+
+  noteDeleting: Note;
+
+  lastDeletedNote: Note;
+  lastDeleteErrors: Object;
 }
 
 const initialState: State = {
@@ -30,7 +35,12 @@ const initialState: State = {
   updateNoteErrors: {},
 
   noteDetails: null,
-  noteDetailsLoadErrors: {}
+  noteDetailsLoadErrors: {},
+
+  noteDeleting: null,
+
+  lastDeletedNote: null,
+  lastDeleteErrors: {}
 };
 
 
@@ -70,6 +80,14 @@ export function reducer(state: State = initialState, action: actions.NoteActions
         updateNoteErrors: action.errors
       };
 
+    case actions.NOTE_DETAILS_RESET:
+
+      return {
+        ...state,
+        noteDetails: null,
+        noteDetailsLoadErrors: {}
+      };
+
     case actions.NOTE_DETAILS_LOAD_SUCCESS:
 
       return {
@@ -102,6 +120,37 @@ export function reducer(state: State = initialState, action: actions.NoteActions
         noteList: [],
         noteListTotal: 0,
         noteListLoadErrors: action.errors
+      };
+
+    case actions.NOTE_DELETE_INIT:
+
+      return {
+        ...state,
+        noteDeleting: action.note
+      };
+
+    case actions.NOTE_DELETE_CANCEL:
+
+      return {
+        ...state,
+        noteDeleting: null
+      };
+
+    case actions.NOTE_DELETE_SUCCESS:
+
+      return {
+        ...state,
+        noteDeleting: null,
+        lastDeletedNote: action.note,
+        lastDeleteErrors: {}
+      };
+
+    case actions.NOTE_DELETE_ERROR:
+
+      return {
+        ...state,
+        lastDeletedNote: null,
+        lastDeleteErrors: action.errors
       };
 
     default:

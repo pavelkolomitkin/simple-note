@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../app.state";
 import {Observable, Subscription} from "rxjs";
 import {Note} from "../data/model/note.model";
-import {NoteDetailsLoadStart} from "../data/note.actions";
+import {NoteDeleteInit, NoteDetailsLoadStart, NoteDetailsReset} from "../data/note.actions";
+import {filter} from "rxjs/operators";
 
 @Component({
   selector: 'app-note-details-page',
@@ -13,23 +14,47 @@ import {NoteDetailsLoadStart} from "../data/note.actions";
 })
 export class NoteDetailsPageComponent implements OnInit, OnDestroy {
 
-  private note: Observable<Note>;
+  private note: Note;
 
   private noteSubscription: Subscription;
+  private idSubscription: Subscription;
+  private deleteNoteSubscription: Subscription;
 
   constructor(
     private store: Store<State>,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+
+  }
 
   ngOnInit() {
 
-    this.noteSubscription = this.route.params.subscribe(
+    this.store.dispatch(new NoteDetailsReset());
+
+    this.idSubscription = this.route.params.subscribe(
       (params) => {
-
         this.store.dispatch(new NoteDetailsLoadStart(+params['id']));
+      }
+    );
 
-        this.note = this.store.pipe(select(state => state.note.noteDetails));
+    this.noteSubscription = this.store.pipe(
+      select(state => state.note.noteDetails),
+      filter(result => result !== null)
+    ).subscribe(
+      (note: Note) => {
+        this.note = note;
+      }
+    );
+
+    this.deleteNoteSubscription = this.store.pipe(
+      select(state => state.note.lastDeletedNote),
+      filter(result => result !== null)).subscribe(
+      (deletedNote: Note) => {
+        if (this.note !== null && (deletedNote.id === this.note.id))
+        {
+          this.router.navigateByUrl('/note/list');
+        }
       }
     )
   }
@@ -37,7 +62,12 @@ export class NoteDetailsPageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
 
     this.noteSubscription.unsubscribe();
-
+    this.idSubscription.unsubscribe();
+    this.deleteNoteSubscription.unsubscribe();
   }
 
+  onRemoveClickHandler()
+  {
+    this.store.dispatch(new NoteDeleteInit(this.note));
+  }
 }

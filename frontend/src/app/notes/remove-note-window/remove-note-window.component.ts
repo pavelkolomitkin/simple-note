@@ -1,22 +1,23 @@
 import {Component, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
+import {Note} from "../data/model/note.model";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../app.state";
-import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
-import {NotePad} from "../data/model/note-pad.model";
-import {NotePadDeleteCancel, NotePadDeleteStart} from "../data/note-pad.actions";
+import {NoteDeleteCancel, NoteDeleteStart} from "../data/note.actions";
 import {Subscription} from "rxjs";
+import {filter} from "rxjs/operators";
 
 @Component({
-  selector: 'app-remove-notepad',
-  templateUrl: './remove-notepad.component.html',
-  styleUrls: ['./remove-notepad.component.css']
+  selector: 'app-remove-note-window',
+  templateUrl: './remove-note-window.component.html',
+  styleUrls: ['./remove-note-window.component.css']
 })
-export class RemoveNotepadComponent implements OnInit, OnDestroy {
+export class RemoveNoteWindowComponent implements OnInit, OnDestroy {
 
   @ViewChild('modalWindow') modalWindowTemplate: TemplateRef<any>;
   modalWindow: NgbModalRef = null;
 
-  notePad: NotePad;
+  note: Note;
 
   deletingSubscription: Subscription;
   deletedSubscription: Subscription;
@@ -24,19 +25,19 @@ export class RemoveNotepadComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<State>,
     private modalService: NgbModal
-  ) {
-
-  }
+  ) { }
 
   ngOnInit() {
 
-    this.deletingSubscription = this.store.pipe(select(state => state.notePad.deletingNotePad)).subscribe(
-      (notePad: NotePad) => {
-        if (notePad !== null)
+    this.deletingSubscription = this.store.pipe(
+      select(state => state.note),
+      filter(result => !!result),
+      select(note => note.noteDeleting)).subscribe(
+      (note: Note) => {
+        if (note !== null)
         {
-          this.notePad = notePad;
+          this.note = note;
 
-          // show modal window
           this.modalWindow = this.modalService.open(this.modalWindowTemplate);
           this.modalWindow.result.then(
             () => {
@@ -44,7 +45,7 @@ export class RemoveNotepadComponent implements OnInit, OnDestroy {
             },
             () => {
               this.modalWindow = null;
-              this.store.dispatch(new NotePadDeleteCancel());
+              this.store.dispatch(new NoteDeleteCancel());
             }
           );
         }
@@ -56,14 +57,18 @@ export class RemoveNotepadComponent implements OnInit, OnDestroy {
             this.modalWindow = null;
           }
 
-          this.notePad = null;
+          this.note = null;
         }
       }
     );
 
-    this.deletedSubscription = this.store.pipe(select(state => state.notePad.deletedNotePad)).subscribe(
-      (notePad: NotePad) => {
-        if (notePad !== null)
+    this.deletedSubscription = this.store.pipe(
+      select(state => state.note),
+      filter(result => !!result),
+      select(note => note.lastDeletedNote)
+    ).subscribe(
+      (note: Note) => {
+        if (note !== null)
         {
           if (this.modalWindow !== null)
           {
@@ -71,10 +76,11 @@ export class RemoveNotepadComponent implements OnInit, OnDestroy {
             this.modalWindow = null;
           }
 
-          this.notePad = null;
+          this.note = null;
         }
       }
     );
+
   }
 
   ngOnDestroy(): void {
@@ -82,13 +88,14 @@ export class RemoveNotepadComponent implements OnInit, OnDestroy {
     this.deletedSubscription.unsubscribe();
   }
 
-  onCancelClickHandler(event: MouseEvent)
+
+  onCancelClickHandler()
   {
-    this.store.dispatch(new NotePadDeleteCancel());
+    this.store.dispatch(new NoteDeleteCancel());
   }
 
-  onRemoveClickHandler(event: MouseEvent)
+  onRemoveClickHandler()
   {
-    this.store.dispatch(new NotePadDeleteStart(this.notePad));
+    this.store.dispatch(new NoteDeleteStart(this.note));
   }
 }

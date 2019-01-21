@@ -9,6 +9,7 @@ export const NOTE_UPDATE_START = 'NOTE_UPDATE_START';
 export const NOTE_UPDATE_SUCCESS = 'NOTE_UPDATE_SUCCESS';
 export const NOTE_UPDATE_ERROR = 'NOTE_UPDATE_ERROR';
 
+export const NOTE_DETAILS_RESET = 'NOTE_DETAILS_RESET';
 export const NOTE_DETAILS_LOAD_START = 'NOTE_DETAILS_LOAD_START';
 export const NOTE_DETAILS_LOAD_SUCCESS = 'NOTE_DETAILS_LOAD_SUCCESS';
 export const NOTE_DETAILS_LOAD_ERROR = 'NOTE_DETAILS_LOAD_ERROR';
@@ -17,6 +18,8 @@ export const NOTE_LIST_LOAD_START = 'NOTE_LIST_LOAD_START';
 export const NOTE_LIST_LOAD_SUCCESS = 'NOTE_LIST_LOAD_SUCCESS';
 export const NOTE_LIST_LOAD_ERROR = 'NOTE_LIST_LOAD_ERROR';
 
+export const NOTE_DELETE_INIT = 'NOTE_DELETE_INIT';
+export const NOTE_DELETE_CANCEL = 'NOTE_DELETE_CANCEL';
 export const NOTE_DELETE_START = 'NOTE_DELETE_START';
 export const NOTE_DELETE_SUCCESS = 'NOTE_DELETE_SUCCESS';
 export const NOTE_DELETE_ERROR = 'NOTE_DELETE_ERROR';
@@ -66,6 +69,11 @@ export class NoteUpdateError implements Action
 }
 
 
+export class NoteDetailsReset implements Action
+{
+  readonly type = NOTE_DETAILS_RESET;
+}
+
 export class NoteDetailsLoadStart implements Action
 {
   readonly type = NOTE_DETAILS_LOAD_START;
@@ -109,6 +117,18 @@ export class NoteListLoadError implements Action
 }
 
 
+export class NoteDeleteInit implements Action
+{
+  readonly type = NOTE_DELETE_INIT;
+
+  constructor(public note: Note) {}
+}
+
+export class NoteDeleteCancel implements Action
+{
+  readonly type = NOTE_DELETE_CANCEL;
+}
+
 export class NoteDeleteStart implements Action
 {
   readonly type = NOTE_DELETE_START;
@@ -138,6 +158,7 @@ export type NoteActions = NoteCreateStart
                     | NoteUpdateSuccess
                     | NoteUpdateError
 
+                    | NoteDetailsReset
                     | NoteDetailsLoadStart
                     | NoteDetailsLoadSuccess
                     | NoteDetailsLoadError
@@ -146,6 +167,8 @@ export type NoteActions = NoteCreateStart
                     | NoteListLoadSuccess
                     | NoteListLoadError
 
+                    | NoteDeleteInit
+                    | NoteDeleteCancel
                     | NoteDeleteStart
                     | NoteDeleteSuccess
                     | NoteDeleteError

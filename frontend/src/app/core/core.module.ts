@@ -1,7 +1,6 @@
 import {APP_INITIALIZER, isDevMode, NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotFoundPageComponent } from './not-found-page/not-found-page.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './header/header.component';
 import {HttpClientModule} from '@angular/common/http';
 import SecurityService from '../security/services/security.service';
@@ -43,8 +42,6 @@ const httpInterceptorProviders = [
   imports: [
     CommonModule,
     RouterModule,
-    NgbModule,
-    MomentModule,
     HttpClientModule,
     StoreModule.forRoot({
       core: coreReducer,
