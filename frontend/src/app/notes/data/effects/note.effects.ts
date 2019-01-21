@@ -7,14 +7,14 @@ import {NoteService} from '../../services/note.service';
 import {Observable, of} from 'rxjs';
 import {
   NOTE_CREATE_START,
-  NOTE_DELETE_START,
+  NOTE_DELETE_START, NOTE_DETAILS_LOAD_START,
   NOTE_UPDATE_START,
   NoteCreateError,
   NoteCreateStart,
   NoteCreateSuccess,
   NoteDeleteError,
   NoteDeleteStart,
-  NoteDeleteSuccess,
+  NoteDeleteSuccess, NoteDetailsLoadError, NoteDetailsLoadStart, NoteDetailsLoadSuccess,
   NoteUpdateError,
   NoteUpdateStart,
   NoteUpdateSuccess
@@ -47,6 +47,10 @@ export class NoteEffects {
     }),
     tap((result) => {
       this.store.dispatch(new GlobalProgressHide());
+      if (result instanceof NoteCreateSuccess)
+      {
+        this.router.navigateByUrl('/note/' + result.note.id);
+      }
     })
   );
 
@@ -91,6 +95,30 @@ export class NoteEffects {
         }),
         catchError((errors) => {
           return of(new NoteDeleteError(note, errors.error.errors));
+        })
+      );
+    }),
+    tap((result) => {
+      this.store.dispatch(new GlobalProgressHide());
+    })
+  );
+
+  @Effect()
+  noteDetailsLoadStart: Observable<Action> = this.actions.pipe(
+    ofType(NOTE_DETAILS_LOAD_START),
+    tap((action) => {
+      this.store.dispatch(new GlobalProgressShow());
+    }),
+    mergeMap((action: NoteDetailsLoadStart) => {
+
+      const { id } = action;
+
+      return this.service.get(id).pipe(
+        map((note: Note) => {
+          return new NoteDetailsLoadSuccess(note);
+        }),
+        catchError((errors) => {
+          return of(new NoteDetailsLoadError(errors.error.errors));
         })
       );
     }),

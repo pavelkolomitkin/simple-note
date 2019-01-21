@@ -28,6 +28,11 @@ export class EditNotepadWindowComponent implements OnInit, OnDestroy {
           private store: Store<State>,
           private modalService: NgbModal
   ) {
+
+  }
+
+  ngOnInit() {
+
     this.notePadUpdateSuccessSubscription = this.store.pipe(select(state => state.notePad.updatedNotePad)).subscribe(
       (notePad: NotePad) => {
         if (notePad !== null)
@@ -74,9 +79,6 @@ export class EditNotepadWindowComponent implements OnInit, OnDestroy {
         }
       }
     );
-  }
-
-  ngOnInit() {
   }
 
   ngOnDestroy(): void {

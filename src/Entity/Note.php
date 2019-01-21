@@ -21,7 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Note
 {
-    use TimestampableEntity;
+    use SerializeTimestampableTrait;
     use SoftDeleteableEntity;
 
     /**
@@ -48,8 +48,7 @@ class Note
 
     /**
      * @var NotePad
-     *
-     * @Assert\NotNull()
+     * @Assert\NotNull(message="Select a NotePad!")
      * @NoteNotePadOwnerConstraint()
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\NotePad", inversedBy="notes")
@@ -89,7 +88,7 @@ class Note
      */
     public function getContent(): string
     {
-        return $this->content;
+        return (string)$this->content;
     }
 
     /**
@@ -114,7 +113,7 @@ class Note
      * @param NotePad $notePad
      * @return Note
      */
-    public function setNotePad(NotePad $notePad = null): Note
+    public function setNotePad(NotePad $notePad = null): self
     {
         $this->notePad = $notePad;
         return $this;

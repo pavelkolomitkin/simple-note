@@ -21,7 +21,7 @@ class NoteNoteAttachmentOwnerValidator extends ConstraintValidator
     {
         if ($value->getOwner() !== $this->getUser())
         {
-            $constraint->context->addViolation('You can use only attachments uploaded by your own!');
+            $this->context->addViolation('You can use only attachments uploaded by your own!');
         }
     }
 }

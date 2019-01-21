@@ -1,7 +1,8 @@
 <label for="file">Choose File</label>
 <input type="file"
        id="file"
-       accept="jpg"
+       accept=".jpg, .png"
+       [multiple]="true"
        name="imageFile"
        (change)="onFilesSelectHandler($event.target.files)">
 

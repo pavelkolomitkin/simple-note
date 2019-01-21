@@ -11,6 +11,6 @@ class NoteNoteAttachmentOwnerConstraint extends Constraint
 {
     public function validatedBy()
     {
-        return NoteNotePadOwnerValidator::class;
+        return NoteNoteAttachmentOwnerValidator::class;
     }
 }

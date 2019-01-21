@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Note;
+use App\Entity\NoteAttachment;
+use App\Entity\NotePad;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,13 +16,13 @@ class NoteType extends CommonType
         $builder
             ->add('content')
             ->add('notePad', EntityType::class, [
-                'class' => 'App\Entity\NotePad',
+                'class' => NotePad::class,
                 'multiple' => false,
                 'by_reference' => false,
                 'expanded' => true
             ])
             ->add('attachments', EntityType::class, [
-                'class' => 'App\Entity\NoteAttachment',
+                'class' => NoteAttachment::class,
                 'multiple' => true,
                 'by_reference' => false,
                 'expanded' => true

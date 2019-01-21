@@ -15,7 +15,7 @@ import {Observable} from "rxjs";
 export class NoteFormComponent implements OnInit {
 
   @Input() note: Note;
-  @Input() errors = {};
+  @Input() errors;
 
   notePads: Observable<Array<NotePad>>;
 
@@ -37,7 +37,7 @@ export class NoteFormComponent implements OnInit {
 
   onSubmitHandler(form: NgForm)
   {
-    debugger;
+    this.submitEvent.emit(this.note);
   }
 
 }

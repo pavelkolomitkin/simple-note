@@ -20,6 +20,7 @@ export class NoteAttachmentFormFieldComponent implements OnInit, OnDestroy {
   removeAttachmentModalWindow: NgbModalRef = null;
 
   @Input() note: Note;
+  @Input() errors;
 
   completeSubscription: Subscription;
 
@@ -30,19 +31,20 @@ export class NoteAttachmentFormFieldComponent implements OnInit, OnDestroy {
     private modal: NgbModal
   )
   {
+
+  }
+
+  ngOnInit() {
     this.uploadingAttachments = this.store.pipe(select(state => state.noteAttachment.uploadingFileSet));
 
     this.completeSubscription = this.store.pipe(
       select(state => state.noteAttachment.lastCompletedUploadAttachment),
       filter(result => (result !== null))
-      ).subscribe(
+    ).subscribe(
       (completed: UploadNoteAttachment) => {
-          this.note.attachments.push(completed.uploaded);
+        this.note.attachments.push(completed.uploaded);
       }
     );
-  }
-
-  ngOnInit() {
   }
 
   onFilesSelectHandler(files: Array<File>)

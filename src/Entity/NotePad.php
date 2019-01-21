@@ -101,4 +101,9 @@ class NotePad
     {
         return $this->notes;
     }
+
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
 }

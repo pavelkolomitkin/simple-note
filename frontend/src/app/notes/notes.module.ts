@@ -17,6 +17,7 @@ import { NoteAttachmentFormFieldComponent } from './note-attachment-form-field/n
 import { UploadingAttachmentComponent } from './note-attachment-form-field/uploading-attachment/uploading-attachment.component';
 import { CompletedAttachmentComponent } from './note-attachment-form-field/completed-attachment/completed-attachment.component';
 import {NoteEffects} from "./data/effects/note.effects";
+import { NoteDetailsPageComponent } from './note-details-page/note-details-page.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import {NoteEffects} from "./data/effects/note.effects";
     NoteAttachmentFormFieldComponent,
     UploadingAttachmentComponent,
     CompletedAttachmentComponent,
+    NoteDetailsPageComponent,
   ],
   imports: [
     CommonModule,

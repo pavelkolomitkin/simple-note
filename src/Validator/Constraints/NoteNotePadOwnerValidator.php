@@ -24,9 +24,9 @@ class NoteNotePadOwnerValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if ($value->getUser() !== $this->getUser())
+        if ((empty($value)) || $value->getUser() !== $this->getUser())
         {
-            $constraint->context->addViolation('You can use only your own notepad!');
+            $this->context->addViolation('You can use only your own notepad!');
         }
     }
 }

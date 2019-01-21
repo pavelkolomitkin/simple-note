@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Observable, of} from "rxjs";
 
 @Component({
   selector: 'app-form-field-error-list',
@@ -7,13 +8,26 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class FormFieldErrorListComponent implements OnInit {
 
-  @Input('errors') errorStore: Object = {};
+  _errorStore: Observable<{}>;
 
   @Input('field') fieldName: string;
 
   constructor() { }
 
+  @Input('errors') set errorStore(errors: any)
+  {
+    if (!(errors instanceof Observable))
+    {
+      this._errorStore = of(errors);
+    }
+    else
+    {
+      this._errorStore = errors;
+    }
+  }
+
   ngOnInit() {
+
   }
 
 }

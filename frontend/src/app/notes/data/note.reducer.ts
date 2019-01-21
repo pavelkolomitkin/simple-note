@@ -8,7 +8,7 @@ export interface State
   noteListLoadErrors: Object;
 
   createdNote: Note;
-  createNoteError: Object;
+  createNoteErrors: Object;
 
   updatedNote: Note;
   updateNoteErrors: Object;
@@ -24,7 +24,7 @@ const initialState: State = {
   noteListLoadErrors: {},
 
   createdNote: null,
-  createNoteError: {},
+  createNoteErrors: {},
 
   updatedNote: null,
   updateNoteErrors: {},
@@ -43,7 +43,7 @@ export function reducer(state: State = initialState, action: actions.NoteActions
       return {
         ...state,
         createdNote: action.note,
-        createNoteError: {}
+        createNoteErrors: {}
       };
 
     case actions.NOTE_CREATE_ERROR:
@@ -51,7 +51,7 @@ export function reducer(state: State = initialState, action: actions.NoteActions
       return {
         ...state,
         createdNote: null,
-        createNoteError: action.errors
+        createNoteErrors: action.errors
       };
 
     case actions.NOTE_UPDATE_SUCCESS:
