@@ -1,4 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {select, Store} from "@ngrx/store";
+import {State} from "../../app.state";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-global-progress',
@@ -7,11 +10,14 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class GlobalProgressComponent implements OnInit {
 
-  @Input() isVisible: Boolean;
+  isVisible: Observable<Boolean>;
 
-  constructor() { }
+  constructor(private store: Store<State>) { }
 
   ngOnInit() {
+
+    this.isVisible = this.store.pipe(select(state => (state.core.globalProgressLoaders > 0)));
+
   }
 
 }
