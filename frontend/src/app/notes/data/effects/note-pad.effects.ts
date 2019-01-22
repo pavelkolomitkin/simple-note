@@ -4,10 +4,10 @@ import {Action, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {mergeMap, catchError, map, tap} from 'rxjs/operators';
 import {State} from "../../../app.state";
-import {GlobalProgressHide, GlobalProgressShow} from "../../../core/data/actions";
+import {GlobalNotifySuccessMessage, GlobalProgressHide, GlobalProgressShow} from "../../../core/data/actions";
 import {Router} from "@angular/router";
 import {
-  NOTEPAD_CREATE_START,
+  NOTEPAD_CREATE_START, NOTEPAD_CREATE_SUCCESS,
   NOTEPAD_DELETE_START,
   NOTEPAD_DETAILS_LOAD_START,
   NOTEPAD_LIST_LOAD_START,
@@ -29,6 +29,7 @@ import {
 } from "../note-pad.actions";
 import {NotePadService} from "../../services/note-pad.service";
 import {NotePad} from "../model/note-pad.model";
+import {NotifyMessage} from "../../../core/data/model/notify-message.model";
 
 @Injectable()
 export default class NotePadEffects {
@@ -55,6 +56,14 @@ export default class NotePadEffects {
     }),
     tap((result) => {
       this.store.dispatch(new GlobalProgressHide());
+    })
+  );
+
+  @Effect({dispatch: false})
+  successCreated: Observable<Action> = this.actions.pipe(
+    ofType(NOTEPAD_CREATE_SUCCESS),
+    tap((action: NotePadCreateSuccess) => {
+      this.store.dispatch(new GlobalNotifySuccessMessage(new NotifyMessage('NotePad "' + action.notePad.title + '" was created!')));
     })
   );
 
