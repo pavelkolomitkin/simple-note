@@ -7,17 +7,25 @@ import {State} from "../../../app.state";
 import {GlobalProgressHide, GlobalProgressShow} from "../../../core/data/actions";
 import {Router} from "@angular/router";
 import {
-  NOTEPAD_CREATE_START, NOTEPAD_DELETE_START,
+  NOTEPAD_CREATE_START,
+  NOTEPAD_DELETE_START,
+  NOTEPAD_DETAILS_LOAD_START,
   NOTEPAD_LIST_LOAD_START,
   NOTEPAD_UPDATE_START,
   NotePadCreateError,
   NotePadCreateStart,
-  NotePadCreateSuccess, NotePadDeleteError, NotePadDeleteSuccess,
+  NotePadCreateSuccess,
+  NotePadDeleteError,
+  NotePadDeleteSuccess,
+  NotePadDetailsLoadError,
+  NotePadDetailsLoadStart,
+  NotePadDetailsLoadSuccess,
   NotePadListLoadError,
   NotePadListLoadStart,
   NotePadListLoadSuccess,
-  NotePadResetCreated, NotePadUpdateError,
-  NotePadUpdateStart, NotePadUpdateSuccess
+  NotePadUpdateError,
+  NotePadUpdateStart,
+  NotePadUpdateSuccess
 } from "../note-pad.actions";
 import {NotePadService} from "../../services/note-pad.service";
 import {NotePad} from "../model/note-pad.model";
@@ -100,12 +108,6 @@ export default class NotePadEffects {
   @Effect()
   listLoadStart: Observable<Action> = this.actions.pipe(
     ofType(NOTEPAD_LIST_LOAD_START),
-    tap((action: NotePadListLoadStart) => {
-      if (action.page === 1)
-      {
-        this.store.dispatch(new GlobalProgressShow());
-      }
-    }),
     mergeMap((action: NotePadListLoadStart) => {
 
       return this.service.getList(action.params, action.page).pipe(
@@ -116,9 +118,23 @@ export default class NotePadEffects {
           return of(new NotePadListLoadError(errors));
         })
       );
-    }),
-    tap((action) => {
-      this.store.dispatch(new GlobalProgressHide());
+    })
+  );
+
+  @Effect()
+  detailsLoadStart: Observable<Action> = this.actions.pipe(
+    ofType(NOTEPAD_DETAILS_LOAD_START),
+    mergeMap((action: NotePadDetailsLoadStart) => {
+      const { id } = action;
+
+      return this.service.get(id).pipe(
+        map((notePad: NotePad) => {
+          return new NotePadDetailsLoadSuccess(notePad);
+        }),
+        catchError((errors) => {
+          return of(new NotePadDetailsLoadError(errors.error.errors));
+        })
+      );
     })
   );
 

@@ -25,7 +25,7 @@ export interface State
 const initialState: State = {
 
   noteList: [],
-  noteListTotal: 0,
+  noteListTotal: null,
   noteListLoadErrors: {},
 
   createdNote: null,
@@ -112,6 +112,15 @@ export function reducer(state: State = initialState, action: actions.NoteActions
         noteDetailsLoadErrors: action.errors
       };
 
+    case actions.NOTE_LIST_RESET:
+
+      return {
+        ...state,
+        noteList: [],
+        noteListTotal: null,
+        noteListLoadErrors: {}
+      };
+
     case actions.NOTE_LIST_LOAD_SUCCESS:
 
       return {
@@ -126,7 +135,7 @@ export function reducer(state: State = initialState, action: actions.NoteActions
       return {
         ...state,
         noteList: [],
-        noteListTotal: 0,
+        noteListTotal: null,
         noteListLoadErrors: action.errors
       };
 

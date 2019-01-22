@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output} from '@angular/core';
 import {NotePad} from "../data/model/note-pad.model";
 
 @Component({
@@ -19,7 +19,7 @@ export class NotepadListItemComponent implements OnInit {
   ngOnInit() {
   }
 
-  onItemClickHandler(event: MouseEvent)
+  @HostListener('click') onItemClickHandler()
   {
     this.selectEvent.emit(this.notePad);
   }

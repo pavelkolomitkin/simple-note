@@ -43,14 +43,12 @@ export class NotePadService
 
   public getList(parameters: Object, page: number = 1)
   {
-    const params = new HttpParams().set('page', page.toString());
+    let params = new HttpParams().set('page', page.toString());
 
-    Object.entries(parameters).forEach(
-      ([name, value]) => {
-        params.set(name, value);
-      }
-    );
-
+    for (let [name, value] of Object.entries(parameters))
+    {
+      params = params.append(name, value.toString());
+    }
 
     return this.http.get<{notePads:Array<{notePad: NotePad, noteNumber: number}>, total: number}>('/notepad/list', {
       params

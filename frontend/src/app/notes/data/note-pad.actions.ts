@@ -25,6 +25,11 @@ export const NOTEPAD_LIST_LOAD_SUCCESS = 'NOTEPAD_LIST_LOAD_SUCCESS';
 export const NOTEPAD_LIST_LOAD_ERROR = 'NOTEPAD_LIST_LOAD_ERROR';
 export const NOTEPAD_LIST_RESET = 'NOTEPAD_LIST_RESET';
 
+export const NOTEPAD_DETAILS_RESET = 'NOTEPAD_DETAILS_RESET';
+export const NOTEPAD_DETAILS_LOAD_START = 'NOTEPAD_DETAILS_LOAD_START';
+export const NOTEPAD_DETAILS_LOAD_SUCCESS = 'NOTEPAD_DETAILS_LOAD_SUCCESS';
+export const NOTEPAD_DETAILS_LOAD_ERROR = 'NOTEPAD_DETAILS_LOAD_ERROR';
+
 export class NotePadCreateStart implements Action
 {
   readonly type = NOTEPAD_CREATE_START;
@@ -157,6 +162,32 @@ export class NotePadDeleteError implements Action
   constructor(public notePad: NotePad, public errors: Object) {}
 }
 
+export class NotePadDetailsReset implements Action
+{
+  readonly type = NOTEPAD_DETAILS_RESET;
+}
+
+export class NotePadDetailsLoadStart implements Action
+{
+  readonly type = NOTEPAD_DETAILS_LOAD_START;
+
+  constructor(public id: number) {}
+}
+
+export class NotePadDetailsLoadSuccess implements Action
+{
+  readonly type = NOTEPAD_DETAILS_LOAD_SUCCESS;
+
+  constructor(public notePad: NotePad) {}
+}
+
+export class NotePadDetailsLoadError implements Action
+{
+  readonly type = NOTEPAD_DETAILS_LOAD_ERROR;
+
+  constructor(public errors: Object) {}
+}
+
 
 export type NotePadActions = NotePadCreateStart
                 | NotePadCreateSuccess
@@ -181,4 +212,9 @@ export type NotePadActions = NotePadCreateStart
                 | NotePadDeleteStart
                 | NotePadDeleteSuccess
                 | NotePadDeleteError
+
+                | NotePadDetailsReset
+                | NotePadDetailsLoadStart
+                | NotePadDetailsLoadSuccess
+                | NotePadDetailsLoadError
 ;

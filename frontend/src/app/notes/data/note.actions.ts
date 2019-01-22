@@ -15,6 +15,7 @@ export const NOTE_DETAILS_LOAD_START = 'NOTE_DETAILS_LOAD_START';
 export const NOTE_DETAILS_LOAD_SUCCESS = 'NOTE_DETAILS_LOAD_SUCCESS';
 export const NOTE_DETAILS_LOAD_ERROR = 'NOTE_DETAILS_LOAD_ERROR';
 
+export const NOTE_LIST_RESET = 'NOTE_LIST_RESET';
 export const NOTE_LIST_LOAD_START = 'NOTE_LIST_LOAD_START';
 export const NOTE_LIST_LOAD_SUCCESS = 'NOTE_LIST_LOAD_SUCCESS';
 export const NOTE_LIST_LOAD_ERROR = 'NOTE_LIST_LOAD_ERROR';
@@ -101,6 +102,11 @@ export class NoteDetailsLoadError implements Action
   constructor(public errors: Object) {}
 }
 
+export class NoteListReset implements Action
+{
+  readonly type = NOTE_LIST_RESET;
+}
+
 export class NoteListLoadStart implements Action
 {
   readonly type = NOTE_LIST_LOAD_START;
@@ -170,6 +176,7 @@ export type NoteActions = NoteCreateStart
                     | NoteDetailsLoadSuccess
                     | NoteDetailsLoadError
 
+                    | NoteListReset
                     | NoteListLoadStart
                     | NoteListLoadSuccess
                     | NoteListLoadError

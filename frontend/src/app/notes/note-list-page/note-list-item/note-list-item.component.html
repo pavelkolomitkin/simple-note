@@ -1,0 +1,9 @@
+<div class="note-list-item">
+    <div class="text text-muted">{{ (note.content.length > 100) ? (note.content | slice:0:100) + '...' : note.content }} - ({{ note.createdAt | amFromUnix }})</div>
+    <div>From <b>{{ note.notePad.title }}</b></div>
+    <div class="note-attachment-preview-list" *ngIf="note.attachments.length > 0">
+      <app-note-attachment-preview-small
+        *ngFor="let attachment of note.attachments"
+        [attachment]="attachment"></app-note-attachment-preview-small>
+    </div>
+</div>

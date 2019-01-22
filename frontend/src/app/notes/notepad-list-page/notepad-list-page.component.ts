@@ -3,8 +3,8 @@ import {NotePad} from "../data/model/note-pad.model";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../app.state";
 import {NotePadDeleteInit, NotePadEditingInit, NotePadListLoadStart, NotePadListReset} from "../data/note-pad.actions";
-import {map} from "rxjs/operators";
-import {Subscription} from "rxjs";
+import {merge, Subscription} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-notepad-list-page',
@@ -17,8 +17,12 @@ export class NotepadListPageComponent implements OnInit, OnDestroy {
   currentPageNumber: number;
 
   listLoadSuccessSubscription: Subscription;
+  itemChangeSubscription: Subscription;
 
-  constructor(private store: Store<State>) { }
+  constructor(
+    private store: Store<State>,
+    private router: Router
+  ) { }
 
   ngOnInit() {
 
@@ -28,9 +32,12 @@ export class NotepadListPageComponent implements OnInit, OnDestroy {
     this.store.dispatch(new NotePadListReset());
     this.store.dispatch(new NotePadListLoadStart());
 
-    this.store.pipe(select(state => state.notePad.createdNotePad)).subscribe(this.onListChange);
-    this.store.pipe(select(state => state.notePad.deletedNotePad)).subscribe(this.onListChange);
-    this.store.pipe(select(state => state.notePad.updatedNotePad)).subscribe(this.onListChange);
+
+    this.itemChangeSubscription = merge(
+      this.store.pipe(select(state => state.notePad.createdNotePad)),
+      this.store.pipe(select(state => state.notePad.deletedNotePad)),
+      this.store.pipe(select(state => state.notePad.updatedNotePad)),
+    ).subscribe(this.onListChange);
 
     this.listLoadSuccessSubscription = this.store.pipe(select(state => state.notePad.list)).subscribe(
       (list: Array<NotePad>) => {
@@ -45,7 +52,6 @@ export class NotepadListPageComponent implements OnInit, OnDestroy {
 
   onListChange = (notePad: NotePad) =>
   {
-    //debugger;
     if (notePad !== null)
     {
       this.currentPageNumber = 1;
@@ -56,6 +62,7 @@ export class NotepadListPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.listLoadSuccessSubscription.unsubscribe();
+    this.itemChangeSubscription.unsubscribe();
   }
 
   onScroll()
@@ -68,6 +75,8 @@ export class NotepadListPageComponent implements OnInit, OnDestroy {
   {
     console.log('NotePad selected ->');
     console.log(notePad);
+
+    this.router.navigateByUrl('/note/list?notePad=' + notePad.id);
   }
 
   onEditHandler(notePad: NotePad)

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Note;
 use App\Repository\NoteRepository;
 use App\Service\EntityManager\NoteManager;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,7 @@ class NoteController extends CommonController
     /**
      * @param Note $note
      *
-     * @Route(name="note_get", path="/note/{id}", methods={"GET"})
+     * @Route(name="note_get", path="/note/{id}", methods={"GET"}, requirements={"id"="\d+"})
      * @ParamConverter("note", class="App\Entity\Note")
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -38,9 +39,10 @@ class NoteController extends CommonController
      * @Route(name="note_index", path="/note/list", methods={"GET"})
      * @param Request $request
      * @param NoteRepository $repository
+     * @param PaginatorInterface $paginator
      * @return Response
      */
-    public function index(Request $request, NoteRepository $repository)
+    public function index(Request $request, NoteRepository $repository, PaginatorInterface $paginator)
     {
         $searchCriteria = array_merge($request->query->all(), [
             'owner' => $this->getUser()
@@ -48,7 +50,7 @@ class NoteController extends CommonController
 
         $query = $repository->getSearchQuery($searchCriteria);
 
-        $pagination = $this->get('knp_paginator')->paginate(
+        $pagination = $paginator->paginate(
             $query,
             $request->query->getInt('page', 1)
         );

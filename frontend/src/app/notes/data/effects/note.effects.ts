@@ -7,14 +7,22 @@ import {NoteService} from '../../services/note.service';
 import {Observable, of} from 'rxjs';
 import {
   NOTE_CREATE_START,
-  NOTE_DELETE_START, NOTE_DETAILS_LOAD_ERROR, NOTE_DETAILS_LOAD_START,
+  NOTE_DELETE_START,
+  NOTE_DETAILS_LOAD_ERROR,
+  NOTE_DETAILS_LOAD_START,
+  NOTE_LIST_LOAD_START,
   NOTE_UPDATE_START,
   NoteCreateError,
   NoteCreateStart,
   NoteCreateSuccess,
   NoteDeleteError,
   NoteDeleteStart,
-  NoteDeleteSuccess, NoteDetailsLoadError, NoteDetailsLoadStart, NoteDetailsLoadSuccess,
+  NoteDeleteSuccess,
+  NoteDetailsLoadError,
+  NoteDetailsLoadStart,
+  NoteDetailsLoadSuccess, NoteListLoadError,
+  NoteListLoadStart,
+  NoteListLoadSuccess,
   NoteUpdateError,
   NoteUpdateStart,
   NoteUpdateSuccess
@@ -25,6 +33,24 @@ import {Note} from '../model/note.model';
 
 @Injectable()
 export class NoteEffects {
+
+  @Effect()
+  noteListLoadStart: Observable<Action> = this.actions.pipe(
+    ofType(NOTE_LIST_LOAD_START),
+    mergeMap((action: NoteListLoadStart) => {
+
+      const { params, page } = action;
+
+      return this.service.getList(params, page).pipe(
+        map(({ notes, total }) => {
+          return new NoteListLoadSuccess(notes, total);
+        }),
+        catchError((errors) => {
+          return of(new NoteListLoadError(errors.error.errors));
+        })
+      );
+    })
+  );
 
   @Effect()
   noteCreationStart: Observable<Action> = this.actions.pipe(

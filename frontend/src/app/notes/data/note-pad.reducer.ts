@@ -18,6 +18,9 @@ export interface State {
 
   list: Array<NotePad>;
   listErrors: Object;
+
+  notePadDetails: NotePad;
+  notePadDetailsErrors: Object;
 }
 
 const initialState: State = {
@@ -35,7 +38,10 @@ const initialState: State = {
   deleteNotePadErrors: {},
 
   list: [],
-  listErrors: {}
+  listErrors: {},
+
+  notePadDetails: null,
+  notePadDetailsErrors: {}
 };
 
 export function reducer(state: State = initialState, action: NotePadActions) {
@@ -168,6 +174,30 @@ export function reducer(state: State = initialState, action: NotePadActions) {
         ...state,
         deletedNotePad: action.notePad,
         deleteNotePadErrors: action.errors,
+      };
+
+    case actions.NOTEPAD_DETAILS_RESET:
+
+      return {
+        ...state,
+        notePadDetails: null,
+        notePadDetailsErrors: {}
+      };
+
+    case actions.NOTEPAD_DETAILS_LOAD_SUCCESS:
+
+      return {
+        ...state,
+        notePadDetails: action.notePad,
+        notePadDetailsErrors: {}
+      };
+
+    case actions.NOTEPAD_DETAILS_LOAD_ERROR:
+
+      return {
+        ...state,
+        notePadDetails: null,
+        notePadDetailsErrors: action.errors
       };
 
     default:

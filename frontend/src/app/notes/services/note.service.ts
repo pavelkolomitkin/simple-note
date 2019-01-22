@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {map} from 'rxjs/operators';
 import {Note} from "../data/model/note.model";
 import {Observable} from "rxjs";
@@ -8,6 +8,18 @@ import {Observable} from "rxjs";
 export class NoteService
 {
   constructor(private http: HttpClient) {}
+
+  public getList(parameters: Object, page: number = 1)
+  {
+    let params: HttpParams = new HttpParams().set('page', page.toString());
+
+    for (let [name, value] of Object.entries(parameters))
+    {
+      params = params.append(name, value.toString());
+    }
+
+    return this.http.get<{ notes: Array<Note>, total: number }>('/note/list', { params });
+  }
 
   public get(id: number): Observable<Note>
   {

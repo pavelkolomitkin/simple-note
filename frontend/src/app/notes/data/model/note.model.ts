@@ -6,6 +6,7 @@ export class Note {
   public content: string;
   public notePad: NotePad;
   public attachments: Array<NoteAttachment>;
+  public createdAt: number;
 
   constructor() {
     this.notePad = new NotePad();
