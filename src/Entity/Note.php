@@ -51,7 +51,7 @@ class Note
      * @Assert\NotNull(message="Select a NotePad!")
      * @NoteNotePadOwnerConstraint()
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\NotePad", inversedBy="notes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\NotePad", inversedBy="notes", cascade={"persist"})
      * @ORM\JoinColumn(name="notepad_id", nullable=false)
      *
      * @JMSSerializer\Groups({"default"})
@@ -104,7 +104,7 @@ class Note
     /**
      * @return NotePad
      */
-    public function getNotePad(): NotePad
+    public function getNotePad()
     {
         return $this->notePad;
     }

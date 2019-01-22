@@ -7,11 +7,12 @@
       class="custom-select"
       name="selectedNotePad"
       required
+      [compareWith]="compareNotePads"
     >
       <option
         *ngFor="let notePad of notePads | async"
         [ngValue]="notePad"
-        [selected]="notePad.id === note.notePad.id">{{ notePad.title }}</option>
+        >{{ notePad.title }}</option>
     </select>
     <app-form-field-error-list [field]="'notePad'" [errors]="errors"></app-form-field-error-list>
   </div>

@@ -2,9 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Note} from "../data/model/note.model";
 import {NgForm} from "@angular/forms";
 import {NotePadService} from "../services/note-pad.service";
-import {catchError, map} from "rxjs/operators";
 import {NotePad} from "../data/model/note-pad.model";
-import {select} from "@ngrx/store";
 import {Observable} from "rxjs";
 
 @Component({
@@ -29,15 +27,14 @@ export class NoteFormComponent implements OnInit {
     this.notePads = this.notePadService.getAll();
   }
 
-  onNotePadChange(selectedNotePad: NotePad)
-  {
-    this.note.notePad = selectedNotePad;
-  }
-
-
   onSubmitHandler(form: NgForm)
   {
     this.submitEvent.emit(this.note);
+  }
+
+  compareNotePads(a: NotePad, b: NotePad)
+  {
+    return a.id === b.id;
   }
 
 }

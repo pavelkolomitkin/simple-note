@@ -2,7 +2,7 @@ import {Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angu
 import {select, Store} from "@ngrx/store";
 import {State} from "../../app.state";
 import {UploadNoteAttachment} from "../data/model/upload-note-attachment.model";
-import {NoteAttachmentUploadSelect} from "../data/note-attachment.actions";
+import {NoteAttachmentUploadReset, NoteAttachmentUploadSelect} from "../data/note-attachment.actions";
 import {Observable, Subscription} from "rxjs";
 import {Note} from "../data/model/note.model";
 import {filter} from "rxjs/operators";
@@ -35,6 +35,8 @@ export class NoteAttachmentFormFieldComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.store.dispatch(new NoteAttachmentUploadReset());
+
     this.uploadingAttachments = this.store.pipe(select(state => state.noteAttachment.uploadingFileSet));
 
     this.completeSubscription = this.store.pipe(

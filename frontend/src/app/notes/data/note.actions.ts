@@ -5,6 +5,7 @@ export const NOTE_CREATE_START = 'NOTE_CREATE_START';
 export const NOTE_CREATE_SUCCESS = 'NOTE_CREATE_SUCCESS';
 export const NOTE_CREATE_ERROR = 'NOTE_CREATE_ERROR';
 
+export const NOTE_UPDATE_RESET = 'NOTE_UPDATE_RESET';
 export const NOTE_UPDATE_START = 'NOTE_UPDATE_START';
 export const NOTE_UPDATE_SUCCESS = 'NOTE_UPDATE_SUCCESS';
 export const NOTE_UPDATE_ERROR = 'NOTE_UPDATE_ERROR';
@@ -46,6 +47,11 @@ export class NoteCreateError implements Action
   constructor(public errors: Object) {}
 }
 
+
+export class NoteUpdateReset implements Action
+{
+  readonly type = NOTE_UPDATE_RESET;
+}
 
 export class NoteUpdateStart implements Action
 {
@@ -154,6 +160,7 @@ export type NoteActions = NoteCreateStart
                     | NoteCreateSuccess
                     | NoteCreateError
 
+                    | NoteUpdateReset
                     | NoteUpdateStart
                     | NoteUpdateSuccess
                     | NoteUpdateError

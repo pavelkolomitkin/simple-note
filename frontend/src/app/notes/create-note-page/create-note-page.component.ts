@@ -32,7 +32,7 @@ export class CreateNotePageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store.dispatch(new NoteAttachmentUploadReset());
+    //this.store.dispatch(new NoteAttachmentUploadReset());
   }
 
   onFormSubmit()

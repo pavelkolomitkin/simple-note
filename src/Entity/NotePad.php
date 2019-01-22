@@ -59,6 +59,11 @@ class NotePad
      */
     private $notes;
 
+    public function __construct()
+    {
+        $this->notes = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

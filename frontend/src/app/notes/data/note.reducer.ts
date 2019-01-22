@@ -64,6 +64,14 @@ export function reducer(state: State = initialState, action: actions.NoteActions
         createNoteErrors: action.errors
       };
 
+    case actions.NOTE_UPDATE_RESET:
+
+      return {
+        ...state,
+        updatedNote: null,
+        updateNoteErrors: {}
+      };
+
     case actions.NOTE_UPDATE_SUCCESS:
 
       return {

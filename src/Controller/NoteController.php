@@ -77,7 +77,7 @@ class NoteController extends CommonController
     }
 
     /**
-     * @Route(name="note_update", path="/note", methods={"PUT"})
+     * @Route(name="note_update", path="/note/{id}", methods={"PUT"})
      * @ParamConverter("note", class="App\Entity\Note")
      * @param Note $note
      * @param NoteManager $manager

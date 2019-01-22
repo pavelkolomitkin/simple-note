@@ -18,7 +18,7 @@ class NoteType extends CommonType
             ->add('notePad', EntityType::class, [
                 'class' => NotePad::class,
                 'multiple' => false,
-                'by_reference' => false,
+                //'by_reference' => false,
                 'expanded' => true
             ])
             ->add('attachments', EntityType::class, [

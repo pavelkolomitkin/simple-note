@@ -1,3 +1,4 @@
-<p>
-  edit-note-page works!
-</p>
+<ng-container *ngIf="note !== null">
+  <h2>Edit Note</h2>
+  <app-note-form [errors]="errors" [note]="note" (onSubmit)="onFormSubmitHandler($event)"></app-note-form>
+</ng-container>
