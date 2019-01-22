@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {select, Store} from "@ngrx/store";
 import {State} from "../../app.state";
 import {UploadNoteAttachment} from "../data/model/upload-note-attachment.model";
@@ -20,8 +20,14 @@ export class NoteAttachmentFormFieldComponent implements OnInit, OnDestroy {
 
   static MAX_UPLOAD_FILE_SIZE = 5242880;
 
+  static ALLOWED_MIME_TYPES = [
+    'image/jpeg', 'image/png'
+  ];
+
   @ViewChild('removeAlertModal') removeAttachmentModalWindowTemplate: TemplateRef<any>;
   removeAttachmentModalWindow: NgbModalRef = null;
+
+  @ViewChild('fileSelector') fileSelector: ElementRef;
 
   @Input() note: Note;
   @Input() errors;
@@ -55,8 +61,7 @@ export class NoteAttachmentFormFieldComponent implements OnInit, OnDestroy {
 
   validateFile(file: File)
   {
-    //file.size
-    if (file.type !== 'image')
+    if (!NoteAttachmentFormFieldComponent.ALLOWED_MIME_TYPES.includes(file.type))
     {
       throw 'You can upload only images';
     }
@@ -79,10 +84,17 @@ export class NoteAttachmentFormFieldComponent implements OnInit, OnDestroy {
 
         this.store.dispatch(new NoteAttachmentUploadSelect(attachment));
       }
-      catch (e) {
-        this.store.dispatch(new GlobalNotifyErrorMessage(new NotifyMessage(e)))
+      catch (error) {
+        this.store.dispatch(new GlobalNotifyErrorMessage(new NotifyMessage(error)))
       }
     }
+
+    this.resetFileSelector();
+  }
+
+  resetFileSelector()
+  {
+    this.fileSelector.nativeElement.value = "";
   }
 
   ngOnDestroy(): void {

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {select, Store} from "@ngrx/store";
 import {State} from "../../app.state";
 import {NotifyMessage} from "../data/model/notify-message.model";
+import {ToastrService} from "ngx-toastr";
+import {filter} from "rxjs/operators";
 
 @Component({
   selector: 'app-message-notifier',
@@ -10,34 +12,25 @@ import {NotifyMessage} from "../data/model/notify-message.model";
 })
 export class MessageNotifierComponent implements OnInit {
 
-  static MAX_STACK_SIZE = 10;
+  constructor(
+    private store: Store<State>,
+    private toastr: ToastrService)
+  {
 
-  messageStack: Array<NotifyMessage> = [];
-
-  constructor(private store: Store<State>) { }
+  }
 
   ngOnInit() {
 
-    this.store.pipe(select(state => state.core.lastSuccessMessage)).subscribe(
+    this.store.pipe(select(state => state.core.lastSuccessMessage), filter(message => !!message)).subscribe(
       (message: NotifyMessage) => {
-        this.rotateMessage(message);
+        this.toastr.success(message.text, 'Success!');
       }
     );
 
-    this.store.pipe(select(state => state.core.lastErrorMessage)).subscribe(
+    this.store.pipe(select(state => state.core.lastErrorMessage), filter(message => !!message)).subscribe(
       (message: NotifyMessage) => {
-        this.rotateMessage(message);
+        this.toastr.error(message.text, 'Oops!')
       }
     );
-  }
-
-  rotateMessage = (message: NotifyMessage) =>
-  {
-    if (this.messageStack.length >= MessageNotifierComponent.MAX_STACK_SIZE)
-    {
-      this.messageStack.splice(-1, 1);
-    }
-
-    this.messageStack = [message, ...this.messageStack];
   }
 }
