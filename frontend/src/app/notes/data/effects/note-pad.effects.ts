@@ -108,6 +108,12 @@ export default class NotePadEffects {
   @Effect()
   listLoadStart: Observable<Action> = this.actions.pipe(
     ofType(NOTEPAD_LIST_LOAD_START),
+    tap((action: NotePadListLoadStart) => {
+      if (action.page === 1)
+      {
+        this.store.dispatch(new GlobalProgressShow());
+      }
+    }),
     mergeMap((action: NotePadListLoadStart) => {
 
       return this.service.getList(action.params, action.page).pipe(
@@ -118,6 +124,9 @@ export default class NotePadEffects {
           return of(new NotePadListLoadError(errors));
         })
       );
+    }),
+    tap((action) => {
+      this.store.dispatch(new GlobalProgressHide());
     })
   );
 

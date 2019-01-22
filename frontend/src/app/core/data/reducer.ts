@@ -30,7 +30,7 @@ export function reducer(state = initialState, action: actions.CoreActions): Stat
 
       let value: number;
 
-      if (action.force || (state.globalProgressLoaders == 1))
+      if (action.force || (state.globalProgressLoaders <= 1))
       {
         value = 0;
       }

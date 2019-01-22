@@ -37,6 +37,12 @@ export class NoteEffects {
   @Effect()
   noteListLoadStart: Observable<Action> = this.actions.pipe(
     ofType(NOTE_LIST_LOAD_START),
+    tap((action: NoteListLoadStart) => {
+      if (action.page === 1)
+      {
+        this.store.dispatch(new GlobalProgressShow());
+      }
+    }),
     mergeMap((action: NoteListLoadStart) => {
 
       const { params, page } = action;
@@ -49,6 +55,9 @@ export class NoteEffects {
           return of(new NoteListLoadError(errors.error.errors));
         })
       );
+    }),
+    tap(() => {
+      this.store.dispatch(new GlobalProgressHide());
     })
   );
 

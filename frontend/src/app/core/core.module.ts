@@ -26,13 +26,15 @@ import { MomentModule } from 'ngx-moment';
 import {NoteAttachmentService} from '../notes/services/note-attachment.service';
 import {NoteService} from "../notes/services/note.service";
 import { MessageNotifierComponent } from './message-notifier/message-notifier.component';
+import {ErrorResponseHandlerInterceptor} from "./services/interceptors/error-response-handler.interceptor";
 
 
 
 const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: BaseApiUrlInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: DefaultHttpHeadersInterceptor, multi: true },
-  { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInjectorInterceptor, multi: true }
+  { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInjectorInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: ErrorResponseHandlerInterceptor, multi: true },
 ];
 
 @NgModule({
