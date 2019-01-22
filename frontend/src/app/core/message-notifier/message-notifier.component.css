@@ -1,0 +1,11 @@
+.notify-message-list {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+.notify-message-list .message {
+  padding: 15px;
+  margin: 5px;
+}
+.notify-message-list .message.success {}
+.notify-message-list .message.error {}

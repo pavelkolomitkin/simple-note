@@ -44,6 +44,7 @@ export class NoteAttachmentService {
           }
         },
         (errors) => {
+          debugger
 
           console.log('------------------------------------- UPLOADING ERRORS ---------------------------');
           console.log(errors);

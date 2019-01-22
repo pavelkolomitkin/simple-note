@@ -8,6 +8,8 @@ import {Note} from "../data/model/note.model";
 import {filter} from "rxjs/operators";
 import {NoteAttachment} from "../data/model/note-attachment.model";
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
+import {GlobalNotifyErrorMessage} from "../../core/data/actions";
+import {NotifyMessage} from "../../core/data/model/notify-message.model";
 
 @Component({
   selector: 'app-note-attachment-form-field',
@@ -15,6 +17,8 @@ import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
   styleUrls: ['./note-attachment-form-field.component.css']
 })
 export class NoteAttachmentFormFieldComponent implements OnInit, OnDestroy {
+
+  static MAX_UPLOAD_FILE_SIZE = 5242880;
 
   @ViewChild('removeAlertModal') removeAttachmentModalWindowTemplate: TemplateRef<any>;
   removeAttachmentModalWindow: NgbModalRef = null;
@@ -49,15 +53,35 @@ export class NoteAttachmentFormFieldComponent implements OnInit, OnDestroy {
     );
   }
 
+  validateFile(file: File)
+  {
+    //file.size
+    if (file.type !== 'image')
+    {
+      throw 'You can upload only images';
+    }
+    if (file.size > NoteAttachmentFormFieldComponent.MAX_UPLOAD_FILE_SIZE)
+    {
+      throw 'File is too large! 5M is maximum';
+    }
+  }
+
   onFilesSelectHandler(files: Array<File>)
   {
     for (let file of files)
     {
-      const attachment = new UploadNoteAttachment(
-        (+new Date()).toString() + file.name, file
-      );
+      try {
+        this.validateFile(file);
 
-      this.store.dispatch(new NoteAttachmentUploadSelect(attachment));
+        const attachment = new UploadNoteAttachment(
+          (+new Date()).toString() + file.name, file
+        );
+
+        this.store.dispatch(new NoteAttachmentUploadSelect(attachment));
+      }
+      catch (e) {
+        this.store.dispatch(new GlobalNotifyErrorMessage(new NotifyMessage(e)))
+      }
     }
   }
 

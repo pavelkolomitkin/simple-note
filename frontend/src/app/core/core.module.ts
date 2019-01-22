@@ -25,6 +25,8 @@ import {NotePadService} from '../notes/services/note-pad.service';
 import { MomentModule } from 'ngx-moment';
 import {NoteAttachmentService} from '../notes/services/note-attachment.service';
 import {NoteService} from "../notes/services/note.service";
+import { MessageNotifierComponent } from './message-notifier/message-notifier.component';
+import { MessageComponent } from './message-notifier/message/message.component';
 
 
 const httpInterceptorProviders = [
@@ -37,7 +39,9 @@ const httpInterceptorProviders = [
   declarations: [
     NotFoundPageComponent,
     HeaderComponent,
-    GlobalProgressComponent
+    GlobalProgressComponent,
+    MessageNotifierComponent,
+    MessageComponent
   ],
   imports: [
     CommonModule,
@@ -71,6 +75,7 @@ const httpInterceptorProviders = [
   exports: [
     MomentModule,
     HeaderComponent,
+    MessageNotifierComponent,
     GlobalProgressComponent,
     StoreModule,
     EffectsModule
