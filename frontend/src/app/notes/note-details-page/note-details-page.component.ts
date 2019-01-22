@@ -49,7 +49,7 @@ export class NoteDetailsPageComponent implements OnInit, OnDestroy {
 
     this.deleteNoteSubscription = this.store.pipe(
       select(state => state.note.lastDeletedNote),
-      filter(result => result !== null)).subscribe(
+      filter(result => !!result)).subscribe(
       (deletedNote: Note) => {
         if (this.note !== null && (deletedNote.id === this.note.id))
         {

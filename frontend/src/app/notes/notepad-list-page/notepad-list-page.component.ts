@@ -16,6 +16,8 @@ export class NotepadListPageComponent implements OnInit, OnDestroy {
   notePadList: Array<NotePad>;
   currentPageNumber: number;
 
+  isListEmpty: Boolean = false;
+
   listLoadSuccessSubscription: Subscription;
   itemChangeSubscription: Subscription;
 
@@ -39,13 +41,22 @@ export class NotepadListPageComponent implements OnInit, OnDestroy {
       this.store.pipe(select(state => state.notePad.updatedNotePad)),
     ).subscribe(this.onListChange);
 
-    this.listLoadSuccessSubscription = this.store.pipe(select(state => state.notePad.list)).subscribe(
-      (list: Array<NotePad>) => {
+    this.listLoadSuccessSubscription = this.store.pipe(
+      select(state => state.notePad),
+      select((result) => {
+        return {
+          list: result.list,
+          total: result.totalNumber
+        };
+      })
+    ).subscribe(
+      ({list, total}) => {
         if (this.currentPageNumber === 1)
         {
           this.notePadList = [];
         }
         this.notePadList = this.notePadList.concat(list);
+        this.isListEmpty = (total === 0);
       }
     );
   }

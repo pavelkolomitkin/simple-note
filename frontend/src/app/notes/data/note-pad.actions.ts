@@ -79,7 +79,7 @@ export class NotePadListLoadSuccess implements Action
 {
   readonly type = NOTEPAD_LIST_LOAD_SUCCESS;
 
-  constructor(public list: Array<NotePad>, totalNumber: number) {}
+  constructor(public list: Array<NotePad>, public total: number) {}
 }
 
 export class NotePadListLoadError implements Action

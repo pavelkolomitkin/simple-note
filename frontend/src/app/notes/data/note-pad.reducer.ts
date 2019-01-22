@@ -17,6 +17,7 @@ export interface State {
   deleteNotePadErrors: Object;
 
   list: Array<NotePad>;
+  totalNumber: number;
   listErrors: Object;
 
   notePadDetails: NotePad;
@@ -38,6 +39,7 @@ const initialState: State = {
   deleteNotePadErrors: {},
 
   list: [],
+  totalNumber: null,
   listErrors: {},
 
   notePadDetails: null,
@@ -93,6 +95,7 @@ export function reducer(state: State = initialState, action: NotePadActions) {
       return {
         ...state,
         list: action.list,
+        totalNumber: action.total,
         listErrors: {}
       };
 
@@ -101,6 +104,7 @@ export function reducer(state: State = initialState, action: NotePadActions) {
       return {
         ...state,
         list: [],
+        totalNumber: null,
         listErrors: action.errors
       };
 
@@ -109,6 +113,7 @@ export function reducer(state: State = initialState, action: NotePadActions) {
       return {
         ...state,
         list: [],
+        totalNumber: null,
         listErrors: {}
       };
 

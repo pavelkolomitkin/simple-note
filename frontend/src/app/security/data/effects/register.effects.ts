@@ -30,7 +30,6 @@ export default class RegisterEffects {
     }),
     mergeMap((action: UserRegistrationStart) => {
 
-      //debugger
       const { data } = action;
 
       return this.service.registerUser(data).pipe(
@@ -59,7 +58,6 @@ export default class RegisterEffects {
   confirmRegisterStart: Observable<Action> = this.actions.pipe(
     ofType(USER_REGISTRATION_CONFIRM_START),
     tap((action) => {
-      //debugger
       this.store.dispatch(new GlobalProgressShow());
     }),
     mergeMap((action: UserRegistrationConfirmStart) => {

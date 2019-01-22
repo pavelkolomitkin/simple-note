@@ -29,14 +29,12 @@ export class NoteAttachmentService {
           console.log(event);
           if (event.type === HttpEventType.UploadProgress)
           {
-            //debugger;
             // this.percentDone = Math.round(100 * event.loaded / event.total);
             attachment.setProgress(event.loaded, event.total);
             observer.next(attachment);
           }
           else if (event instanceof HttpResponse)
           {
-            //debugger;
             // success
             attachment.uploaded = event.body['attachment'];
             observer.next(attachment);
@@ -46,7 +44,7 @@ export class NoteAttachmentService {
           }
         },
         (errors) => {
-          //debugger;
+
           console.log('------------------------------------- UPLOADING ERRORS ---------------------------');
           console.log(errors);
           console.log('-----------------------------------// UPLOADING ERRORS ---------------------------');
@@ -54,7 +52,7 @@ export class NoteAttachmentService {
           observer.error(attachment);
         },
         () => {
-          //debugger;
+
           console.log('--------------------------- Uploading is complete --------------------------------');
         }
       );

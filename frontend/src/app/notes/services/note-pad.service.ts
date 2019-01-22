@@ -59,7 +59,7 @@ export class NotePadService
             notePad.noteNumber = noteNumber;
             return notePad;
           }),
-            total: total
+          total: total
         }
       })
     );

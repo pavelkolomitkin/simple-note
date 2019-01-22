@@ -1,4 +1,4 @@
-<h2>NotePad List</h2>
+<h2>My NotePads</h2>
 <div infiniteScroll
      [infiniteScrollDistance]="2"
      [infiniteScrollThrottle]="50"
@@ -10,3 +10,7 @@
     (onEdit)="onEditHandler($event)"
     (onDelete)="onDeleteHandler($event)"></app-notepad-list-item>
 </div>
+<p *ngIf="isListEmpty" class="alert alert-info">
+  There is no any notepads yet
+</p>
+

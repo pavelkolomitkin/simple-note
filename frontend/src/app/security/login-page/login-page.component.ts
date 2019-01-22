@@ -48,7 +48,6 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   onFormSubmit(credentials: LoginCredentials)
   {
-    //debugger
     this.store.dispatch(new UserLoginStart(credentials));
   }
 

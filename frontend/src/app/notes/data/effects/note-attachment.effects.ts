@@ -26,7 +26,6 @@ export class NoteAttachmentEffects
 
       return this.service.upload(action.attachment).pipe(
         map((attachment: UploadNoteAttachment) => {
-          //debugger
           if (attachment.uploaded !== null)
           {
             return new NoteAttachmentUploadComplete(attachment);
