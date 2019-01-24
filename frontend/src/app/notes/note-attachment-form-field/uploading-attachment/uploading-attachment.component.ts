@@ -8,6 +8,7 @@ import {UploadNoteAttachment} from "../../data/model/upload-note-attachment.mode
 })
 export class UploadingAttachmentComponent implements OnInit {
 
+  isVisible: boolean = false;
   imageUrl: string = null;
 
   @Input() attachment: UploadNoteAttachment;
@@ -24,6 +25,7 @@ export class UploadingAttachmentComponent implements OnInit {
 
     reader.onload = (event) => {
       this.imageUrl = event.target['result'];
+      this.isVisible = true;
     };
 
     reader.readAsDataURL(this.attachment.file);

@@ -1,6 +1,6 @@
 <div class="uploading-attachment-item">
   <div class="preview-container">
-    <img [src]="imageUrl" />
+    <img [src]="imageUrl" *ngIf="isVisible"/>
   </div>
   <div class="progress uploading-progress-container">
     <div
