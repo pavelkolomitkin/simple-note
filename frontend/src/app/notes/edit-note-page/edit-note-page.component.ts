@@ -14,8 +14,8 @@ import {Subscription} from "rxjs";
 })
 export class EditNotePageComponent implements OnInit, OnDestroy {
 
-  private note: Note = null;
-  private errors: Object = {};
+  note: Note = null;
+  errors: Object = {};
 
   private idSubscription: Subscription;
   private detailsSubscription: Subscription;
