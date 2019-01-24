@@ -14,7 +14,7 @@ import {filter} from "rxjs/operators";
 })
 export class NoteDetailsPageComponent implements OnInit, OnDestroy {
 
-  private note: Note = null;
+  note: Note = null;
 
   private noteSubscription: Subscription;
   private idSubscription: Subscription;

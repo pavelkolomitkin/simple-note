@@ -1,6 +1,7 @@
 .preloadable-image-container {}
-.preloadable-image-container .image {
-
+.preloadable-image-container img
+{
+  width: 100%;
 }
 .preloadable-image-container .progress-container {
   margin: 0 auto;
