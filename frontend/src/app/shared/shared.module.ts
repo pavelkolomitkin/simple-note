@@ -11,6 +11,7 @@ import {RemoveNotepadComponent} from '../notes/remove-notepad/remove-notepad.com
 import {SecureImageDirective} from "../core/directive/secure-image.directive";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {RemoveNoteWindowComponent} from "../notes/remove-note-window/remove-note-window.component";
+import {PreloadableImageComponent} from "../core/preloadable-image/preloadable-image.component";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {RemoveNoteWindowComponent} from "../notes/remove-note-window/remove-note
     NotepadFormComponent,
     RemoveNotepadComponent,
     SecureImageDirective,
-    RemoveNoteWindowComponent
+    RemoveNoteWindowComponent,
+    PreloadableImageComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +42,8 @@ import {RemoveNoteWindowComponent} from "../notes/remove-note-window/remove-note
     MomentModule,
     NgbModule,
     SecureImageDirective,
-    RemoveNoteWindowComponent
+    RemoveNoteWindowComponent,
+    PreloadableImageComponent
   ]
 })
 export class SharedModule { }

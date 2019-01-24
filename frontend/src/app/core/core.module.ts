@@ -29,7 +29,6 @@ import { MessageNotifierComponent } from './message-notifier/message-notifier.co
 import {ErrorResponseHandlerInterceptor} from "./services/interceptors/error-response-handler.interceptor";
 
 
-
 const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: BaseApiUrlInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: DefaultHttpHeadersInterceptor, multi: true },

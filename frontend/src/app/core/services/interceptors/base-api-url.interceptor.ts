@@ -8,10 +8,27 @@ export class BaseApiUrlInterceptor implements HttpInterceptor
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     const newRequest = req.clone({
-      url: environment.baseApiUrl + req.url
+      url: this.getRequestUrl(req)
     });
 
     return next.handle(newRequest);
+  }
+
+  private getRequestUrl(request: HttpRequest<any>)
+  {
+    let result = request.url;
+
+    if (!this.isRequestUrlAbsolute(request))
+    {
+      result = environment.baseApiUrl + result;
+    }
+
+    return result;
+  }
+
+  private isRequestUrlAbsolute(request: HttpRequest<any>): Boolean
+  {
+    return (request.url.indexOf('http') === 0);
   }
 
 }
