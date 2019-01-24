@@ -34,7 +34,7 @@ class NoteRepository extends ServiceEntityRepository
         $this->handleSearchOwnerParameter($builder, $criteria);
         $this->handleSearchNotePadParameter($builder, $criteria);
 
-        $builder->orderBy('note.createdAt', 'DESC');
+        $builder->orderBy('note.id', 'DESC');
 
         return $builder->getQuery();
     }

@@ -4,6 +4,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Behat\Gherkin\Node\PyStringNode;
 use \PHPUnit\Framework\Assert as Assertions;
 use Behat\MinkExtension\Context\MinkContext;
+use \Behat\Gherkin\Node\TableNode;
 
 /**
  * This context class contains the definitions of the steps used by the demo 
@@ -133,6 +134,36 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * @Given I authorize with email :email and password :password
+     * @param $email
+     * @param $password
+     */
+    public function iAuthorize(string $email, string $password)
+    {
+        $this->sendRequest('POST', '/security/login_check', [], [], [],
+            json_encode([
+                'username' => $email,
+                'password' => $password
+            ]));
+
+        Assertions::assertEquals(200, $this->response->getStatus(), 'You can not authorize with this credentials!');
+
+        $this->iKeepAuthorizationTokenFromRequest();
+    }
+
+    /**
+     * @Given I send http request with method :method on relative url :path with content:
+     *
+     * @param $method
+     * @param $path
+     * @param $content
+     */
+    public function iSendRequestWithContent(string $method, string $path, PyStringNode $content)
+    {
+        $this->sendRequest($method, $path, [], [], [], $content);
+    }
+
+    /**
      * @return \Behat\Mink\Driver\Goutte\Client
      */
     protected function getClient()
@@ -161,6 +192,14 @@ class FeatureContext extends MinkContext
 
         $client->request($method, $url, $params, $files, $server, $content);
         $this->response = $client->getInternalResponse();
+
+        var_dump([
+            'method' => $method,
+            'url' => $url,
+            'content' => $content,
+            'response' => $this->response
+        ]);
+
 
         return $this->response;
     }

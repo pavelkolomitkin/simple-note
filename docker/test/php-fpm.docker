@@ -6,9 +6,23 @@ RUN apt-get install git -y \
     && apt-get install zip unzip -y \
     && apt-get install curl -y \
     && apt-get install libpq-dev -y \
+    && apt-get install libpng-dev -y \
+    && apt-get install libjpeg-dev -y \
+    && apt-get install libfreetype6-dev -y \
     && docker-php-ext-install bcmath pdo pdo_pgsql \
+    && docker-php-ext-configure gd \
+               --enable-gd-native-ttf \
+               --with-freetype-dir=/usr/include/freetype2 \
+               --with-png-dir=/usr/include \
+               --with-jpeg-dir=/usr/include \
+    && docker-php-ext-install gd \
     && echo "post_max_size=5.5M" >> /usr/local/etc/php/conf.d/php.ini \
-    && echo "upload_max_filesize=5M" >> /usr/local/etc/php/conf.d/php.ini
+    && echo "upload_max_filesize=5M" >> /usr/local/etc/php/conf.d/php.ini \
+    && echo "post_max_size=5.5M" >> /usr/local/etc/php/conf.d/php.ini \
+    && echo "upload_max_filesize=5M" >> /usr/local/etc/php/conf.d/php.ini \
+    && echo "upload_tmp_dir=/home/upload_temp" >> /usr/local/etc/php/conf.d/php.ini \
+    && mkdir /home/upload_temp \
+    && chown -R www-data:www-data /home/upload_temp
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
     && php -r "if (hash_file('sha384', 'composer-setup.php') === '93b54496392c062774670ac18b134c3b3a95e5a5e5c8f1a9f115f203b75bf9a129d5daa8ba6a13e2cc8a1da0806388a8') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \

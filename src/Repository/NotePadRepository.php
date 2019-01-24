@@ -38,7 +38,7 @@ class NotePadRepository extends ServiceEntityRepository
             ->select('np as notePad')
             ->addSelect('COUNT(note) as noteNumber');
 
-        $builder->orderBy('np.createdAt', 'DESC');
+        $builder->orderBy('np.id', 'DESC');
 
         return $builder->getQuery();
     }
