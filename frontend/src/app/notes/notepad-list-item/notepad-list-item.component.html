@@ -1,11 +1,15 @@
-<div class="list-group-item list-group-item-action">
-  <div class="d-flex w-100 justify-content-between">
-    <h5 class="mb-1"><i class="far fa-folder-open"></i> {{ notePad.title }}</h5>
-    <small class="text-muted">{{ notePad.createdAt | amFromUnix }}</small>
+<div class="media text-muted pt-3">
+
+  <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+    <strong class="d-block text-gray-dark"><i class="far fa-folder-open"></i> {{ notePad.title }}</strong>
+
+    <p class="mb-1 text-right">
+      <span class="btn btn-primary" (click)="onEditClickHandler($event)"><i class="fas fa-pencil-alt"></i></span>&nbsp;
+      <span class="btn btn-danger" (click)="onRemoveClickHandler($event)"><i class="fas fa-trash-alt"></i></span>
+    </p>
+    <div class="text-muted text-small clearfix">
+      <small class="text-muted float-left">{{ notePad.noteNumber }} note(s)</small>
+      <small class="text-right float-right text-muted">{{ notePad.createdAt | amFromUnix }}</small>
+    </div>
   </div>
-  <p class="mb-1 text-right">
-    <span class="btn btn-primary" (click)="onEditClickHandler($event)"><i class="fas fa-pencil-alt"></i> Edit</span>&nbsp;
-    <span class="btn btn-danger" (click)="onRemoveClickHandler($event)"><i class="fas fa-trash-alt"></i> Remove</span>
-  </p>
-  <small class="text-muted">{{ notePad.noteNumber }} note(s)</small>
 </div>
