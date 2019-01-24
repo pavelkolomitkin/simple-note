@@ -12,7 +12,7 @@ class NoteAttachmentType extends CommonType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('imageFile', FileType::class);
+        $builder->add('imageFile', FileType::class, ['required' => true]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

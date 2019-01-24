@@ -4,7 +4,7 @@ vich_uploader:
   mappings:
     note_attachment:
       uri_prefix: /uploads/note_attachment
-      upload_destination: '%kernel.project_dir%/uploads/note_attachment'
+      upload_destination: '%upload_directory%/note_attachment'
       inject_on_load: true
       delete_on_update: true
       delete_on_remove: false

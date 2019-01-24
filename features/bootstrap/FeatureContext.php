@@ -39,6 +39,11 @@ class FeatureContext extends MinkContext
      */
     private $registerConfirmationKey;
 
+    /**
+     * @var array [fileName => attachmentId]
+     */
+    private $uploadedAttachments = [];
+
     public function __construct(
         KernelInterface $kernel,
         \Doctrine\ORM\EntityManagerInterface $entityManager
@@ -164,13 +169,50 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * @Given I upload a note attachment :fileName on server
+     * @param $fileName
+     */
+    public function iUploadNoteAttachment($fileName)
+    {
+        $client = $this->getClient();
+        $client->removeHeader('Content-Type');
+
+        $file = new \Symfony\Component\HttpFoundation\File\UploadedFile(
+            __DIR__ . '/../attachments/' . $fileName .'.jpg',
+            'file_1.jpg',
+            'image/jpeg',
+            null
+        );
+
+        $this->uploadFiles(['imageFile' => $file],'POST', '/note-attachment/create');
+
+        $data = json_decode($this->response->getContent(), true);
+        $this->uploadedAttachments[$fileName] = $data['attachment']['id'];
+    }
+
+    /**
+     * @Given I create a new note with text :text, notepad id :notePadId and uploaded attachments
+     * @param string $text
+     * @param int $notePadId
+     */
+    public function iCreateNewNote(string $text, int $notePadId)
+    {
+        $this->sendRequest('POST', '/note', [], [], [], json_encode([
+            'content' => $text,
+            'notePad' => $notePadId,
+            'attachments' => array_values($this->uploadedAttachments)
+        ]));
+
+        $this->uploadedAttachments = [];
+    }
+
+    /**
      * @return \Behat\Mink\Driver\Goutte\Client
      */
     protected function getClient()
     {
         /** @var \Behat\Mink\Driver\Goutte\Client $result */
         $result = $this->getSession('default')->getDriver()->getClient();
-        $result->setHeader('Content-Type', 'application/json');
 
         if ($this->authToken !== null)
         {
@@ -184,11 +226,29 @@ class FeatureContext extends MinkContext
         return $result;
     }
 
-    protected function sendRequest($method, $url, $params = [], $files = [], $server = [], $content = null)
+    /**
+     * @param $method
+     * @param $url
+     * @param $params
+     * @param \Symfony\Component\HttpFoundation\File\UploadedFile[] $files
+     * @return \Symfony\Component\BrowserKit\Response|null
+     */
+    protected function uploadFiles(array $files, string $method, string $url, array $params = [])
+    {
+        return $this->sendRequest($method, $url, $params, $files, [], null, []);
+    }
+
+    protected function sendRequest($method, $url, $params = [], $files = [], $server = [], $content = null, $additionHeaders = [
+        'Content-Type' => 'application/json'
+    ])
     {
         $url = $this->locatePath($url);
 
         $client = $this->getClient();
+        foreach ($additionHeaders as $name => $value)
+        {
+            $client->setHeader($name, $value);
+        }
 
         $client->request($method, $url, $params, $files, $server, $content);
         $this->response = $client->getInternalResponse();
