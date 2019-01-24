@@ -27,6 +27,7 @@ import {NoteAttachmentService} from '../notes/services/note-attachment.service';
 import {NoteService} from "../notes/services/note.service";
 import { MessageNotifierComponent } from './message-notifier/message-notifier.component';
 import {ErrorResponseHandlerInterceptor} from "./services/interceptors/error-response-handler.interceptor";
+import {SharedModule} from "../shared/shared.module";
 
 
 const httpInterceptorProviders = [
@@ -47,6 +48,7 @@ const httpInterceptorProviders = [
     CommonModule,
     RouterModule,
     HttpClientModule,
+    SharedModule,
     StoreModule.forRoot({
       core: coreReducer,
       security: securityReducer,

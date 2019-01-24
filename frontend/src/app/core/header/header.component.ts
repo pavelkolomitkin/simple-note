@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {State} from '../../app.state';
 import User from '../model/user.model';
@@ -16,7 +16,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   user: User = null;
   userSubscription: Subscription;
 
-  constructor(private store: Store<State>) {
+  isCollapsed: boolean = true;
+
+  constructor(private store: Store<State>, private elementRef: ElementRef) {
 
     this.userSubscription = store.pipe(select(state => state.security.authorizedUser)).subscribe(
       (user: User) => {
@@ -26,6 +28,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+  }
+
+  @HostListener('document:click', ['$event']) onOutsideClickHandler = (event) => {
+    if (!this.elementRef.nativeElement.contains(event.target))
+    {
+      this.isCollapsed = true;
+    }
+  }
+
+  onMenuItemClickHandler()
+  {
+    this.isCollapsed = true;
   }
 
   ngOnDestroy(): void {

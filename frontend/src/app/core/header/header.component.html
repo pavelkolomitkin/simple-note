@@ -1,22 +1,23 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
   <a class="navbar-brand" href="#" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Simple Note</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
+          [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+  <div class="collapse navbar-collapse" id="collapseExample" [ngbCollapse]="isCollapsed">
     <ul class="navbar-nav mr-auto" *ngIf="user !== null">
       <li class="nav-item">
-        <a class="nav-link btn btn-success" routerLink="/note/add" routerLinkActive="active" ><i class="fas fa-plus"></i> Note</a>
+        <a class="nav-link btn btn-success" routerLink="/note/add" routerLinkActive="active" (click)="onMenuItemClickHandler()" ><i class="fas fa-plus"></i> Note</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/note/list" routerLinkActive="active"><i class="fas fa-list-ul"></i> My Notes</a>
+        <a class="nav-link" routerLink="/note/list" routerLinkActive="active" (click)="onMenuItemClickHandler()"><i class="fas fa-list-ul"></i> My Notes</a>
       </li>
       <li class="nav-item">
-        <span class="nav-link btn bg-primary" (click)="onAddNotePadClickHandler($event)"><i class="fas fa-plus"></i> NotePad</span>
+        <span class="nav-link btn bg-primary" (click)="onAddNotePadClickHandler($event);onMenuItemClickHandler()"><i class="fas fa-plus"></i> NotePad</span>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/note/note-pad/list" routerLinkActive="active"><i class="fas fa-th-list"></i> My NotePads</a>
+        <a class="nav-link" routerLink="/note/note-pad/list" routerLinkActive="active" (click)="onMenuItemClickHandler()"><i class="fas fa-th-list"></i> My NotePads</a>
       </li>
     </ul>
     <ul class="navbar-nav" *ngIf="user !== null">
