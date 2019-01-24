@@ -1,18 +1,22 @@
-<label for="file">Choose File<span class="text-muted">5M max</span></label>
-<input #fileSelector
-       type="file"
-       id="file"
-       accept=".jpg, .png"
-       [multiple]="true"
-       name="imageFile"
+<label for="file">Choose File <span class="text-muted small">(5M max)</span></label>
+<div class="input-file-container">
+  <span class="btn btn-success fake-button"><i class="fas fa-plus"></i> Add file</span>
+  <input #fileSelector class="form-control-file input-file"
+         type="file"
+         id="file"
+         accept=".jpg, .png"
+         [multiple]="true"
+         name="imageFile"
        (change)="onFilesSelectHandler($event.target.files)">
-
-<div class="complete-attachment-list">
-  <app-completed-attachment
-    *ngFor="let completed of note.attachments"
-    [attachment]="completed"
-    (onRemove)="onRemoveHandler($event)"
-  ></app-completed-attachment>
+</div>
+<p></p>
+<div class="complete-attachment-list row">
+  <div class="col-md-4 col-sm-4 col-lg-2 col-xl-2 col-4" *ngFor="let completed of note.attachments">
+    <app-completed-attachment
+      [attachment]="completed"
+      (onRemove)="onRemoveHandler($event)"
+    ></app-completed-attachment>
+  </div>
 </div>
 
 <div class="uploading-attachment-list">
