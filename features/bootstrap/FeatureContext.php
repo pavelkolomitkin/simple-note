@@ -44,6 +44,11 @@ class FeatureContext extends MinkContext
      */
     private $uploadedAttachments = [];
 
+    /**
+     * @var null | array
+     */
+    private $lastNote = null;
+
     public function __construct(
         KernelInterface $kernel,
         \Doctrine\ORM\EntityManagerInterface $entityManager
@@ -191,6 +196,42 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * @Then I hold last note
+     */
+    public function iHoldLastNote()
+    {
+        $data = json_decode($this->response->getContent(), true);
+        $this->lastNote = $data['note'];
+    }
+
+    /**
+     * @Given I try download image of the last note attachment with size :size without secure token
+     * @param string $size
+     */
+    public function iTryToDownloadLastNoteAttachmentSizeWithoutSecure(string $size)
+    {
+        $lastToken = $this->authToken;
+        $this->authToken = null;
+
+        $url = $this->lastNote['attachments'][0]['sources'][$size];
+
+        $this->sendRequest('GET', $url, [], [], [], null, []);
+
+        $this->authToken = $lastToken;
+    }
+
+    /**
+     * @Given I try download image of the last note attachment with size :size with secure token
+     * @param string $size
+     */
+    public function iTryToDownloadLastNoteAttachmentSizeWithSecure(string $size)
+    {
+        $url = $this->lastNote['attachments'][0]['sources'][$size];
+
+        $this->sendRequest('GET', $url, [], [], [], null, []);
+    }
+
+    /**
      * @Given I create a new note with text :text, notepad id :notePadId and uploaded attachments
      * @param string $text
      * @param int $notePadId
@@ -253,12 +294,12 @@ class FeatureContext extends MinkContext
         $client->request($method, $url, $params, $files, $server, $content);
         $this->response = $client->getInternalResponse();
 
-        var_dump([
-            'method' => $method,
-            'url' => $url,
-            'content' => $content,
-            'response' => $this->response
-        ]);
+//        var_dump([
+//            'method' => $method,
+//            'url' => $url,
+//            'content' => $content,
+//            'response' => $this->response
+//        ]);
 
 
         return $this->response;
