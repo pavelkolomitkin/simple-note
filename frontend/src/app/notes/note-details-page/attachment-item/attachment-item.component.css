@@ -1,0 +1,7 @@
+.note-attachment-item {
+  margin-bottom: 1em;
+}
+.note-attachment-item .image-container {}
+.note-attachment-item .image-container img {
+  width: 100%;
+}

@@ -1,0 +1,11 @@
+<ng-template #modalWindow let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add NotePad</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-notepad-form (onSubmit)="onFormSubmitHandler($event)" [notePad]="notePad" [errors]="errors"></app-notepad-form>
+  </div>
+</ng-template>

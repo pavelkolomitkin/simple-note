@@ -1,0 +1,16 @@
+<div class="note-list-item media text-muted pt-3">
+  <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+    <strong class="d-block text-gray-dark">&#8594; {{ note.notePad.title }}</strong>
+    <div class="note-text d-block font-italic">
+      {{ (note.content.length > 100) ? (note.content | slice:0:100) + '...' : note.content }}
+    </div>
+    <div class="note-attachment-preview-list" *ngIf="note.attachments.length > 0">
+      <app-note-attachment-preview-small
+        *ngFor="let attachment of note.attachments"
+        [attachment]="attachment"></app-note-attachment-preview-small>
+    </div>
+    <div class="note-date text-muted text-right text-small small">
+      {{ note.createdAt | amFromUnix }}
+    </div>
+  </div>
+</div>

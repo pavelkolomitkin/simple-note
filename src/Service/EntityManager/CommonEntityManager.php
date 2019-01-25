@@ -110,6 +110,4 @@ abstract class CommonEntityManager
     abstract protected function getCreationForm(): FormInterface;
 
     abstract protected function getUpdatingForm(): FormInterface;
-
-
 }

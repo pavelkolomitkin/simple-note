@@ -1,0 +1,11 @@
+vich_uploader:
+  db_driver: orm # or mongodb or propel or phpcr
+
+  mappings:
+    note_attachment:
+      uri_prefix: /uploads/note_attachment
+      upload_destination: '%upload_directory%/note_attachment'
+      inject_on_load: true
+      delete_on_update: true
+      delete_on_remove: false
+      namer:            vich_uploader.namer_uniqid

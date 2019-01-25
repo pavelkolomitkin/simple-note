@@ -20,7 +20,6 @@ export class LoginFormComponent implements OnInit {
 
   onSubmit(form: NgForm)
   {
-    //debugger
     const credentials: LoginCredentials = {
       email: form.value.email,
       password: form.value.password

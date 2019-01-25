@@ -24,5 +24,9 @@
 
 main
 {
-  padding-top: 90px;
+  padding-top: 70px;
+}
+
+.toast {
+  opacity: 1 !important;
 }

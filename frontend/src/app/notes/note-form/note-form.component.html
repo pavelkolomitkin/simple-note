@@ -1,0 +1,28 @@
+<form (ngSubmit)="onSubmitHandler(form)" #form="ngForm">
+  <div class="form-group">
+    <label for="notePadSelect">NotePad</label>
+    <select
+      [(ngModel)]="note.notePad"
+      id="notePadSelect"
+      class="custom-select form-control"
+      name="selectedNotePad"
+      required
+      [compareWith]="compareNotePads"
+    >
+      <option
+        *ngFor="let notePad of notePads | async"
+        [ngValue]="notePad"
+        >{{ notePad.title }}</option>
+    </select>
+    <app-form-field-error-list [field]="'notePad'" [errors]="errors"></app-form-field-error-list>
+  </div>
+  <div class="form-group">
+    <label for="noteContent">Text</label>
+    <textarea class="form-control" required id="noteContent" [(ngModel)]="note.content" name="noteContent"></textarea>
+    <app-form-field-error-list [field]="'content'" [errors]="errors"></app-form-field-error-list>
+  </div>
+  <div class="form-group">
+    <app-note-attachment-form-field [note]="note"></app-note-attachment-form-field>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+</form>

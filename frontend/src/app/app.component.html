@@ -1,5 +1,12 @@
-<app-global-progress [isVisible]="isProgressVisible"></app-global-progress>
-<app-header></app-header>
-<main role="main" class="container">
-  <router-outlet></router-outlet>
-</main>
+<div class="container">
+  <app-header></app-header>
+  <main role="main">
+    <router-outlet></router-outlet>
+  </main>
+  <app-create-notepad-window></app-create-notepad-window>
+  <app-edit-notepad-window></app-edit-notepad-window>
+  <app-remove-notepad></app-remove-notepad>
+  <app-remove-note-window></app-remove-note-window>
+</div>
+<app-global-progress></app-global-progress>
+<app-message-notifier></app-message-notifier>

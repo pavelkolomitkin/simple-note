@@ -4,6 +4,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Behat\Gherkin\Node\PyStringNode;
 use \PHPUnit\Framework\Assert as Assertions;
 use Behat\MinkExtension\Context\MinkContext;
+use \Behat\Gherkin\Node\TableNode;
 
 /**
  * This context class contains the definitions of the steps used by the demo 
@@ -37,6 +38,16 @@ class FeatureContext extends MinkContext
      * @var string
      */
     private $registerConfirmationKey;
+
+    /**
+     * @var array [fileName => attachmentId]
+     */
+    private $uploadedAttachments = [];
+
+    /**
+     * @var null | array
+     */
+    private $lastNote = null;
 
     public function __construct(
         KernelInterface $kernel,
@@ -133,13 +144,116 @@ class FeatureContext extends MinkContext
     }
 
     /**
+     * @Given I authorize with email :email and password :password
+     * @param $email
+     * @param $password
+     */
+    public function iAuthorize(string $email, string $password)
+    {
+        $this->sendRequest('POST', '/security/login_check', [], [], [],
+            json_encode([
+                'username' => $email,
+                'password' => $password
+            ]));
+
+        Assertions::assertEquals(200, $this->response->getStatus(), 'You can not authorize with this credentials!');
+
+        $this->iKeepAuthorizationTokenFromRequest();
+    }
+
+    /**
+     * @Given I send http request with method :method on relative url :path with content:
+     *
+     * @param $method
+     * @param $path
+     * @param $content
+     */
+    public function iSendRequestWithContent(string $method, string $path, PyStringNode $content)
+    {
+        $this->sendRequest($method, $path, [], [], [], $content);
+    }
+
+    /**
+     * @Given I upload a note attachment :fileName on server
+     * @param $fileName
+     */
+    public function iUploadNoteAttachment($fileName)
+    {
+        $client = $this->getClient();
+        $client->removeHeader('Content-Type');
+
+        $file = new \Symfony\Component\HttpFoundation\File\UploadedFile(
+            __DIR__ . '/../attachments/' . $fileName .'.jpg',
+            'file_1.jpg',
+            'image/jpeg',
+            null
+        );
+
+        $this->uploadFiles(['imageFile' => $file],'POST', '/note-attachment/create');
+
+        $data = json_decode($this->response->getContent(), true);
+        $this->uploadedAttachments[$fileName] = $data['attachment']['id'];
+    }
+
+    /**
+     * @Then I hold last note
+     */
+    public function iHoldLastNote()
+    {
+        $data = json_decode($this->response->getContent(), true);
+        $this->lastNote = $data['note'];
+    }
+
+    /**
+     * @Given I try download image of the last note attachment with size :size without secure token
+     * @param string $size
+     */
+    public function iTryToDownloadLastNoteAttachmentSizeWithoutSecure(string $size)
+    {
+        $lastToken = $this->authToken;
+        $this->authToken = null;
+
+        $url = $this->lastNote['attachments'][0]['sources'][$size];
+
+        $this->sendRequest('GET', $url, [], [], [], null, []);
+
+        $this->authToken = $lastToken;
+    }
+
+    /**
+     * @Given I try download image of the last note attachment with size :size with secure token
+     * @param string $size
+     */
+    public function iTryToDownloadLastNoteAttachmentSizeWithSecure(string $size)
+    {
+        $url = $this->lastNote['attachments'][0]['sources'][$size];
+
+        $this->sendRequest('GET', $url, [], [], [], null, []);
+    }
+
+    /**
+     * @Given I create a new note with text :text, notepad id :notePadId and uploaded attachments
+     * @param string $text
+     * @param int $notePadId
+     */
+    public function iCreateNewNote(string $text, int $notePadId)
+    {
+        $this->sendRequest('POST', '/note', [], [], [], json_encode([
+            'content' => $text,
+            'notePad' => $notePadId,
+            'attachments' => array_values($this->uploadedAttachments)
+        ]));
+
+        $this->uploadedAttachments = [];
+    }
+
+    /**
      * @return \Behat\Mink\Driver\Goutte\Client
      */
     protected function getClient()
     {
         /** @var \Behat\Mink\Driver\Goutte\Client $result */
         $result = $this->getSession('default')->getDriver()->getClient();
-        $result->setHeader('Content-Type', 'application/json');
 
         if ($this->authToken !== null)
         {
@@ -153,14 +267,40 @@ class FeatureContext extends MinkContext
         return $result;
     }
 
-    protected function sendRequest($method, $url, $params = [], $files = [], $server = [], $content = null)
+    /**
+     * @param $method
+     * @param $url
+     * @param $params
+     * @param \Symfony\Component\HttpFoundation\File\UploadedFile[] $files
+     * @return \Symfony\Component\BrowserKit\Response|null
+     */
+    protected function uploadFiles(array $files, string $method, string $url, array $params = [])
+    {
+        return $this->sendRequest($method, $url, $params, $files, [], null, []);
+    }
+
+    protected function sendRequest($method, $url, $params = [], $files = [], $server = [], $content = null, $additionHeaders = [
+        'Content-Type' => 'application/json'
+    ])
     {
         $url = $this->locatePath($url);
 
         $client = $this->getClient();
+        foreach ($additionHeaders as $name => $value)
+        {
+            $client->setHeader($name, $value);
+        }
 
         $client->request($method, $url, $params, $files, $server, $content);
         $this->response = $client->getInternalResponse();
+
+//        var_dump([
+//            'method' => $method,
+//            'url' => $url,
+//            'content' => $content,
+//            'response' => $this->response
+//        ]);
+
 
         return $this->response;
     }

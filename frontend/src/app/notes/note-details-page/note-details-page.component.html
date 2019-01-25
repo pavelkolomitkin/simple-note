@@ -1,0 +1,44 @@
+<div *ngIf="note" class="note-details my-3 p-3 bg-white rounded shadow-sm">
+  <div class="controls">
+    <a class="btn btn-primary" [routerLink]="['/note', note.id, 'edit']"><i class="fas fa-pencil-alt"></i></a>&nbsp;
+    <span class="btn btn-danger" (click)="onRemoveClickHandler($event)"><i class="fas fa-trash-alt"></i></span>
+  </div>
+  <h6 class="border-bottom border-gray pb-2 mb-0">Note</h6>
+
+  <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+
+    <div class="row p-2">
+      <div class="col-4"><strong>NotePad</strong></div>
+      <div class="col-8"><a [routerLink]="['/note/list']" [queryParams]="{ notePad: note.notePad.id }"><strong>{{ note.notePad.title }}</strong></a></div>
+    </div>
+    <div class="row p-2">
+      <div class="col-4"><strong>Text</strong></div>
+      <div class="col-8"><span class="text-muted font-italic">{{ note.content }}</span></div>
+    </div>
+    <div class="row p-2">
+      <div class="col-12">
+        <b>Attachments</b>
+      </div>
+    </div>
+    <div *ngIf="note.attachments.length > 0; else noAttachmentsTemplate" class="row p-2">
+      <app-attachment-item
+        *ngFor="let attachment of note.attachments"
+        [attachment]="attachment"
+        class="col-md-4 col-sm-12 col-lg-3"></app-attachment-item>
+    </div>
+    <ng-template #noAttachmentsTemplate>
+      <div class="p-2">
+        <p class="alert alert-info">No attachments</p>
+      </div>
+    </ng-template>
+
+    <ngb-carousel *ngIf="note.attachments.length > 0">
+      <ng-template ngbSlide *ngFor="let attachment of note.attachments">
+        <img appSecureImage src="#" [secureUrl]="attachment.sources['original']" alt="" [ngStyle]="{ width: '100%' }"/>
+      </ng-template>
+    </ngb-carousel>
+
+  </div>
+
+</div>
+

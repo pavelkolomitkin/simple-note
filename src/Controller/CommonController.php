@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use Liip\ImagineBundle\Service\FilterService;
 use Symfony\Component\HttpFoundation\Response;
 
 abstract class CommonController extends AbstractFOSRestController

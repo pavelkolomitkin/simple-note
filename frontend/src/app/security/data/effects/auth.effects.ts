@@ -62,7 +62,7 @@ export default class AuthEffects
 
       return this.service.getAuthorizedUser().pipe(
         map((user: User) => {
-          return new UserInitializeSuccess(user);
+          return new UserInitializeSuccess(user, this.localStorageService.get('token'));
         }),
         catchError((errors: Object) => {
           return of(new UserInitializeError(errors));
@@ -81,7 +81,7 @@ export default class AuthEffects
 
       return this.service.getAuthorizedUser().pipe(
         map((user: User) => {
-          return new UserInitializeSuccess(user);
+          return new UserInitializeSuccess(user, this.localStorageService.get('token'));
         }),
         catchError((errors: Object) => {
           return of(new UserInitializeError(errors));

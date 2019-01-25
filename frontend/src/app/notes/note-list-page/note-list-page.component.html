@@ -1,1 +1,16 @@
-<h2>Note List Component!</h2>
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+  <h6 class="border-bottom border-gray pb-2 mb-0">{{ pageTitle }}</h6>
+  <div infiniteScroll
+       [infiniteScrollDistance]="2"
+       [infiniteScrollThrottle]="50"
+       (scrolled)="onScroll()">
+    <app-note-list-item
+      *ngFor="let note of noteList"
+      [note]="note"
+      (onSelect)="onSelectNoteHandler($event)"></app-note-list-item>
+  </div>
+  <p *ngIf="isListEmpty" class="alert alert-info">
+    There is no any notes yet
+  </p>
+</div>
+

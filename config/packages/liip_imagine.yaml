@@ -1,0 +1,45 @@
+liip_imagine:
+  loaders:
+    default:
+      filesystem:
+        data_root: '%upload_directory%'
+
+  # configure resolvers
+  resolvers:
+
+    # setup the default resolver
+    default:
+
+      # use the default web path
+      web_path: ~
+
+  # your filter sets are defined here
+  filter_sets:
+
+    # use the default cache configuration
+    cache: ~
+
+    # for note item list
+    note_attachment_preview_small:
+      cache: uploaded_image_resolver
+      quality: 75
+      filters:
+        thumbnail: { size: [50, 50], mode: outbound }
+
+    note_attachment_preview_middle:
+      cache: uploaded_image_resolver
+      quality: 75
+      filters:
+        thumbnail: { size: [100, 100], mode: outbound }
+
+    note_attachment_preview_details:
+      cache: uploaded_image_resolver
+      quality: 75
+      filters:
+        thumbnail: { size: [200, 200], mode: outbound }
+
+    note_attachment_normal:
+      cache: uploaded_image_resolver
+      quality: 75
+      filters:
+        scale: {dim: [640, 480]}

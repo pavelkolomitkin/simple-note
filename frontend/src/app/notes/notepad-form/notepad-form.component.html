@@ -1,0 +1,15 @@
+<form (ngSubmit)="onSubmit(form)" #form="ngForm">
+  <div class="form-group">
+    <input
+      type="text"
+      class="form-control"
+      id="notePadTitle"
+      placeholder="Note Pad Title"
+      [(ngModel)]="notePad.title"
+      name="title"
+      required
+    >
+    <app-form-field-error-list [field]="'title'" [errors]="errors"></app-form-field-error-list>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Submit</button>
+</form>

@@ -1,0 +1,10 @@
+.note-attachment-item {
+  position: relative;
+  margin-bottom: 1em;
+}
+.note-attachment-item .control {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  color: #cccccc;
+}

@@ -25,6 +25,7 @@ services:
       - postgres_db
     volumes:
       - ../../:/app
+      - ../../uploads:/app/uploads
     environment:
       APP_ENV: "dev"
 

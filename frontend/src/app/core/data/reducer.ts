@@ -1,11 +1,18 @@
 import * as actions from './actions';
+import {NotifyMessage} from "./model/notify-message.model";
 
 export interface State {
   globalProgressLoaders: number;
+
+  lastSuccessMessage: NotifyMessage;
+  lastErrorMessage: NotifyMessage;
 }
 
 const initialState: State = {
-  globalProgressLoaders: 0
+  globalProgressLoaders: 0,
+
+  lastSuccessMessage: null,
+  lastErrorMessage: null
 };
 
 export function reducer(state = initialState, action: actions.CoreActions): State {
@@ -23,7 +30,7 @@ export function reducer(state = initialState, action: actions.CoreActions): Stat
 
       let value: number;
 
-      if (action.force || (state.globalProgressLoaders == 1))
+      if (action.force || (state.globalProgressLoaders <= 1))
       {
         value = 0;
       }
@@ -35,6 +42,20 @@ export function reducer(state = initialState, action: actions.CoreActions): Stat
       return {
         ...state,
         globalProgressLoaders: value
+      };
+
+    case actions.GLOBAL_NOTIFY_SUCCESS_MESSAGE:
+
+      return {
+        ...state,
+        lastSuccessMessage: action.message
+      };
+
+    case actions.GLOBAL_NOTIFY_ERROR_MESSAGE:
+
+      return {
+        ...state,
+        lastErrorMessage: action.message
       };
 
     default:

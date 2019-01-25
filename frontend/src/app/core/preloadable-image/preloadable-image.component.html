@@ -1,0 +1,14 @@
+<div class="preloadable-image-container " [ngClass]="className">
+  <img [src]="securedSource" class="image" *ngIf="currentState === 'complete'">
+
+  <div class="d-flex align-content-center" *ngIf="currentState === 'progress'">
+    <div class="spinner-border text-primary align-self-center progress-container" role="status">
+      <span class="sr-only"></span>
+    </div>
+  </div>
+
+  <div class="error-message-container text-danger" *ngIf="currentState === 'error'">
+    <i class="fas fa-exclamation-triangle"></i>
+  </div>
+
+</div>

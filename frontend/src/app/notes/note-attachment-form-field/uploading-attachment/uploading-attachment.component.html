@@ -1,0 +1,18 @@
+<div class="uploading-attachment-item">
+  <div class="preview-container">
+    <img [src]="imageUrl" *ngIf="isVisible"/>
+  </div>
+  <div class="progress uploading-progress-container">
+    <div
+      class="progress-bar
+      progress-bar-striped progress-bar-animated"
+      role="progressbar"
+      [attr.aria-valuenow]="attachment.percentageProgress"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      [ngStyle]="{width: attachment.percentageProgress + '%'}">{{ attachment.percentageProgress + '%' }}</div>
+  </div>
+  <div class="uploading-attachment-errors" *ngIf="attachment.errors !== null">
+    <div class="uploading-attachment-error">{{ attachment.errors }}</div>
+  </div>
+</div>

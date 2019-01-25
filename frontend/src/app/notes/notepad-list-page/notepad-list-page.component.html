@@ -1,0 +1,18 @@
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+  <h6 class="border-bottom border-gray pb-2 mb-0">My NotePads</h6>
+  <div infiniteScroll
+       [infiniteScrollDistance]="2"
+       [infiniteScrollThrottle]="50"
+       (scrolled)="onScroll()">
+    <app-notepad-list-item
+      *ngFor="let item of notePadList"
+      [notePad]="item"
+      (onSelect)="onSelectHandler($event)"
+      (onEdit)="onEditHandler($event)"
+      (onDelete)="onDeleteHandler($event)"></app-notepad-list-item>
+  </div>
+  <p *ngIf="isListEmpty" class="alert alert-info">
+    There is no any notepads yet
+  </p>
+
+</div>

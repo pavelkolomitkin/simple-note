@@ -1,0 +1,11 @@
+.note-list-item {
+
+}
+.note-list-item .note-text {
+  padding-bottom: 5px;
+}
+
+.note-list-item .note-date
+{
+  padding-top: 5px;
+}

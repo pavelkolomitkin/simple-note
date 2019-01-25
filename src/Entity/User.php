@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -81,6 +82,25 @@ class User implements UserInterface
      * @ORM\OneToOne(targetEntity="App\Entity\UserConfirmationKey", mappedBy="user", cascade={"persist", "remove"})
      */
     private $confirmationKey;
+
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="App\Entity\NotePad", mappedBy="user", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $notePads;
+
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="App\Entity\NoteAttachment", mappedBy="owner", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $uploadAttachments;
+
+    public function __construct()
+    {
+        $this->notePads = new ArrayCollection();
+        $this->uploadAttachments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -213,6 +233,89 @@ class User implements UserInterface
     {
         $this->confirmationKey = $confirmationKey;
         $confirmationKey->setUser($this);
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getNotePads()
+    {
+        return $this->notePads;
+    }
+
+    /**
+     * Add notePad
+     *
+     * @param NotePad $notePad
+     * @return User
+     */
+    public function addNotePad(NotePad $notePad): self
+    {
+        if (!$this->notePads->contains($notePad))
+        {
+            $this->notePads[] = $notePad;
+            $notePad->setUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove notePad
+     * @param NotePad $notePad
+     * @return User
+     */
+    public function removeNotePad(NotePad $notePad): self
+    {
+        if ($this->notePads->contains($notePad))
+        {
+            $this->notePads->removeElement($notePad);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get uploadAttachment
+     *
+     * @return ArrayCollection
+     */
+    public function getUploadAttachments()
+    {
+        return $this->uploadAttachments;
+    }
+
+    /**
+     * Add uploadAttachment
+     *
+     * @param NoteAttachment $attachment
+     * @return User
+     */
+    public function addUploadAttachment(NoteAttachment $attachment): self
+    {
+        if (!$this->uploadAttachments->contains($attachment))
+        {
+            $this->uploadAttachments[] = $attachment;
+            $attachment->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove uploadAttachment
+     *
+     * @param NoteAttachment $attachment
+     * @return User
+     */
+    public function removeUploadAttachment(NoteAttachment $attachment): self
+    {
+        if ($this->uploadAttachments->contains($attachment))
+        {
+            $this->uploadAttachments->removeElement($attachment);
+        }
 
         return $this;
     }

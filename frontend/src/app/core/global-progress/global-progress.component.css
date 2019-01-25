@@ -1,6 +1,7 @@
 .global-progress-container
 {
   position: absolute;
+  background: #ffffff;
   top: 0;
   right: 0;
   left: 0;
@@ -12,12 +13,12 @@
 .global-progress-container.visible
 {
   z-index: 99999;
-  opacity: 0.5;
+  opacity: 0.2;
 }
 
 .global-progress-container .progress
 {
-  position: absolute;
+  position: fixed;
 
   top: 50%;
   left: 50%;

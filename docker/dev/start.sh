@@ -5,6 +5,10 @@ echo -n "Stop previous containers..."
 echo -en '\n'
 docker-compose stop
 
+#echo -n "Set permissions to 'uploads' directory..."
+#echo -en '\n'
+#chmod 777 -R ../../uploads
+
 # Up docker compose
 echo -n "Up docker compose..."
 echo -en '\n'

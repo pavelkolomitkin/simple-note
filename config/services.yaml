@@ -7,6 +7,7 @@ parameters:
     locale: 'en'
     noreply_mail: '%env(NO_REPLY_MAIL)%'
     email_link_host: '%env(MAIL_LINK_HOST)%'
+    upload_directory: '%env(UPLOAD_DIRECTORY)%'
 
 services:
     # default configuration for services in *this* file
@@ -36,8 +37,55 @@ services:
             - '%noreply_mail%'
             - '%email_link_host%'
 
+    App\Validator\Constraints\NoteNotePadOwnerValidator:
+        calls:
+            - method: setTokenStorage
+              arguments:
+                  - '@security.token_storage'
+        tags:
+            - { name: validator.constraint_validator }
+
+    App\Validator\Constraints\NoteNoteAttachmentOwnerValidator:
+        calls:
+            - method: setTokenStorage
+              arguments:
+                  - '@security.token_storage'
+        tags:
+            - { name: validator.constraint_validator }
+
     App\Service\EntityManager\UserManager:
         calls:
             - method: setMailer
               arguments:
                   - '@app.service.mailer'
+
+    App\Service\EntityManager\NotePadManager:
+        calls:
+            - method: setTokenStorage
+              arguments:
+                  - '@security.token_storage'
+
+    App\Service\EntityManager\NoteAttachmentManager:
+        calls:
+            - method: setTokenStorage
+              arguments:
+                  - '@security.token_storage'
+
+    App\Event\Subscriber\NoteAttachmentSerializeSubscriber:
+        arguments:
+            - '@vich_uploader.templating.helper.uploader_helper'
+            - '@liip_imagine.cache.manager'
+            - '@router.default'
+        public: true
+        tags: [jms_serializer.event_subscriber]
+
+    App\Service\ImageFilePathResolver:
+        arguments:
+            - '@filesystem'
+            - '%upload_directory%'
+        tags:
+            - { name: "liip_imagine.cache.resolver", resolver: 'uploaded_image_resolver' }
+
+    App\Service\ImageFilter:
+        arguments:
+            - '@liip_imagine.service.filter'
