@@ -19,7 +19,7 @@ services:
         condition: on-failure
       placement:
         constraints:
-          - node.lables.type == app
+          - node.labels.type == app
 
 
   php-fpm-service:
@@ -52,7 +52,7 @@ services:
         condition: on-failure
       placement:
         constraints:
-          - node.lables.type == app
+          - node.labels.type == app
 
   postgres_db:
     image: postgres:10.6
@@ -76,7 +76,7 @@ services:
         condition: on-failure
       placement:
         constraints:
-          - node.lables.type == database
+          - node.labels.type == database
 
   visualizer:
     image: dockersamples/visualizer
