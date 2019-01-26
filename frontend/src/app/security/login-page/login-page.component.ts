@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {State} from '../../app.state';
 import User from '../../core/model/user.model';
 import {Router} from '@angular/router';
-import {Subscription} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import LoginCredentials from '../data/model/login-credentials.model';
 import {UserLoginStart} from '../data/actions';
 
@@ -18,7 +18,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   loginErrorSubscription: Subscription;
 
-  errors: Object;
+  errors: Observable<Object>;
 
   constructor(private store: Store<State>, private router: Router)
   {
@@ -31,11 +31,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.loginErrorSubscription = store.pipe(select(state => state.security.loginErrors)).subscribe(
-      (errors) => {
-        this.errors = errors;
-      }
-    );
+    this.errors = store.pipe(select(state => state.security.loginErrors));
   }
 
   ngOnInit() {
@@ -43,7 +39,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.authUserSubscription.unsubscribe();
-    this.loginErrorSubscription.unsubscribe();
+    //this.loginErrorSubscription.unsubscribe();
   }
 
   onFormSubmit(credentials: LoginCredentials)

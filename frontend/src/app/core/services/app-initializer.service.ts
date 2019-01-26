@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import SecurityService from "../../security/services/security.service";
+import { SecurityService } from "../../security/services/security.service";
 import {LocalStorageService} from "./local-storage.service";
 import User from "../model/user.model";
 import {Store} from "@ngrx/store";

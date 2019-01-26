@@ -9,7 +9,7 @@ import RegisterData from "../data/model/register-data.model";
 })
 export class RegisterFormComponent implements OnInit {
 
-  @Input() validationErrors:Object = {
+  @Input() validationErrors:{plainPassword: {}} = {
     plainPassword: {}
   };
 

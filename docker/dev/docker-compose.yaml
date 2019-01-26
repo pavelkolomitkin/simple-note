@@ -42,5 +42,17 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: simple-note
 
+  frontend_app:
+    image: teracy/angular-cli:1.7.4
+    container_name: 'frontend-app-dev'
+    ports:
+      - '4200:4200'
+    volumes:
+      - ../../frontend:/app
+    working_dir: /app
+    command: ng serve --host=0.0.0.0
+    depends_on:
+      - php-fpm-service
+
 volumes:
   postgres_data_volume_dev:

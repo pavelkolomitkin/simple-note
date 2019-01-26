@@ -30,4 +30,9 @@ export class FormFieldErrorListComponent implements OnInit {
 
   }
 
+  isArray(errors)
+  {
+    return Array.isArray(errors);
+  }
+
 }

@@ -25,7 +25,7 @@
       autocomplete
       required
     >
-    <app-form-field-error-list [field]="'message'" [errors]="errors.message ? {message: [errors.message]} : {}"></app-form-field-error-list>
+    <app-form-field-error-list [field]="'message'" [errors]="errors"></app-form-field-error-list>
   </div>
   <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Login</button>&nbsp;<a routerLink="/security/register">Or Create an Account</a>
 </form>
