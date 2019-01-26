@@ -92,3 +92,23 @@ services:
 
 volumes:
   postgres_data_volume_prod:
+
+secrets:
+  db_url:
+    external: true
+
+  jwt_passphrase:
+    external: true
+
+  jwt_private_key:
+    external: true
+
+  jwt_public_key:
+    external: true
+
+  pg_user:
+    external: true
+
+  pg_password:
+    external: true
+
