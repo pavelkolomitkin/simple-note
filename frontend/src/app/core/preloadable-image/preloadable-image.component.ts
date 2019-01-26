@@ -2,6 +2,8 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {select, Store} from "@ngrx/store";
 import {State} from "../../app.state";
+import {promise} from "selenium-webdriver";
+import {filter} from "rxjs/operators";
 
 @Component({
   selector: 'app-preloadable-image',
@@ -24,6 +26,8 @@ export class PreloadableImageComponent implements OnInit, OnDestroy {
   @Input('height') height: string;
   @Input('className') className: string;
 
+  private tokenSubscription: Subscription;
+
   constructor(private store: Store<State>) {
 
     this.currentState = PreloadableImageComponent.PROGRESS_STATE;
@@ -31,7 +35,10 @@ export class PreloadableImageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.store.pipe(select(state => state.security.authorizedToken)).subscribe(
+    this.tokenSubscription = this.store.pipe(
+      select(state => state.security.authorizedToken),
+      filter(result => !!result)
+    ).subscribe(
       (token) => {
         const image = new Image();
 
@@ -61,7 +68,7 @@ export class PreloadableImageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-
+    this.tokenSubscription.unsubscribe();
   }
 
 }

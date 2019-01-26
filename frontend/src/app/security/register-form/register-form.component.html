@@ -38,7 +38,7 @@
       autocomplete
       required
     >
-    <app-form-field-error-list [field]="'password'" [errors]="validationErrors.plainPassword ? validationErrors.plainPassword : {}"></app-form-field-error-list>
+    <app-form-field-error-list [field]="'password'" [errors]="validationErrors.plainPassword"></app-form-field-error-list>
   </div>
   <div class="form-group">
     <label for="passwordRepeatInput">Repeat Password</label>
@@ -52,7 +52,7 @@
       autocomplete
       required
     >
-    <app-form-field-error-list [field]="'passwordRepeat'" [errors]="validationErrors.plainPassword ? validationErrors.plainPassword : {}"></app-form-field-error-list>
+    <app-form-field-error-list [field]="'passwordRepeat'" [errors]="validationErrors.plainPassword"></app-form-field-error-list>
   </div>
   <button type="submit" class="btn btn-primary" [disabled]="!form.valid">Register</button>&nbsp;
   <a routerLink="/security/login">Or Login</a>

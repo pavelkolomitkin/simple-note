@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 import LoginCredentials from '../data/model/login-credentials.model';
 
 @Injectable()
-export default class SecurityService
+export class SecurityService
 {
   constructor(private http: HttpClient) {}
 

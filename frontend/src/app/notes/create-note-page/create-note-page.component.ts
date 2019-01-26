@@ -35,7 +35,7 @@ export class CreateNotePageComponent implements OnInit {
     //this.store.dispatch(new NoteAttachmentUploadReset());
   }
 
-  onFormSubmit()
+  onFormSubmit(note: Note)
   {
     this.store.dispatch(new NoteCreateStart(this.note));
   }

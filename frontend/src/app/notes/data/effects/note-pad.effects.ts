@@ -32,7 +32,7 @@ import {NotePad} from "../model/note-pad.model";
 import {NotifyMessage} from "../../../core/data/model/notify-message.model";
 
 @Injectable()
-export default class NotePadEffects {
+export class NotePadEffects {
 
   @Effect()
   creationStart: Observable<Action> = this.actions.pipe(

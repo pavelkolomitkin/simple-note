@@ -10,20 +10,20 @@ import {
   UserInitializeSuccess,
   UserLoginError,
   UserLoginStart,
-  UserLoginSuccess, UserLogout
+  UserLoginSuccess,
+  UserLogout
 } from '../actions';
 import {mergeMap, catchError, map, tap} from 'rxjs/operators';
-import SecurityService from '../../services/security.service';
+import { SecurityService } from '../../services/security.service';
 import User from '../../../core/model/user.model';
 import {State} from '../../../core/data/reducer';
 import {GlobalProgressHide, GlobalProgressShow} from '../../../core/data/actions';
 import {Router} from '@angular/router';
 import {LocalStorageService} from '../../../core/services/local-storage.service';
-import {error} from '@angular/compiler/src/util';
 
 
 @Injectable()
-export default class AuthEffects
+export class AuthEffects
 {
   @Effect()
   loginStart: Observable<Action> = this.actions.pipe(

@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import LoginCredentials from '../data/model/login-credentials.model';
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-login-form',
@@ -9,7 +10,7 @@ import LoginCredentials from '../data/model/login-credentials.model';
 })
 export class LoginFormComponent implements OnInit {
 
-  @Input() errors: Object;
+  @Input() errors: Observable<Object>;
 
   @Output() onSubmitEvent: EventEmitter<LoginCredentials> = new EventEmitter();
 
